@@ -136,7 +136,6 @@
       flex-shrink: 0;
     }
     .icon-li { background: #EBF3FB; }
-    .icon-em { background: #FAECE7; }
     .link-text { flex: 1; }
     .link-label {
       font-size: 14px;
@@ -156,6 +155,69 @@
     .link-card:hover .link-arrow {
       transform: translateX(3px);
     }
+    .currently-title {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--soft-terra);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .currently-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .currently-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+    .currently-icon {
+      width: 22px;
+      height: 22px;
+      margin-bottom: 10px;
+      color: var(--soft-terra);
+    }
+    .currently-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 3px;
+    }
+    .currently-value {
+      font-family: 'Lora', serif;
+      font-size: 13px;
+      color: var(--text-dark);
+      line-height: 1.5;
+    }
+    .thinking {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .thinking-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+    .thinking-heading {
+      font-family: 'Lora', serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: 5px;
+    }
+    .thinking-body {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
     .footer {
       text-align: center;
       margin-top: 2.5rem;
@@ -174,11 +236,13 @@
       <p class="tagline">AI Solutions Engineer · Washington, DC</p>
       <p class="bio">Tech enthusiast, idea generator, and DC local. I work in AI at MillerKnoll where I help teams harness the power of AI tools and solutions. I'm drawn to the creative edge of technology — I love thinking about where things could go and building the bridge to get there. When I'm not at work, you'll find me exploring the city, on a yoga mat, or lost in a good book.</p>
     </div>
+
     <div class="divider">
       <div class="divider-dot"></div>
       <div class="divider-dot"></div>
       <div class="divider-dot"></div>
     </div>
+
     <div class="links">
       <a class="link-card" href="https://www.linkedin.com/in/shelbycorbitt" target="_blank" rel="noopener">
         <div class="link-icon icon-li">
@@ -194,6 +258,85 @@
         <span class="link-arrow">→</span>
       </a>
     </div>
+
+    <div class="divider">
+      <div class="divider-dot"></div>
+      <div class="divider-dot"></div>
+      <div class="divider-dot"></div>
+    </div>
+
+    <div class="currently">
+      <p class="currently-title">Currently into</p>
+      <div class="currently-grid">
+
+        <div class="currently-item">
+          <svg class="currently-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 6.5A2.5 2.5 0 014.5 4H12v16H4.5A2.5 2.5 0 012 17.5V6.5z"/>
+            <path d="M22 6.5A2.5 2.5 0 0019.5 4H12v16h7.5A2.5 2.5 0 0022 17.5V6.5z"/>
+          </svg>
+          <div class="currently-label">Reading</div>
+          <div class="currently-value">AI Engineering by Chip Huyen</div>
+        </div>
+
+        <div class="currently-item">
+          <svg class="currently-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/>
+            <path d="M19 15l.75 2.25L22 18l-2.25.75L19 21l-.75-2.25L16 18l2.25-.75L19 15z"/>
+            <path d="M5 3l.5 1.5L7 5l-1.5.5L5 7l-.5-1.5L3 5l1.5-.5L5 3z"/>
+          </svg>
+          <div class="currently-label">Obsessing over</div>
+          <div class="currently-value">Claude & AI products</div>
+        </div>
+
+        <div class="currently-item">
+          <svg class="currently-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="2" width="6" height="11" rx="3"/>
+            <path d="M5 10a7 7 0 0014 0"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+            <line x1="9" y1="21" x2="15" y2="21"/>
+          </svg>
+          <div class="currently-label">Creating</div>
+          <div class="currently-value">An audiobook album for my kids — classic stories in my own voice</div>
+        </div>
+
+        <div class="currently-item">
+          <svg class="currently-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/>
+            <circle cx="12" cy="8" r="2"/>
+          </svg>
+          <div class="currently-label">Exploring</div>
+          <div class="currently-value">DC in spring — the most beautiful time of year</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="divider">
+      <div class="divider-dot"></div>
+      <div class="divider-dot"></div>
+      <div class="divider-dot"></div>
+    </div>
+
+    <p class="currently-title">How I think</p>
+    <div class="thinking">
+
+      <div class="thinking-item">
+        <p class="thinking-heading">Ideas are the future of work.</p>
+        <p class="thinking-body">Not just having them, generating them, chasing them, building on them. Learning is the foundation of all of it. The day I stop being curious is the day I've given up on life.</p>
+      </div>
+
+      <div class="thinking-item">
+        <p class="thinking-heading">Creativity makes me happy and I want to pass that on.</p>
+        <p class="thinking-body">It's not a side thing. It's an outlet that feeds everything else. I want this to be part of my legacy. </p>
+      </div>
+
+      <div class="thinking-item">
+        <p class="thinking-heading">Say yes to the things that scare you.</p>
+        <p class="thinking-body">A good challenge is terrifying. Take it on anyway. </p>
+      </div>
+
+    </div>
+
     <p class="footer">© 2026 Shelby Corbitt</p>
   </div>
 </body>
