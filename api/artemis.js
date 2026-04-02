@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artemis II Live · Shelby Corbitt</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FAF7F2;
+      --soft-terra: #C4845A;
+      --text-dark: #2E2018;
+      --text-mid: #7A6555;
+      --text-light: #A8957F;
+      --card-bg: #FFFFFF;
+      --border: #EDE5DA;
+      --space: #0A0E1A;
+      --space-mid: #111827;
+      --star: rgba(255,255,255,0.8);
+    }
+    body {
+      background-color: var(--space);
+      font-family: 'DM Sans', sans-serif;
+      color: #E8E0D4;
+      min-height: 100vh;
+      padding: 2rem 1.25rem 4rem;
+    }
+    .stars {
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 40% 30%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 50%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60% 45%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 75%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 33% 10%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 75% 90%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 5% 40%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(2px 2px at 50% 50%, rgba(255,255,255,0.2) 0%, transparent 100%),
+        radial-gradient(2px 2px at 20% 70%, rgba(255,255,255,0.15) 0%, transparent 100%),
+        radial-gradient(2px 2px at 80% 10%, rgba(255,255,255,0.2) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      margin: 0 auto;
+      animation: fadeUp 0.7s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--soft-terra); }
+    .mission-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(196,132,90,0.15);
+      border: 1px solid rgba(196,132,90,0.3);
+      border-radius: 20px;
+      padding: 6px 14px;
+      margin-bottom: 1.25rem;
+    }
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #C4845A;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .badge-text {
+      font-size: 12px;
+      font-weight: 500;
+      color: #C4845A;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .page-title {
+      font-family: 'Lora', serif;
+      font-size: 32px;
+      font-weight: 500;
+      color: #FFFFFF;
+      margin-bottom: 0.4rem;
+      line-height: 1.2;
+    }
+    .page-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+    .stat-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 6px;
+    }
+    .stat-value {
+      font-family: 'DM Mono', monospace;
+      font-size: 18px;
+      color: #FFFFFF;
+      line-height: 1.2;
+    }
+    .stat-unit {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 2px;
+    }
+    .narration-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .narration-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--soft-terra);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 0.75rem;
+    }
+    .narration-text {
+      font-family: 'Lora', serif;
+      font-size: 16px;
+      color: rgba(255,255,255,0.88);
+      line-height: 1.8;
+      font-style: italic;
+    }
+    .narration-text.loading {
+      color: rgba(255,255,255,0.3);
+      font-style: italic;
+      font-size: 14px;
+    }
+    .phase-card {
+      background: rgba(196,132,90,0.08);
+      border: 1px solid rgba(196,132,90,0.2);
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .phase-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    .phase-label {
+      font-size: 11px;
+      color: var(--soft-terra);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 3px;
+    }
+    .phase-text {
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.5;
+    }
+    .milestones {
+      margin-bottom: 1.5rem;
+    }
+    .milestones-title {
+      font-size: 10px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.75rem;
+    }
+    .milestone {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .milestone:last-child { border-bottom: none; }
+    .milestone-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+    .dot-done { background: var(--soft-terra); }
+    .dot-next { background: #FFFFFF; animation: pulse 2s infinite; }
+    .dot-future { background: rgba(255,255,255,0.2); }
+    .milestone-text {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.5;
+    }
+    .milestone-text.done { color: rgba(255,255,255,0.4); text-decoration: line-through; }
+    .milestone-text.next { color: #FFFFFF; font-weight: 500; }
+    .milestone-time {
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      margin-top: 2px;
+      font-family: 'DM Mono', monospace;
+    }
+    .crew-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+    .crew-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .crew-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 2px;
+    }
+    .crew-role {
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+    }
+    .refresh-btn {
+      width: 100%;
+      padding: 13px;
+      background: rgba(196,132,90,0.15);
+      border: 1px solid rgba(196,132,90,0.3);
+      border-radius: 12px;
+      color: var(--soft-terra);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-bottom: 1.5rem;
+    }
+    .refresh-btn:hover {
+      background: rgba(196,132,90,0.25);
+    }
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.04em;
+    }
+    .footer a { color: rgba(196,132,90,0.6); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="container">
+    <a class="back-link" href="index.html">← Back</a>
+
+    <div class="mission-badge">
+      <div class="badge-dot"></div>
+      <span class="badge-text">Mission in progress</span>
+    </div>
+
+    <h1 class="page-title">Artemis II Live</h1>
+    <p class="page-sub">Four astronauts are flying around the Moon right now — the first humans to venture this far from Earth since Apollo 17 in 1972.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">Mission time</div>
+        <div class="stat-value" id="elapsed">—</div>
+        <div class="stat-unit">hrs · mins</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">From Earth</div>
+        <div class="stat-value" id="distEarth">—</div>
+        <div class="stat-unit">miles</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">From Moon</div>
+        <div class="stat-value" id="distMoon">—</div>
+        <div class="stat-unit">miles</div>
+      </div>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-icon">🚀</div>
+      <div>
+        <div class="phase-label">Current phase</div>
+        <div class="phase-text" id="phase">Loading...</div>
+      </div>
+    </div>
+
+    <div class="narration-card">
+      <div class="narration-label">What's happening right now</div>
+      <div class="narration-text loading" id="narration">Asking Claude to narrate the mission...</div>
+    </div>
+
+    <button class="refresh-btn" onclick="loadData()">Refresh narration →</button>
+
+    <div class="milestones">
+      <div class="milestones-title">Mission milestones</div>
+      <div class="milestone" id="m1">
+        <div class="milestone-dot dot-done"></div>
+        <div>
+          <div class="milestone-text done">Launch from Kennedy Space Center</div>
+          <div class="milestone-time">Apr 1 · 6:35pm EDT</div>
+        </div>
+      </div>
+      <div class="milestone" id="m2">
+        <div class="milestone-dot dot-done"></div>
+        <div>
+          <div class="milestone-text done">Translunar injection burn</div>
+          <div class="milestone-time">Apr 1 · ~10pm EDT</div>
+        </div>
+      </div>
+      <div class="milestone" id="m3">
+        <div class="milestone-dot" id="m3dot"></div>
+        <div>
+          <div class="milestone-text" id="m3text">Proximity operations demo</div>
+          <div class="milestone-time">Apr 2 · Mission Day 2</div>
+        </div>
+      </div>
+      <div class="milestone" id="m4">
+        <div class="milestone-dot" id="m4dot"></div>
+        <div>
+          <div class="milestone-text" id="m4text">Lunar flyby — closest approach</div>
+          <div class="milestone-time">Apr 5 · ~4,100 miles from Moon</div>
+        </div>
+      </div>
+      <div class="milestone" id="m5">
+        <div class="milestone-dot" id="m5dot"></div>
+        <div>
+          <div class="milestone-text" id="m5text">Maximum distance from Earth</div>
+          <div class="milestone-time">Apr 5-6 · ~4,700 miles past Moon</div>
+        </div>
+      </div>
+      <div class="milestone" id="m6">
+        <div class="milestone-dot" id="m6dot"></div>
+        <div>
+          <div class="milestone-text" id="m6text">Return coast to Earth</div>
+          <div class="milestone-time">Apr 6-10</div>
+        </div>
+      </div>
+      <div class="milestone">
+        <div class="milestone-dot dot-future"></div>
+        <div>
+          <div class="milestone-text">Splashdown in Pacific Ocean</div>
+          <div class="milestone-time">~Apr 11 · Mission Day 10</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="milestones-title" style="margin-bottom: 0.75rem;">The crew</div>
+      <div class="crew-grid">
+        <div class="crew-card">
+          <div class="crew-name">Reid Wiseman</div>
+          <div class="crew-role">Commander · NASA</div>
+        </div>
+        <div class="crew-card">
+          <div class="crew-name">Victor Glover</div>
+          <div class="crew-role">Pilot · NASA</div>
+        </div>
+        <div class="crew-card">
+          <div class="crew-name">Christina Koch</div>
+          <div class="crew-role">Mission Specialist · NASA</div>
+        </div>
+        <div class="crew-card">
+          <div class="crew-name">Jeremy Hansen</div>
+          <div class="crew-role">Mission Specialist · CSA</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="footer" style="margin-top: 2rem;">
+      Narration powered by Claude · Telemetry estimated from <a href="https://www.nasa.gov/missions/artemis/artemis-2/track-nasas-artemis-ii-mission-in-real-time/" target="_blank">NASA AROW</a> published trajectory · © 2026 Shelby Corbitt
+    </p>
+  </div>
+
+  <script>
+    async function loadData() {
+      document.getElementById('narration').textContent = 'Asking Claude to narrate the mission...';
+      document.getElementById('narration').classList.add('loading');
+      document.getElementById('elapsed').textContent = '—';
+      document.getElementById('distEarth').textContent = '—';
+      document.getElementById('distMoon').textContent = '—';
+      document.getElementById('phase').textContent = 'Loading...';
+
+      try {
+        const res = await fetch('/api/artemis', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: 'status' })
+        });
+        const data = await res.json();
+
+        document.getElementById('elapsed').textContent = `${data.elapsedHours}h ${data.elapsedMinutes}m`;
+        document.getElementById('distEarth').textContent = data.distFromEarth.toLocaleString();
+        document.getElementById('distMoon').textContent = data.distFromMoon.toLocaleString();
+        document.getElementById('phase').textContent = data.phase;
+        document.getElementById('narration').textContent = data.narration;
+        document.getElementById('narration').classList.remove('loading');
+
+        // Update milestone dots based on elapsed hours
+        const hours = data.elapsedHours;
+        if (hours > 4) { document.getElementById('m3dot').className = 'milestone-dot dot-done'; document.getElementById('m3text').className = 'milestone-text done'; }
+        if (hours > 96) { document.getElementById('m4dot').className = 'milestone-dot dot-done'; document.getElementById('m4text').className = 'milestone-text done'; }
+        if (hours > 108) { document.getElementById('m5dot').className = 'milestone-dot dot-done'; document.getElementById('m5text').className = 'milestone-text done'; }
+        if (hours > 120) { document.getElementById('m6dot').className = 'milestone-dot dot-done'; document.getElementById('m6text').className = 'milestone-text done'; }
+
+        // Highlight next upcoming milestone
+        if (hours <= 4) document.getElementById('m3dot').className = 'milestone-dot dot-next';
+        else if (hours <= 96) document.getElementById('m4dot').className = 'milestone-dot dot-next';
+        else if (hours <= 108) document.getElementById('m5dot').className = 'milestone-dot dot-next';
+        else if (hours <= 120) document.getElementById('m6dot').className = 'milestone-dot dot-next';
+
+      } catch (err) {
+        document.getElementById('narration').textContent = 'Could not load mission data. Try refreshing.';
+        document.getElementById('narration').classList.remove('loading');
+      }
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
