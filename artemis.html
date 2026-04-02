@@ -416,10 +416,6 @@
     async function loadData() {
       document.getElementById('narration').textContent = 'Asking Claude to narrate the mission...';
       document.getElementById('narration').classList.add('loading');
-      document.getElementById('elapsed').textContent = '—';
-      document.getElementById('distEarth').textContent = '—';
-      document.getElementById('distMoon').textContent = '—';
-      document.getElementById('phase').textContent = 'Loading...';
 
       try {
         const res = await fetch('/api/artemis', {
@@ -429,6 +425,19 @@
         });
         const data = await res.json();
 
+        if (data.missionComplete) {
+          document.querySelector('.mission-badge').innerHTML = '<div class="badge-dot" style="background:#8A9E8C;animation:none;"></div><span class="badge-text" style="color:#8A9E8C;">Mission complete</span>';
+          document.querySelector('.page-title').textContent = 'Artemis II';
+          document.querySelector('.page-sub').textContent = 'The mission is over — but what a journey it was.';
+          document.querySelector('.stat-grid').style.display = 'none';
+          document.querySelector('.phase-card').style.display = 'none';
+          document.getElementById('narration').textContent = data.narration;
+          document.getElementById('narration').classList.remove('loading');
+          document.getElementById('narration').style.fontStyle = 'normal';
+          document.querySelector('.refresh-btn').style.display = 'none';
+          return;
+        }
+
         document.getElementById('elapsed').textContent = `${data.elapsedHours}h ${data.elapsedMinutes}m`;
         document.getElementById('distEarth').textContent = data.distFromEarth.toLocaleString();
         document.getElementById('distMoon').textContent = data.distFromMoon.toLocaleString();
@@ -436,14 +445,12 @@
         document.getElementById('narration').textContent = data.narration;
         document.getElementById('narration').classList.remove('loading');
 
-        // Update milestone dots based on elapsed hours
         const hours = data.elapsedHours;
         if (hours > 4) { document.getElementById('m3dot').className = 'milestone-dot dot-done'; document.getElementById('m3text').className = 'milestone-text done'; }
         if (hours > 96) { document.getElementById('m4dot').className = 'milestone-dot dot-done'; document.getElementById('m4text').className = 'milestone-text done'; }
         if (hours > 108) { document.getElementById('m5dot').className = 'milestone-dot dot-done'; document.getElementById('m5text').className = 'milestone-text done'; }
         if (hours > 120) { document.getElementById('m6dot').className = 'milestone-dot dot-done'; document.getElementById('m6text').className = 'milestone-text done'; }
 
-        // Highlight next upcoming milestone
         if (hours <= 4) document.getElementById('m3dot').className = 'milestone-dot dot-next';
         else if (hours <= 96) document.getElementById('m4dot').className = 'milestone-dot dot-next';
         else if (hours <= 108) document.getElementById('m5dot').className = 'milestone-dot dot-next';
