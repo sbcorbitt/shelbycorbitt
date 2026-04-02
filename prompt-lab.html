@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prompt Before & After · Shelby Corbitt</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FAF7F2;
+      --soft-terra: #C4845A;
+      --text-dark: #2E2018;
+      --text-mid: #7A6555;
+      --text-light: #A8957F;
+      --card-bg: #FFFFFF;
+      --border: #EDE5DA;
+      --before-bg: #FFF8F5;
+      --before-border: #F0C4A8;
+      --after-bg: #F4F9F0;
+      --after-border: #B8D9A0;
+    }
+    body {
+      background-color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      min-height: 100vh;
+      padding: 2rem 1.25rem 4rem;
+    }
+    .bg-texture {
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse at 15% 20%, rgba(196,132,90,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 80%, rgba(138,158,140,0.08) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      animation: fadeUp 0.7s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-light);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--soft-terra); }
+    .page-header { margin-bottom: 0.5rem; }
+    .page-title {
+      font-family: 'Lora', serif;
+      font-size: 30px;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+    .page-desc {
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 2rem;
+    }
+    .examples-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .example-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--card-bg);
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .example-btn:hover {
+      border-color: var(--soft-terra);
+      color: var(--soft-terra);
+    }
+    .input-section {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .input-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--soft-terra);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .scenario-input {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text-dark);
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      resize: none;
+      outline: none;
+      transition: border-color 0.15s;
+      line-height: 1.6;
+    }
+    .scenario-input:focus { border-color: var(--soft-terra); }
+    .run-btn {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 14px;
+      background: var(--soft-terra);
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      letter-spacing: 0.02em;
+    }
+    .run-btn:hover { background: #A8693E; }
+    .run-btn:active { transform: scale(0.99); }
+    .run-btn:disabled { background: #D9C9B8; cursor: not-allowed; }
+    .results {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 640px) {
+      .results { grid-template-columns: 1fr; }
+    }
+    .result-card {
+      border-radius: 16px;
+      padding: 1.25rem;
+      min-height: 200px;
+    }
+    .result-card.before {
+      background: var(--before-bg);
+      border: 1px solid var(--before-border);
+    }
+    .result-card.after {
+      background: var(--after-bg);
+      border: 1px solid var(--after-border);
+    }
+    .result-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+    .result-badge {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .badge-before {
+      background: #F0C4A8;
+      color: #7A3A1A;
+    }
+    .badge-after {
+      background: #B8D9A0;
+      color: #2A5A15;
+    }
+    .result-prompt {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--text-mid);
+      background: rgba(255,255,255,0.6);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .result-divider {
+      font-size: 11px;
+      color: var(--text-light);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .result-output {
+      font-size: 13px;
+      color: var(--text-dark);
+      line-height: 1.75;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .result-output.loading {
+      color: var(--text-light);
+      font-style: italic;
+    }
+    .insight-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .insight-title {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--soft-terra);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .insight-body {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.75;
+      white-space: pre-wrap;
+    }
+    .insight-body.loading {
+      color: var(--text-light);
+      font-style: italic;
+    }
+    .tip-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 10px;
+      margin-bottom: 2rem;
+    }
+    .tip-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .tip-number {
+      font-family: 'Lora', serif;
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--soft-terra);
+      margin-bottom: 4px;
+    }
+    .tip-text {
+      font-size: 12px;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-light);
+      letter-spacing: 0.04em;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="bg-texture"></div>
+  <div class="container">
+
+    <a class="back-link" href="index.html">← Back</a>
+
+    <div class="page-header">
+      <h1 class="page-title">Prompt Before & After</h1>
+      <p class="page-desc">See what happens when you give an AI agent a vague instruction versus a well-crafted one. Type a scenario below and watch the difference play out in real time.</p>
+    </div>
+
+    <div class="examples-row">
+      <button class="example-btn" onclick="loadExample('IT helpdesk agent that handles password resets and software access requests')">IT helpdesk agent</button>
+      <button class="example-btn" onclick="loadExample('Customer service agent for an e-commerce store handling returns and refunds')">Customer service agent</button>
+      <button class="example-btn" onclick="loadExample('Onboarding agent that helps new employees get set up with tools and systems')">Employee onboarding agent</button>
+      <button class="example-btn" onclick="loadExample('Knowledge base agent that answers internal HR policy questions')">HR policy agent</button>
+    </div>
+
+    <div class="input-section">
+      <label class="input-label" for="scenario">Describe your AI agent</label>
+      <textarea
+        class="scenario-input"
+        id="scenario"
+        rows="3"
+        placeholder="e.g. A customer service agent for a software company that handles billing questions..."
+      ></textarea>
+      <button class="run-btn" id="runBtn" onclick="runComparison()">Run comparison →</button>
+    </div>
+
+    <div id="resultsSection" class="hidden">
+
+      <div class="results">
+        <div class="result-card before">
+          <div class="result-header">
+            <span class="result-badge badge-before">Before</span>
+          </div>
+          <div class="result-prompt" id="beforePrompt">—</div>
+          <div class="result-divider">Agent response</div>
+          <div class="result-output loading" id="beforeOutput">Generating...</div>
+        </div>
+        <div class="result-card after">
+          <div class="result-header">
+            <span class="result-badge badge-after">After</span>
+          </div>
+          <div class="result-prompt" id="afterPrompt">—</div>
+          <div class="result-divider">Agent response</div>
+          <div class="result-output loading" id="afterOutput">Generating...</div>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-title">What changed and why it matters</div>
+        <div class="insight-body loading" id="insightOutput">Analyzing...</div>
+      </div>
+
+    </div>
+
+    <div class="tip-row">
+      <div class="tip-card">
+        <div class="tip-number">01</div>
+        <div class="tip-text">Give the agent a clear role and name. "You are a billing support agent for Acme Corp" outperforms "You are a helpful assistant."</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-number">02</div>
+        <div class="tip-text">Define what the agent should NOT do. Constraints are just as important as capabilities when building reliable agents.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-number">03</div>
+        <div class="tip-text">Specify tone and format explicitly. "Respond in 2-3 sentences, professionally but warmly" removes ambiguity.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-number">04</div>
+        <div class="tip-text">Tell the agent what to do when it doesn't know the answer. Escalation paths make agents trustworthy in production.</div>
+      </div>
+    </div>
+
+    <p class="footer">© 2026 Shelby Corbitt · Built with the Claude API</p>
+  </div>
+
+  <script>
+    const TEST_USER_MESSAGE = "Hi, I need some help please.";
+
+    function loadExample(text) {
+      document.getElementById('scenario').value = text;
+    }
+
+    async function callBackend(payload) {
+      const response = await fetch("/api/prompt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json();
+      if (data.content && data.content[0]) return data.content[0].text;
+      throw new Error("No response");
+    }
+
+    async function callClaude(systemPrompt) {
+      return callBackend({
+        scenario: JSON.stringify({
+          type: "agent_response",
+          system: systemPrompt,
+          user: TEST_USER_MESSAGE
+        })
+      });
+    }
+
+    async function generatePrompts(scenario) {
+      const text = await callBackend({
+        scenario: `You are an expert in AI agent prompt engineering. Given this agent scenario: "${scenario}"
+
+Generate two system prompts:
+1. A BAD "before" prompt — vague, generic, missing key details (2-3 sentences max)
+2. A GOOD "after" prompt — specific role, tone, constraints, escalation path, format instructions (4-6 sentences)
+
+Also write a 2-3 sentence explanation of the key differences and why they matter for production agents.
+
+Respond in this exact JSON format with no markdown:
+{
+  "before": "the vague prompt here",
+  "after": "the detailed prompt here",
+  "insight": "the explanation here"
+}`
+      });
+      return JSON.parse(text.trim());
+    }
+
+    async function runComparison() {
+      const scenario = document.getElementById('scenario').value.trim();
+      if (!scenario) return;
+
+      const btn = document.getElementById('runBtn');
+      btn.disabled = true;
+      btn.textContent = 'Running...';
+
+      document.getElementById('resultsSection').classList.remove('hidden');
+      document.getElementById('beforeOutput').textContent = 'Generating...';
+      document.getElementById('beforeOutput').classList.add('loading');
+      document.getElementById('afterOutput').textContent = 'Generating...';
+      document.getElementById('afterOutput').classList.add('loading');
+      document.getElementById('insightOutput').textContent = 'Analyzing...';
+      document.getElementById('insightOutput').classList.add('loading');
+      document.getElementById('beforePrompt').textContent = '—';
+      document.getElementById('afterPrompt').textContent = '—';
+
+      try {
+        const prompts = await generatePrompts(scenario);
+
+        document.getElementById('beforePrompt').textContent = prompts.before;
+        document.getElementById('afterPrompt').textContent = prompts.after;
+
+        const [beforeResponse, afterResponse] = await Promise.all([
+          callClaude(prompts.before),
+          callClaude(prompts.after)
+        ]);
+
+        document.getElementById('beforeOutput').textContent = beforeResponse;
+        document.getElementById('beforeOutput').classList.remove('loading');
+        document.getElementById('afterOutput').textContent = afterResponse;
+        document.getElementById('afterOutput').classList.remove('loading');
+        document.getElementById('insightOutput').textContent = prompts.insight;
+        document.getElementById('insightOutput').classList.remove('loading');
+
+      } catch (err) {
+        document.getElementById('beforeOutput').textContent = 'Something went wrong. Try again.';
+        document.getElementById('afterOutput').textContent = 'Something went wrong. Try again.';
+        document.getElementById('insightOutput').textContent = 'Something went wrong. Try again.';
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Run comparison →';
+
+      document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  </script>
+</body>
+</html>
