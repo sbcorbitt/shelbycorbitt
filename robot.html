@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Robot Builder!</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #FFF8F0;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      padding: 1.5rem 1rem 3rem;
+    }
+    .wrap { max-width: 420px; margin: 0 auto; }
+    h1 { font-size: 32px; font-weight: 700; text-align: center; color: #2E2018; margin-bottom: 0.25rem; }
+    .sub { font-size: 16px; color: #7A6555; text-align: center; margin-bottom: 1.75rem; }
+    .section { margin-bottom: 1.5rem; }
+    .label { font-size: 20px; font-weight: 700; color: #2E2018; text-align: center; margin-bottom: 0.75rem; }
+    .pills { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+    .pill {
+      width: 72px; height: 72px; border-radius: 18px;
+      border: 4px solid transparent;
+      cursor: pointer; font-size: 34px;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.12s, border-color 0.12s;
+      background: white;
+    }
+    .pill:hover { transform: scale(1.12); }
+    .pill.sel { border-color: #2E2018; transform: scale(1.15); }
+
+    .name-section { margin-bottom: 1.5rem; text-align: center; }
+    .name-display {
+      font-size: 30px; font-weight: 700; color: #7F77DD;
+      min-height: 48px; margin-bottom: 0.75rem;
+      letter-spacing: -0.5px;
+      transition: opacity 0.1s;
+    }
+    .name-display.spinning { opacity: 0.4; }
+    .spin-btn {
+      padding: 12px 28px;
+      border-radius: 30px;
+      border: 3px solid #7F77DD;
+      background: #EEEDFE;
+      color: #3C3489;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.12s, background 0.12s;
+    }
+    .spin-btn:hover { background: #CECBF6; transform: scale(1.05); }
+    .spin-btn.locked {
+      background: #7F77DD;
+      color: white;
+      border-color: #534AB7;
+    }
+
+    .build-btn {
+      display: block; margin: 0 auto;
+      width: 90px; height: 90px;
+      border-radius: 50%; border: none;
+      font-size: 44px; cursor: pointer;
+      background: #7F77DD;
+      transition: transform 0.15s, background 0.15s;
+      box-shadow: 0 4px 0 #534AB7;
+    }
+    .build-btn:hover:not(:disabled) { transform: scale(1.1) translateY(-2px); }
+    .build-btn:active:not(:disabled) { transform: scale(1.0) translateY(2px); box-shadow: 0 2px 0 #534AB7; }
+    .build-btn:disabled { background: #D3D1C7; box-shadow: 0 4px 0 #B4B2A9; cursor: not-allowed; }
+
+    .result { text-align: center; animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
+    @keyframes popIn { from { opacity:0; transform: scale(0.6); } to { opacity:1; transform: scale(1); } }
+    .r-name { font-size: 26px; font-weight: 700; color: #2E2018; margin-bottom: 0.2rem; }
+    .r-desc { font-size: 15px; color: #7A6555; margin-bottom: 1rem; }
+    .robot-canvas { display: inline-block; border-radius: 20px; overflow: hidden; }
+    .again-btn {
+      margin-top: 1.25rem;
+      padding: 14px 32px;
+      border-radius: 30px;
+      border: 3px solid #EDE5DA;
+      background: white;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      color: #2E2018;
+      transition: transform 0.12s, background 0.12s;
+    }
+    .again-btn:hover { background: #FAF7F2; transform: scale(1.05); }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; color: #A8957F; text-decoration: none;
+      margin-bottom: 1.5rem;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: #C4845A; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back-link" href="index.html">← Back</a>
+
+    <h1>Robot Builder!</h1>
+    <p class="sub">Tap to pick, then build your robot!</p>
+
+    <div id="form">
+
+      <div class="name-section">
+        <div class="label">Spin for a name!</div>
+        <div class="name-display" id="nameDisplay">???</div>
+        <button class="spin-btn" id="spinBtn" onclick="spinName()">🎲 Spin!</button>
+      </div>
+
+      <div class="section">
+        <div class="label">Pick a color</div>
+        <div class="pills">
+          <button class="pill" style="background:#FCEBEB;" data-g="color" data-v="red" onclick="pick(this,'color')">🔴</button>
+          <button class="pill" style="background:#E6F1FB;" data-g="color" data-v="blue" onclick="pick(this,'color')">🔵</button>
+          <button class="pill" style="background:#EAF3DE;" data-g="color" data-v="green" onclick="pick(this,'color')">🟢</button>
+          <button class="pill" style="background:#EEEDFE;" data-g="color" data-v="purple" onclick="pick(this,'color')">🟣</button>
+          <button class="pill" style="background:#FAEEDA;" data-g="color" data-v="orange" onclick="pick(this,'color')">🟠</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Pick a theme</div>
+        <div class="pills">
+          <button class="pill" style="background:#0A0E2A;" data-g="theme" data-v="stars" onclick="pick(this,'theme')">⭐</button>
+          <button class="pill" style="background:#FBEAF0;" data-g="theme" data-v="dance" onclick="pick(this,'theme')">💃</button>
+          <button class="pill" style="background:#F5F5F5;" data-g="theme" data-v="rainbow" onclick="pick(this,'theme')">🌈</button>
+          <button class="pill" style="background:#FFF0E0;" data-g="theme" data-v="fire" onclick="pick(this,'theme')">🔥</button>
+          <button class="pill" style="background:#E6F1FB;" data-g="theme" data-v="water" onclick="pick(this,'theme')">💧</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="label">Pick a background</div>
+        <div class="pills">
+          <button class="pill" style="background:#F8F8F6; border-color:#D3D1C7;" data-g="bg" data-v="white" onclick="pick(this,'bg')">⬜</button>
+          <button class="pill" style="background:#1A1A1A;" data-g="bg" data-v="black" onclick="pick(this,'bg')">⬛</button>
+          <button class="pill" style="background:#FFF3C4;" data-g="bg" data-v="yellow" onclick="pick(this,'bg')">🟡</button>
+          <button class="pill" style="background:#FFE8F0;" data-g="bg" data-v="pink" onclick="pick(this,'bg')">🩷</button>
+          <button class="pill" style="background:#D6EEFF;" data-g="bg" data-v="skyblue" onclick="pick(this,'bg')">🩵</button>
+        </div>
+      </div>
+
+      <button class="build-btn" id="buildBtn" onclick="build()" disabled>🤖</button>
+
+    </div>
+
+    <div id="result" style="display:none;" class="result">
+      <div class="r-name" id="rName"></div>
+      <div class="r-desc" id="rDesc"></div>
+      <div class="robot-canvas" id="rCanvas"></div>
+      <br>
+      <button class="again-btn" onclick="again()">Build another! 🤖</button>
+    </div>
+  </div>
+
+  <script>
+    const robotNames = [
+      'Zippity','Bloop','Wobble','Fizz','Bonk',
+      'Noodle','Zoink','Squiggles','Boing','Zippy',
+      'Wubble','Doodlebug','Flopsy','Kazoo','Sprocket',
+      'Giggles','Zap','Beeper','Rattle','Biscuit',
+      'Whirly','Snorkel','Dingus','Flibber','Toots',
+      'Bumble','Squishy','Zigzag','Plink','Donut'
+    ];
+
+    const colors = {
+      red:    {main:'#E24B4A',light:'#F09595',dark:'#791F1F',eye:'#FCEBEB'},
+      blue:   {main:'#378ADD',light:'#85B7EB',dark:'#0C447C',eye:'#E6F1FB'},
+      green:  {main:'#639922',light:'#97C459',dark:'#27500A',eye:'#EAF3DE'},
+      purple: {main:'#7F77DD',light:'#AFA9EC',dark:'#3C3489',eye:'#EEEDFE'},
+      orange: {main:'#EF9F27',light:'#FAC775',dark:'#633806',eye:'#FAEEDA'}
+    };
+
+    const bgs = {white:'#F8F8F6',black:'#1A1A1A',yellow:'#FFF3C4',pink:'#FFE8F0',skyblue:'#D6EEFF'};
+
+    const descs = {
+      stars:'A cosmic explorer from the outer galaxy!',
+      dance:'This robot loves to boogie 24/7!',
+      rainbow:'Spreading colorful joy everywhere!',
+      fire:'Hot stuff — handle with oven mitts!',
+      water:'Makes a splash wherever it goes!'
+    };
+
+    const decorations = {
+      stars: (cx,cy,c) => `
+        <circle cx="${cx-60}" cy="${cy-80}" r="5" fill="${c.light}" opacity="0.9"/>
+        <circle cx="${cx+70}" cy="${cy-60}" r="3" fill="${c.light}" opacity="0.8"/>
+        <circle cx="${cx-80}" cy="${cy+20}" r="3" fill="${c.light}" opacity="0.7"/>
+        <circle cx="${cx+85}" cy="${cy+40}" r="4" fill="${c.light}" opacity="0.9"/>
+        <text x="${cx-55}" y="${cy-68}" font-size="18" text-anchor="middle" font-family="sans-serif">★</text>
+        <text x="${cx+72}" y="${cy-48}" font-size="13" text-anchor="middle" font-family="sans-serif">★</text>
+        <text x="${cx+3}" y="${cy-100}" font-size="20" text-anchor="middle" font-family="sans-serif">★</text>`,
+      dance: (cx,cy,c) => `
+        <path d="M${cx-90},${cy+20} Q${cx-60},${cy} ${cx-40},${cy+30}" stroke="${c.light}" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M${cx+90},${cy+20} Q${cx+60},${cy} ${cx+40},${cy+30}" stroke="${c.light}" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <circle cx="${cx-50}" cy="${cy-90}" r="7" fill="${c.light}" opacity="0.8"/>
+        <circle cx="${cx+50}" cy="${cy-85}" r="5" fill="${c.light}" opacity="0.7"/>
+        <text x="${cx-80}" y="${cy+65}" font-size="20" text-anchor="middle" font-family="sans-serif">🎵</text>
+        <text x="${cx+80}" y="${cy+50}" font-size="16" text-anchor="middle" font-family="sans-serif">🎶</text>`,
+      rainbow: (cx,cy,c) => `
+        <path d="M${cx-70},${cy-48} Q${cx},${cy-120} ${cx+70},${cy-48}" stroke="#E24B4A" stroke-width="5" fill="none" opacity="0.8"/>
+        <path d="M${cx-58},${cy-43} Q${cx},${cy-102} ${cx+58},${cy-43}" stroke="#EF9F27" stroke-width="5" fill="none" opacity="0.8"/>
+        <path d="M${cx-46},${cy-38} Q${cx},${cy-86} ${cx+46},${cy-38}" stroke="#639922" stroke-width="5" fill="none" opacity="0.8"/>
+        <path d="M${cx-34},${cy-33} Q${cx},${cy-70} ${cx+34},${cy-33}" stroke="#378ADD" stroke-width="5" fill="none" opacity="0.8"/>
+        <path d="M${cx-22},${cy-28} Q${cx},${cy-54} ${cx+22},${cy-28}" stroke="#7F77DD" stroke-width="5" fill="none" opacity="0.8"/>`,
+      fire: (cx,cy,c) => `
+        <ellipse cx="${cx}" cy="${cy-118}" rx="12" ry="20" fill="#E24B4A" opacity="0.85"/>
+        <ellipse cx="${cx-16}" cy="${cy-110}" rx="8" ry="14" fill="#EF9F27" opacity="0.75"/>
+        <ellipse cx="${cx+16}" cy="${cy-110}" rx="8" ry="14" fill="#EF9F27" opacity="0.75"/>
+        <ellipse cx="${cx}" cy="${cy-110}" rx="6" ry="11" fill="#FAC775" opacity="0.9"/>
+        <text x="${cx-65}" y="${cy+55}" font-size="20" text-anchor="middle" font-family="sans-serif">🔥</text>
+        <text x="${cx+65}" y="${cy+50}" font-size="16" text-anchor="middle" font-family="sans-serif">💥</text>`,
+      water: (cx,cy,c) => `
+        <path d="M${cx-80},${cy+78} Q${cx-55},${cy+60} ${cx-30},${cy+78} Q${cx-5},${cy+96} ${cx+20},${cy+78} Q${cx+45},${cy+60} ${cx+80},${cy+78}" stroke="#378ADD" stroke-width="4" fill="none" opacity="0.7"/>
+        <path d="M${cx-80},${cy+95} Q${cx-55},${cy+77} ${cx-30},${cy+95} Q${cx-5},${cy+113} ${cx+20},${cy+95} Q${cx+45},${cy+77} ${cx+80},${cy+95}" stroke="#85B7EB" stroke-width="4" fill="none" opacity="0.6"/>
+        <text x="${cx+10}" y="${cy-108}" font-size="20" text-anchor="middle" font-family="sans-serif">💧</text>
+        <text x="${cx-70}" y="${cy-58}" font-size="16" text-anchor="middle" font-family="sans-serif">🌊</text>`
+    };
+
+    const picks = {color:null, theme:null, bg:null};
+    let currentName = null;
+    let spinInterval = null;
+    let isLocked = false;
+
+    function spinName() {
+      const btn = document.getElementById('spinBtn');
+      const display = document.getElementById('nameDisplay');
+
+      if (isLocked) {
+        isLocked = false;
+        btn.textContent = '🎲 Spin!';
+        btn.classList.remove('locked');
+        currentName = null;
+        checkReady();
+        startSpinning();
+        return;
+      }
+
+      if (spinInterval) {
+        clearInterval(spinInterval);
+        spinInterval = null;
+        isLocked = true;
+        display.classList.remove('spinning');
+        btn.textContent = '✅ Locked!';
+        btn.classList.add('locked');
+        checkReady();
+        return;
+      }
+
+      startSpinning();
+    }
+
+    function startSpinning() {
+      const display = document.getElementById('nameDisplay');
+      display.classList.add('spinning');
+      spinInterval = setInterval(() => {
+        const n = robotNames[Math.floor(Math.random() * robotNames.length)];
+        display.textContent = n;
+        currentName = n;
+      }, 80);
+    }
+
+    function pick(btn, group) {
+      document.querySelectorAll(`[data-g="${group}"]`).forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+      picks[group] = btn.dataset.v;
+      checkReady();
+    }
+
+    function checkReady() {
+      document.getElementById('buildBtn').disabled = !(picks.color && picks.theme && picks.bg && isLocked);
+    }
+
+    function build() {
+      const c = colors[picks.color];
+      const bg = bgs[picks.bg];
+      const cx = 150, cy = 165;
+      const decor = decorations[picks.theme](cx, cy, c);
+      const name = currentName || 'Robo';
+
+      const svg = `<svg viewBox="0 0 300 295" xmlns="http://www.w3.org/2000/svg" width="300" height="295">
+        <rect width="300" height="295" fill="${bg}" rx="20"/>
+        ${decor}
+        <rect x="${cx-48}" y="${cy-100}" width="96" height="82" rx="16" fill="${c.main}"/>
+        <circle cx="${cx-19}" cy="${cy-74}" r="14" fill="${c.eye}"/>
+        <circle cx="${cx+19}" cy="${cy-74}" r="14" fill="${c.eye}"/>
+        <circle cx="${cx-19}" cy="${cy-74}" r="8" fill="${c.dark}"/>
+        <circle cx="${cx+19}" cy="${cy-74}" r="8" fill="${c.dark}"/>
+        <circle cx="${cx-16}" cy="${cy-77}" r="3" fill="white"/>
+        <circle cx="${cx+22}" cy="${cy-77}" r="3" fill="white"/>
+        <rect x="${cx-18}" y="${cy-52}" width="36" height="9" rx="5" fill="${c.eye}" opacity="0.9"/>
+        <rect x="${cx-12}" y="${cy-51}" width="10" height="7" rx="3" fill="${c.main}"/>
+        <rect x="${cx+2}" y="${cy-51}" width="10" height="7" rx="3" fill="${c.main}"/>
+        <circle cx="${cx}" cy="${cy-105}" r="9" fill="${c.light}"/>
+        <circle cx="${cx}" cy="${cy-105}" r="5" fill="${c.main}"/>
+        <rect x="${cx-58}" y="${cy-18}" width="116" height="88" rx="14" fill="${c.main}"/>
+        <rect x="${cx-46}" y="${cy-8}" width="32" height="10" rx="5" fill="${c.eye}" opacity="0.8"/>
+        <rect x="${cx+14}" y="${cy-8}" width="32" height="10" rx="5" fill="${c.eye}" opacity="0.8"/>
+        <circle cx="${cx-30}" cy="${cy+22}" r="10" fill="${c.eye}" opacity="0.9"/>
+        <circle cx="${cx+30}" cy="${cy+22}" r="10" fill="${c.eye}" opacity="0.9"/>
+        <rect x="${cx-18}" y="${cy+40}" width="36" height="12" rx="6" fill="${c.light}"/>
+        <rect x="${cx-75}" y="${cy-16}" width="20" height="62" rx="10" fill="${c.light}"/>
+        <rect x="${cx+55}" y="${cy-16}" width="20" height="62" rx="10" fill="${c.light}"/>
+        <circle cx="${cx-65}" cy="${cy-16}" r="10" fill="${c.main}"/>
+        <circle cx="${cx+65}" cy="${cy-16}" r="10" fill="${c.main}"/>
+        <rect x="${cx-33}" y="${cy+70}" width="24" height="46" rx="9" fill="${c.light}"/>
+        <rect x="${cx+9}" y="${cy+70}" width="24" height="46" rx="9" fill="${c.light}"/>
+        <rect x="${cx-36}" y="${cy+106}" width="30" height="15" rx="7" fill="${c.main}"/>
+        <rect x="${cx+6}" y="${cx+106}" width="30" height="15" rx="7" fill="${c.main}"/>
+        <text x="${cx}" y="${cy+132}" font-size="13" font-weight="700" text-anchor="middle" font-family="'DM Sans',sans-serif" fill="${c.dark}">${name}</text>
+      </svg>`;
+
+      document.getElementById('rName').textContent = name + ' the Robot!';
+      document.getElementById('rDesc').textContent = descs[picks.theme];
+      document.getElementById('rCanvas').innerHTML = svg;
+      document.getElementById('form').style.display = 'none';
+      document.getElementById('result').style.display = 'block';
+    }
+
+    function again() {
+      picks.color = null; picks.theme = null; picks.bg = null;
+      currentName = null; isLocked = false;
+      if (spinInterval) { clearInterval(spinInterval); spinInterval = null; }
+      document.querySelectorAll('.pill').forEach(b => b.classList.remove('sel'));
+      document.getElementById('buildBtn').disabled = true;
+      document.getElementById('nameDisplay').textContent = '???';
+      document.getElementById('nameDisplay').classList.remove('spinning');
+      document.getElementById('spinBtn').textContent = '🎲 Spin!';
+      document.getElementById('spinBtn').classList.remove('locked');
+      document.getElementById('form').style.display = 'block';
+      document.getElementById('result').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
