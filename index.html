@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --cream: #FAF7F2;
       --warm-brown: #6B4F3A;
@@ -19,7 +18,6 @@
       --card-bg: #FFFFFF;
       --border: #EDE5DA;
     }
-
     body {
       background-color: var(--cream);
       font-family: 'DM Sans', sans-serif;
@@ -30,7 +28,6 @@
       justify-content: center;
       padding: 2rem 1.25rem;
     }
-
     .bg-texture {
       position: fixed;
       inset: 0;
@@ -40,7 +37,6 @@
       pointer-events: none;
       z-index: 0;
     }
-
     .container {
       position: relative;
       z-index: 1;
@@ -48,33 +44,22 @@
       width: 100%;
       animation: fadeUp 0.7s ease both;
     }
-
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
     .header {
       text-align: center;
       margin-bottom: 2.25rem;
     }
-
     .avatar {
       width: 76px;
       height: 76px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #E8D5C4, #C4845A);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Lora', serif;
-      font-size: 26px;
-      font-weight: 500;
-      color: #FFFFFF;
+      object-fit: cover;
       margin: 0 auto 1.25rem;
-      letter-spacing: 0.02em;
+      display: block;
     }
-
     .name {
       font-family: 'Lora', serif;
       font-size: 28px;
@@ -83,7 +68,6 @@
       letter-spacing: -0.01em;
       margin-bottom: 0.25rem;
     }
-
     .tagline {
       font-size: 13px;
       font-weight: 400;
@@ -92,7 +76,6 @@
       text-transform: uppercase;
       margin-bottom: 1.25rem;
     }
-
     .bio {
       font-family: 'Lora', serif;
       font-size: 15px;
@@ -102,21 +85,18 @@
       max-width: 380px;
       margin: 0 auto;
     }
-
     .divider {
       display: flex;
       align-items: center;
       gap: 12px;
       margin: 2rem 0;
     }
-
     .divider::before, .divider::after {
       content: '';
       flex: 1;
       height: 1px;
       background: var(--border);
     }
-
     .divider-dot {
       width: 5px;
       height: 5px;
@@ -124,13 +104,11 @@
       background: var(--soft-terra);
       opacity: 0.5;
     }
-
     .links {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-
     .link-card {
       display: flex;
       align-items: center;
@@ -143,13 +121,11 @@
       color: var(--text-dark);
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
     }
-
     .link-card:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 24px rgba(107,79,58,0.10);
       border-color: #D9C9B8;
     }
-
     .link-icon {
       width: 38px;
       height: 38px;
@@ -159,34 +135,27 @@
       justify-content: center;
       flex-shrink: 0;
     }
-
     .icon-li { background: #EBF3FB; }
     .icon-em { background: #FAECE7; }
-
     .link-text { flex: 1; }
-
     .link-label {
       font-size: 14px;
       font-weight: 500;
       color: var(--text-dark);
       margin-bottom: 1px;
     }
-
     .link-sub {
       font-size: 12px;
       color: var(--text-light);
     }
-
     .link-arrow {
       font-size: 16px;
       color: var(--text-light);
       transition: transform 0.18s ease;
     }
-
     .link-card:hover .link-arrow {
       transform: translateX(3px);
     }
-
     .footer {
       text-align: center;
       margin-top: 2.5rem;
@@ -199,20 +168,17 @@
 <body>
   <div class="bg-texture"></div>
   <div class="container">
-
     <div class="header">
-      <div class="avatar">SC</div>
+      <img class="avatar" src="photo.jpg" alt="Shelby Corbitt" />
       <h1 class="name">Shelby Corbitt</h1>
       <p class="tagline">AI Solutions Engineer · Washington, DC</p>
       <p class="bio">Tech enthusiast, idea generator, and DC local. I work in AI at MillerKnoll where I help teams harness the power of AI tools and solutions. I'm drawn to the creative edge of technology — I love thinking about where things could go and building the bridge to get there. When I'm not at work, you'll find me exploring the city, on a yoga mat, or lost in a good book.</p>
     </div>
-
     <div class="divider">
       <div class="divider-dot"></div>
       <div class="divider-dot"></div>
       <div class="divider-dot"></div>
     </div>
-
     <div class="links">
       <a class="link-card" href="https://www.linkedin.com/in/shelbycorbitt" target="_blank" rel="noopener">
         <div class="link-icon icon-li">
@@ -227,7 +193,6 @@
         </div>
         <span class="link-arrow">→</span>
       </a>
-
       <a class="link-card" href="mailto:sbcorbitt@icloud.com">
         <div class="link-icon icon-em">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -242,7 +207,6 @@
         <span class="link-arrow">→</span>
       </a>
     </div>
-
     <p class="footer">© 2026 Shelby Corbitt</p>
   </div>
 </body>
