@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shelby Corbitt</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #FAF7F2;
+      --warm-brown: #6B4F3A;
+      --soft-terra: #C4845A;
+      --muted-sage: #8A9E8C;
+      --text-dark: #2E2018;
+      --text-mid: #7A6555;
+      --text-light: #A8957F;
+      --card-bg: #FFFFFF;
+      --border: #EDE5DA;
+    }
+
+    body {
+      background-color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.25rem;
+    }
+
+    .bg-texture {
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse at 15% 20%, rgba(196,132,90,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 80%, rgba(138,158,140,0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      width: 100%;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2.25rem;
+    }
+
+    .avatar {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #E8D5C4, #C4845A);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Lora', serif;
+      font-size: 26px;
+      font-weight: 500;
+      color: #FFFFFF;
+      margin: 0 auto 1.25rem;
+      letter-spacing: 0.02em;
+    }
+
+    .name {
+      font-family: 'Lora', serif;
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--text-dark);
+      letter-spacing: -0.01em;
+      margin-bottom: 0.25rem;
+    }
+
+    .tagline {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--soft-terra);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+
+    .bio {
+      font-family: 'Lora', serif;
+      font-size: 15px;
+      font-style: italic;
+      color: var(--text-mid);
+      line-height: 1.8;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 2rem 0;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--soft-terra);
+      opacity: 0.5;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--text-dark);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .link-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(107,79,58,0.10);
+      border-color: #D9C9B8;
+    }
+
+    .link-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-li { background: #EBF3FB; }
+    .icon-em { background: #FAECE7; }
+
+    .link-text { flex: 1; }
+
+    .link-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: 1px;
+    }
+
+    .link-sub {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    .link-arrow {
+      font-size: 16px;
+      color: var(--text-light);
+      transition: transform 0.18s ease;
+    }
+
+    .link-card:hover .link-arrow {
+      transform: translateX(3px);
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 2.5rem;
+      font-size: 12px;
+      color: var(--text-light);
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-texture"></div>
+  <div class="container">
+
+    <div class="header">
+      <div class="avatar">SC</div>
+      <h1 class="name">Shelby Corbitt</h1>
+      <p class="tagline">AI Solutions Engineer · Washington, DC</p>
+      <p class="bio">Tech enthusiast, idea generator, and DC local. I work in AI at MillerKnoll where I help teams harness the power of AI tools and solutions. I'm drawn to the creative edge of technology — I love thinking about where things could go and building the bridge to get there. When I'm not at work, you'll find me exploring the city, on a yoga mat, or lost in a good book.</p>
+    </div>
+
+    <div class="divider">
+      <div class="divider-dot"></div>
+      <div class="divider-dot"></div>
+      <div class="divider-dot"></div>
+    </div>
+
+    <div class="links">
+      <a class="link-card" href="https://www.linkedin.com/in/shelbycorbitt" target="_blank" rel="noopener">
+        <div class="link-icon icon-li">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="4" fill="#0A66C2"/>
+            <path d="M7 10h2v7H7v-7zm1-3a1.1 1.1 0 110 2.2A1.1 1.1 0 018 7zm4 3h1.9v1s.7-1.1 2.3-1.1c1.8 0 2.8 1.2 2.8 3.3V17h-2v-3.5c0-1-.4-1.6-1.3-1.6-1.1 0-1.7.8-1.7 1.8V17H12v-7z" fill="white"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-label">LinkedIn</div>
+          <div class="link-sub">Connect with me professionally</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <a class="link-card" href="mailto:sbcorbitt@icloud.com">
+        <div class="link-icon icon-em">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="4" fill="#C4845A"/>
+            <path d="M5 8l7 5 7-5V7H5v1zm0 2.5V17h14V10.5l-7 5-7-5z" fill="white"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-label">Email</div>
+          <div class="link-sub">sbcorbitt@icloud.com</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+
+    <p class="footer">© 2026 Shelby Corbitt</p>
+  </div>
+</body>
+</html>
