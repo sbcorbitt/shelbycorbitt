@@ -1,12 +1,22 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
+  const origin = req.headers.origin || '';
+  const referer = req.headers.referer || '';
+  const allowed = ['shelbycorbitt.com', 'www.shelbycorbitt.com'];
+  const isAllowed = allowed.some(domain => 
+    origin.includes(domain) || referer.includes(domain)
+  );
+
+  if (!isAllowed) {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+
   const { scenario } = req.body;
   if (!scenario) return res.status(400).json({ error: 'No scenario provided' });
 
   let messages, system;
 
-  // Check if this is an agent response call (has type field in JSON)
   try {
     const parsed = JSON.parse(scenario);
     if (parsed.type === 'agent_response') {
@@ -14,7 +24,6 @@ export default async function handler(req, res) {
       messages = [{ role: 'user', content: parsed.user }];
     }
   } catch (e) {
-    // Not JSON, treat as a plain prompt generation request
     messages = [{ role: 'user', content: scenario }];
   }
 
