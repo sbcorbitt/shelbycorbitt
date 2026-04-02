@@ -285,8 +285,8 @@
       const decor = decorations[picks.theme](cx, cy, c);
       const name = currentName || 'Robo';
 
-      const svg = `<svg viewBox="0 0 300 295" xmlns="http://www.w3.org/2000/svg" width="300" height="295">
-        <rect width="300" height="295" fill="${bg}" rx="20"/>
+      const svg = `<svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg" width="300" height="320">
+        <rect width="300" height="320" fill="${bg}" rx="20"/>
         ${decor}
         <rect x="${cx-48}" y="${cy-100}" width="96" height="82" rx="16" fill="${c.main}"/>
         <circle cx="${cx-19}" cy="${cy-74}" r="14" fill="${c.eye}"/>
@@ -313,8 +313,8 @@
         <rect x="${cx-33}" y="${cy+70}" width="24" height="46" rx="9" fill="${c.light}"/>
         <rect x="${cx+9}" y="${cy+70}" width="24" height="46" rx="9" fill="${c.light}"/>
         <rect x="${cx-36}" y="${cy+106}" width="30" height="15" rx="7" fill="${c.main}"/>
-        <rect x="${cx+6}" y="${cx+106}" width="30" height="15" rx="7" fill="${c.main}"/>
-        <text x="${cx}" y="${cy+132}" font-size="13" font-weight="700" text-anchor="middle" font-family="'DM Sans',sans-serif" fill="${c.dark}">${name}</text>
+        <rect x="${cx+6}" y="${cy+106}" width="30" height="15" rx="7" fill="${c.main}"/>
+        <text x="${cx}" y="${cy+145}" font-size="15" font-weight="700" text-anchor="middle" font-family="'DM Sans',sans-serif" fill="${c.dark}">${name}</text>
       </svg>`;
 
       document.getElementById('rName').textContent = name + ' the Robot!';
