@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI or Human? · Shelby Corbitt</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FAF7F2;
+      --soft-terra: #C4845A;
+      --text-dark: #2E2018;
+      --text-mid: #7A6555;
+      --text-light: #A8957F;
+      --card-bg: #FFFFFF;
+      --border: #EDE5DA;
+    }
+    body {
+      background-color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      min-height: 100vh;
+      padding: 2rem 1.25rem 4rem;
+    }
+    .bg-texture {
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse at 15% 20%, rgba(196,132,90,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 80%, rgba(138,158,140,0.08) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 580px;
+      margin: 0 auto;
+      animation: fadeUp 0.7s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-light);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--soft-terra); }
+    .page-title {
+      font-family: 'Lora', serif;
+      font-size: 30px;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+    .page-desc {
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .score-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 18px;
+      margin-bottom: 2rem;
+    }
+    .score-label {
+      font-size: 12px;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .score-number {
+      font-family: 'Lora', serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--soft-terra);
+    }
+    .score-divider {
+      width: 1px;
+      height: 28px;
+      background: var(--border);
+    }
+    .round-label {
+      font-size: 11px;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 1rem;
+    }
+    .post-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    .post-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .post-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+    .post-handle {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+    .post-body {
+      font-size: 15px;
+      color: var(--text-dark);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .post-footer {
+      font-size: 12px;
+      color: var(--text-light);
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+    .guess-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+    .guess-btn {
+      padding: 14px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: var(--card-bg);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: var(--text-dark);
+    }
+    .guess-btn:hover {
+      border-color: var(--soft-terra);
+      color: var(--soft-terra);
+    }
+    .guess-btn.correct {
+      background: #F4F9F0;
+      border-color: #B8D9A0;
+      color: #2A5A15;
+    }
+    .guess-btn.wrong {
+      background: #FFF8F5;
+      border-color: #F0C4A8;
+      color: #7A3A1A;
+    }
+    .guess-btn:disabled { cursor: not-allowed; opacity: 0.7; }
+    .result-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      animation: fadeUp 0.4s ease both;
+    }
+    .result-verdict {
+      font-family: 'Lora', serif;
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    .verdict-correct { color: #2A5A15; }
+    .verdict-wrong { color: #7A3A1A; }
+    .result-tells-title {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--soft-terra);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin: 1rem 0 0.5rem;
+    }
+    .result-tells {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.75;
+    }
+    .next-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--soft-terra);
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-bottom: 2rem;
+    }
+    .next-btn:hover { background: #A8693E; }
+    .loading-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 14px;
+      font-style: italic;
+      margin-bottom: 1.25rem;
+    }
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-light);
+      letter-spacing: 0.04em;
+    }
+    .hidden { display: none; }
+    .final-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .final-score {
+      font-family: 'Lora', serif;
+      font-size: 48px;
+      font-weight: 500;
+      color: var(--soft-terra);
+      margin-bottom: 0.5rem;
+    }
+    .final-label {
+      font-size: 14px;
+      color: var(--text-mid);
+      margin-bottom: 1.5rem;
+    }
+    .final-message {
+      font-family: 'Lora', serif;
+      font-size: 18px;
+      font-style: italic;
+      color: var(--text-dark);
+    }
+    .play-again-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--soft-terra);
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 1.5rem;
+    }
+    .play-again-btn:hover { background: #A8693E; }
+  </style>
+</head>
+<body>
+  <div class="bg-texture"></div>
+  <div class="container">
+    <a class="back-link" href="index.html">← Back</a>
+    <h1 class="page-title">AI or Human?</h1>
+    <p class="page-desc">Read each social media post and guess whether it was written by a real person or generated by AI. Think you can tell the difference?</p>
+
+    <div class="score-bar">
+      <div>
+        <div class="score-label">Score</div>
+        <div class="score-number" id="scoreDisplay">0 / 0</div>
+      </div>
+      <div class="score-divider"></div>
+      <div>
+        <div class="score-label">Round</div>
+        <div class="score-number" id="roundDisplay">1 / 5</div>
+      </div>
+    </div>
+
+    <div id="loadingCard" class="loading-card">Generating posts...</div>
+
+    <div id="gameArea" class="hidden">
+      <div class="round-label" id="roundLabel">Round 1 of 5</div>
+
+      <div class="post-card" id="postCard">
+        <div class="post-header">
+          <div class="post-avatar" id="postAvatar">👤</div>
+          <div>
+            <div class="post-name" id="postName">—</div>
+            <div class="post-handle" id="postHandle">—</div>
+          </div>
+        </div>
+        <div class="post-body" id="postBody">—</div>
+        <div class="post-footer" id="postTime">—</div>
+      </div>
+
+      <div class="guess-row">
+        <button class="guess-btn" id="btnHuman" onclick="makeGuess('human')">👤 Written by a human</button>
+        <button class="guess-btn" id="btnAI" onclick="makeGuess('ai')">🤖 Written by AI</button>
+      </div>
+
+      <div id="resultCard" class="result-card hidden">
+        <div class="result-verdict" id="resultVerdict">—</div>
+        <div class="result-tells-title">The tells</div>
+        <div class="result-tells" id="resultTells">—</div>
+      </div>
+
+      <button class="next-btn hidden" id="nextBtn" onclick="nextRound()">Next post →</button>
+    </div>
+
+    <div id="finalCard" class="final-card hidden">
+      <div class="final-score" id="finalScore">0/5</div>
+      <div class="final-label" id="finalLabel">correct</div>
+      <div class="final-message" id="finalMessage">—</div>
+      <button class="play-again-btn" onclick="startGame()">Play again →</button>
+    </div>
+
+    <p class="footer">© 2026 Shelby Corbitt · Built with the Claude API</p>
+  </div>
+
+  <script>
+    let rounds = [];
+    let currentRound = 0;
+    let score = 0;
+    const TOTAL_ROUNDS = 5;
+
+    const avatars = ['🧑‍💻','👩‍🎨','🧔','👩‍🔬','👨‍🍳','🧕','👩‍💼','🧑‍🎤','👨‍🏫','👩‍🚀'];
+    const names = ['Alex K.','Jordan M.','Sam T.','Riley P.','Casey B.','Morgan L.','Taylor S.','Drew H.','Quinn R.','Blake W.'];
+    const handles = ['@alexk','@jordanm','@samt','@rileyp','@caseyb','@morganl','@taylors','@drewh','@quinnr','@blakew'];
+    const times = ['2h ago','5h ago','yesterday','3h ago','just now','8h ago','1d ago','4h ago','6h ago','12h ago'];
+
+    function getRandomItem(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    async function generateRounds() {
+      const response = await fetch('/api/prompt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          scenario: `Generate ${TOTAL_ROUNDS} social media posts for an "AI or Human?" guessing game. Mix of real-sounding human posts and AI-generated ones on everyday topics (food, weather, life observations, work, weekends, etc.).
+
+For each post include:
+- The post text (1-4 sentences, realistic social media length)
+- Whether it is "human" or "ai"
+- A short explanation (2-3 sentences) of the tells that give it away — specific things in the writing style, word choice, or structure that hint at the author
+
+Respond ONLY in this exact JSON format with no markdown:
+{
+  "posts": [
+    {
+      "text": "post text here",
+      "type": "human",
+      "tells": "explanation of tells here"
+    }
+  ]
+}`
+        })
+      });
+      const data = await response.json();
+      const text = data.content[0].text.trim();
+      return JSON.parse(text).posts;
+    }
+
+    async function startGame() {
+      currentRound = 0;
+      score = 0;
+      rounds = [];
+
+      document.getElementById('finalCard').classList.add('hidden');
+      document.getElementById('gameArea').classList.add('hidden');
+      document.getElementById('loadingCard').classList.remove('hidden');
+      updateScoreDisplay();
+
+      try {
+        rounds = await generateRounds();
+        document.getElementById('loadingCard').classList.add('hidden');
+        document.getElementById('gameArea').classList.remove('hidden');
+        showRound();
+      } catch (err) {
+        document.getElementById('loadingCard').textContent = 'Something went wrong. Refresh and try again.';
+      }
+    }
+
+    function showRound() {
+      const post = rounds[currentRound];
+      const idx = Math.floor(Math.random() * avatars.length);
+
+      document.getElementById('roundLabel').textContent = `Round ${currentRound + 1} of ${TOTAL_ROUNDS}`;
+      document.getElementById('roundDisplay').textContent = `${currentRound + 1} / ${TOTAL_ROUNDS}`;
+      document.getElementById('postAvatar').textContent = avatars[idx];
+      document.getElementById('postName').textContent = names[idx];
+      document.getElementById('postHandle').textContent = handles[idx];
+      document.getElementById('postBody').textContent = post.text;
+      document.getElementById('postTime').textContent = times[idx];
+
+      document.getElementById('resultCard').classList.add('hidden');
+      document.getElementById('nextBtn').classList.add('hidden');
+      document.getElementById('btnHuman').className = 'guess-btn';
+      document.getElementById('btnAI').className = 'guess-btn';
+      document.getElementById('btnHuman').disabled = false;
+      document.getElementById('btnAI').disabled = false;
+    }
+
+    function makeGuess(guess) {
+      const post = rounds[currentRound];
+      const correct = guess === post.type;
+
+      if (correct) score++;
+      updateScoreDisplay();
+
+      document.getElementById('btnHuman').disabled = true;
+      document.getElementById('btnAI').disabled = true;
+
+      if (guess === 'human') {
+        document.getElementById('btnHuman').className = correct ? 'guess-btn correct' : 'guess-btn wrong';
+        if (!correct) document.getElementById('btnAI').className = 'guess-btn correct';
+      } else {
+        document.getElementById('btnAI').className = correct ? 'guess-btn correct' : 'guess-btn wrong';
+        if (!correct) document.getElementById('btnHuman').className = 'guess-btn correct';
+      }
+
+      const verdict = document.getElementById('resultVerdict');
+      verdict.textContent = correct ? 'You got it! ✓' : `Actually, this was written by ${post.type === 'ai' ? 'AI' : 'a human'}.`;
+      verdict.className = correct ? 'result-verdict verdict-correct' : 'result-verdict verdict-wrong';
+      document.getElementById('resultTells').textContent = post.tells;
+      document.getElementById('resultCard').classList.remove('hidden');
+
+      const nextBtn = document.getElementById('nextBtn');
+      nextBtn.textContent = currentRound + 1 < TOTAL_ROUNDS ? 'Next post →' : 'See my score →';
+      nextBtn.classList.remove('hidden');
+    }
+
+    function nextRound() {
+      currentRound++;
+      if (currentRound >= TOTAL_ROUNDS) {
+        showFinal();
+      } else {
+        showRound();
+      }
+    }
+
+    function showFinal() {
+      document.getElementById('gameArea').classList.add('hidden');
+      document.getElementById('finalCard').classList.remove('hidden');
+      document.getElementById('finalScore').textContent = `${score}/${TOTAL_ROUNDS}`;
+      document.getElementById('finalLabel').textContent = 'correct';
+
+      let message;
+      if (score === TOTAL_ROUNDS) message = "Perfect score. You've got a sharp eye.";
+      else if (score >= 4) message = "Really good. AI is getting harder to spot.";
+      else if (score >= 3) message = "Not bad — most people struggle with this.";
+      else if (score >= 2) message = "It's trickier than it looks, right?";
+      else message = "Don't worry — even experts get fooled.";
+
+      document.getElementById('finalMessage').textContent = message;
+    }
+
+    function updateScoreDisplay() {
+      document.getElementById('scoreDisplay').textContent = `${score} / ${TOTAL_ROUNDS}`;
+    }
+
+    startGame();
+  </script>
+</body>
+</html>
