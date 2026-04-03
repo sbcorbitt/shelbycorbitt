@@ -223,6 +223,95 @@
     .icon-game { background: #FAECE7; }
     .icon-robot { background: #FFF3C4; }
     .icon-space { background: #0A0E1A; }
+    .icon-banana { background: #FFF3C4; }
+    .toggle-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      text-align: left;
+    }
+    .toggle-btn:hover {
+      background: var(--cream);
+      border-color: #D9C9B8;
+    }
+    .toggle-chevron {
+      font-size: 12px;
+      color: var(--text-light);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+    .toggle-chevron.open { transform: rotate(180deg); }
+    .collapsible {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease;
+    }
+    .collapsible.open { max-height: 1200px; }
+    .collapsible-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 10px;
+    }
+    .nasa-group {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .nasa-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(10,14,26,0.04);
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-mid);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s;
+    }
+    .nasa-toggle:hover { background: rgba(10,14,26,0.08); }
+    .nasa-toggle-icon { font-size: 16px; flex-shrink: 0; }
+    .nasa-chevron {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--text-light);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+    .nasa-chevron.open { transform: rotate(180deg); }
+    .nasa-inner {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.3s ease;
+    }
+    .nasa-inner.open { max-height: 600px; }
+    .nasa-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .nasa-links .link-card {
+      border-radius: 0;
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+    .nasa-links .link-card:hover { box-shadow: none; transform: none; background: var(--cream); }
     .footer {
       text-align: center;
       margin-top: 2.5rem;
@@ -348,88 +437,156 @@
       <div class="divider-dot"></div>
     </div>
 
-    <p class="currently-title">Just for fun</p>
-    <div class="links">
+    <button class="toggle-btn" onclick="toggleFun(this)" aria-expanded="false">
+      <span>Just for fun</span>
+      <span class="toggle-chevron">▼</span>
+    </button>
 
-      <a class="link-card" href="artemis.html">
-        <div class="link-icon" style="background:#0A0E1A;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2L8 8H4l3 3-1 4 4-2 4 2-1-4 3-3h-4z"/>
-            <circle cx="12" cy="12" r="1" fill="rgba(255,255,255,0.8)"/>
-          </svg>
-        </div>
-        <div class="link-text">
-          <div class="link-label">Artemis II Live</div>
-          <div class="link-sub">Four humans flying around the Moon right now</div>
-        </div>
-        <span class="link-arrow">→</span>
-      </a>
+    <div class="collapsible" id="funSection">
+      <div class="collapsible-inner">
 
-      <a class="link-card" href="travel.html">
-        <div class="link-icon icon-travel">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/>
-            <circle cx="12" cy="8" r="2"/>
-          </svg>
+        <div class="nasa-group">
+          <button class="nasa-toggle" onclick="toggleGroup(this,'nasaSection')" aria-expanded="false">
+            <span>NASA API fun</span>
+            <span class="nasa-chevron">▼</span>
+          </button>
+          <div class="nasa-inner" id="nasaSection">
+            <div class="nasa-links">
+              <a class="link-card" href="artemis.html">
+                <div class="link-icon" style="background:#0A0E1A;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L8 8H4l3 3-1 4 4-2 4 2-1-4 3-3h-4z"/>
+                    <circle cx="12" cy="12" r="1" fill="rgba(255,255,255,0.8)"/>
+                  </svg>
+                </div>
+                <div class="link-text">
+                  <div class="link-label">Artemis II Live</div>
+                  <div class="link-sub">Four humans flying around the Moon right now</div>
+                </div>
+                <span class="link-arrow">→</span>
+              </a>
+              <a class="link-card" href="banana-asteroid.html">
+                <div class="link-icon icon-banana">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 7c0 0 1-3 8-3s10 5 10 10c0 3-2 5-5 5" stroke-linecap="round"/>
+                    <path d="M4 7c0 5 2 10 8 10 2 0 4-1 5-3" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div class="link-text">
+                  <div class="link-label">Banana Asteroid</div>
+                  <div class="link-sub">Today's near-Earth objects, in bananas</div>
+                </div>
+                <span class="link-arrow">→</span>
+              </a>
+            </div>
+          </div>
         </div>
-        <div class="link-text">
-          <div class="link-label">Travel</div>
-          <div class="link-sub">Places I've been</div>
-        </div>
-        <span class="link-arrow">→</span>
-      </a>
 
-      <a class="link-card" href="prompt-lab.html">
-        <div class="link-icon icon-prompt">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 20h9"/>
-            <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
-          </svg>
+        <div class="nasa-group">
+          <button class="nasa-toggle" onclick="toggleGroup(this,'aiSection')" aria-expanded="false">
+            <span>AI pages</span>
+            <span class="nasa-chevron">▼</span>
+          </button>
+          <div class="nasa-inner" id="aiSection">
+            <div class="nasa-links">
+              <a class="link-card" href="prompt-lab.html">
+                <div class="link-icon icon-prompt">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20h9"/>
+                    <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                  </svg>
+                </div>
+                <div class="link-text">
+                  <div class="link-label">Prompt Writing 101</div>
+                  <div class="link-sub">AI agent prompt comparison</div>
+                </div>
+                <span class="link-arrow">→</span>
+              </a>
+              <a class="link-card" href="ai-or-human.html">
+                <div class="link-icon icon-game">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#993C1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M9 9h.01M15 9h.01"/>
+                    <path d="M8 13s1.5 2 4 2 4-2 4-2"/>
+                  </svg>
+                </div>
+                <div class="link-text">
+                  <div class="link-label">AI or Human?</div>
+                  <div class="link-sub">Can you spot the difference?</div>
+                </div>
+                <span class="link-arrow">→</span>
+              </a>
+            </div>
+          </div>
         </div>
-        <div class="link-text">
-          <div class="link-label">Prompt Writing 101</div>
-          <div class="link-sub">AI agent prompt comparison</div>
-        </div>
-        <span class="link-arrow">→</span>
-      </a>
 
-      <a class="link-card" href="ai-or-human.html">
-        <div class="link-icon icon-game">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#993C1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M9 9h.01M15 9h.01"/>
-            <path d="M8 13s1.5 2 4 2 4-2 4-2"/>
-          </svg>
+        <div class="nasa-group">
+          <button class="nasa-toggle" onclick="toggleGroup(this,'sillySection')" aria-expanded="false">
+            <span>Silly pages</span>
+            <span class="nasa-chevron">▼</span>
+          </button>
+          <div class="nasa-inner" id="sillySection">
+            <div class="nasa-links">
+              <a class="link-card" href="robot.html">
+                <div class="link-icon icon-robot">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="7" y="8" width="10" height="8" rx="2"/>
+                    <path d="M9 11h.01M15 11h.01"/>
+                    <path d="M10 15h4"/>
+                    <path d="M12 8V5"/>
+                    <circle cx="12" cy="4" r="1"/>
+                    <path d="M7 10H5M19 10h-2"/>
+                    <path d="M9 16v2M15 16v2"/>
+                  </svg>
+                </div>
+                <div class="link-text">
+                  <div class="link-label">Robot Builder</div>
+                  <div class="link-sub">Build your own robot!</div>
+                </div>
+                <span class="link-arrow">→</span>
+              </a>
+            </div>
+          </div>
         </div>
-        <div class="link-text">
-          <div class="link-label">AI or Human?</div>
-          <div class="link-sub">Can you spot the difference?</div>
-        </div>
-        <span class="link-arrow">→</span>
-      </a>
 
-      <a class="link-card" href="robot.html">
-        <div class="link-icon icon-robot">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="7" y="8" width="10" height="8" rx="2"/>
-            <path d="M9 11h.01M15 11h.01"/>
-            <path d="M10 15h4"/>
-            <path d="M12 8V5"/>
-            <circle cx="12" cy="4" r="1"/>
-            <path d="M7 10H5M19 10h-2"/>
-            <path d="M9 16v2M15 16v2"/>
-          </svg>
-        </div>
-        <div class="link-text">
-          <div class="link-label">Robot Builder</div>
-          <div class="link-sub">Build your own robot!</div>
-        </div>
-        <span class="link-arrow">→</span>
-      </a>
+        <a class="link-card" href="travel.html">
+          <div class="link-icon icon-travel">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/>
+              <circle cx="12" cy="8" r="2"/>
+            </svg>
+          </div>
+          <div class="link-text">
+            <div class="link-label">Travel</div>
+            <div class="link-sub">Places I've been</div>
+          </div>
+          <span class="link-arrow">→</span>
+        </a>
 
+      </div>
     </div>
 
     <p class="footer">© 2026 Shelby Corbitt</p>
   </div>
+
+<script>
+  function toggleFun(btn) {
+    const section = document.getElementById('funSection');
+    const chevron = btn.querySelector('.toggle-chevron');
+    const isOpen = section.classList.contains('open');
+    section.classList.toggle('open', !isOpen);
+    chevron.classList.toggle('open', !isOpen);
+    btn.setAttribute('aria-expanded', !isOpen);
+  }
+
+  function toggleGroup(btn, id) {
+    const section = document.getElementById(id);
+    const chevron = btn.querySelector('.nasa-chevron');
+    const isOpen = section.classList.contains('open');
+    section.classList.toggle('open', !isOpen);
+    chevron.classList.toggle('open', !isOpen);
+    btn.setAttribute('aria-expanded', !isOpen);
+  }
+</script>
 </body>
 </html>
