@@ -200,187 +200,141 @@
 
 <script>
 function buildSunSvg(level) {
-  const size = 320;
+  const size = 280;
   const cx = size / 2, cy = size / 2;
-  const sunR = 90;
+  const sunR = 100;
 
-  // Colors get angrier with level
-  const coreColors = ['#F5C842','#F5A820','#F07820','#E84820','#E82010'];
-  const glowColors = ['rgba(245,200,66,0.15)','rgba(245,168,32,0.2)','rgba(240,120,32,0.25)','rgba(232,72,32,0.3)','rgba(232,32,16,0.4)'];
-  const flameColors = ['#F5C842','#F5A020','#F06020','#E83010','#E81010'];
-  const core = coreColors[level-1];
+  // Color progression: happy yellow → orange → angry red
+  const bodyColors = [
+    '#F5D020', // 1 - calm yellow
+    '#F5A820', // 2 - warm orange-yellow
+    '#F07820', // 3 - orange
+    '#E84020', // 4 - red-orange
+    '#CC1010'  // 5 - full red rage
+  ];
+  const glowColors = [
+    'rgba(245,208,32,0.3)',
+    'rgba(245,168,32,0.32)',
+    'rgba(240,120,32,0.35)',
+    'rgba(232,64,32,0.38)',
+    'rgba(204,16,16,0.42)'
+  ];
+  const rayColors = [
+    '#F5D020',
+    '#F5A820',
+    '#F07020',
+    '#E03818',
+    '#C01010'
+  ];
+
+  const body = bodyColors[level-1];
   const glow = glowColors[level-1];
-  const flame = flameColors[level-1];
+  const ray = rayColors[level-1];
 
-  // Thermometer tube runs up through center of sun
-  const tubeX = cx;
-  const tubeTop = cy - sunR - 55;
-  const tubeBottom = cy + sunR - 10;
-  const tubeH = tubeBottom - tubeTop;
-  const tubeW = 14;
-  const bulbR = 18;
-  const fillPct = (level - 1) / 4; // 0 to 1
-  const fillH = tubeH * fillPct;
-  const fillY = tubeBottom - fillH;
-  const mercuryColor = level <= 2 ? '#F5C842' : level === 3 ? '#F07820' : level === 4 ? '#E84820' : '#E81010';
-
-  // FLAMES — more and bigger at higher levels
-  const flames = [];
-
-  // Level 1: tiny calm wisps just above head (2 flames)
-  // Level 2: small flames (3)
-  // Level 3: medium flames (5)
-  // Level 4: big chaotic flames (7)
-  // Level 5: EVERYWHERE, massive (10)
-
-  const flameDefs = [
-    // [angle_degrees, height, width, wobble]
-    // Level 1 — just 2 tiny ones
-    [ [270, 32, 12, 0], [250, 28, 10, 0] ],
-    // Level 2 — 3 small
-    [ [270, 45, 16, 0], [245, 38, 13, 0], [295, 35, 12, 0] ],
-    // Level 3 — 5 medium
-    [ [270, 65, 20, 0], [245, 52, 16, 0], [295, 55, 17, 0], [220, 40, 14, 0], [320, 42, 14, 0] ],
-    // Level 4 — 7 big
-    [ [270, 90, 28, 0], [245, 75, 22, 0], [295, 80, 24, 0], [220, 60, 18, 0], [320, 62, 18, 0], [200, 45, 15, 0], [340, 48, 16, 0] ],
-    // Level 5 — 10 massive everywhere
-    [ [270, 120, 36, 0], [245, 105, 30, 0], [295, 110, 32, 0], [220, 85, 26, 0], [320, 88, 26, 0], [200, 70, 22, 0], [340, 72, 22, 0], [180, 55, 18, 0], [0, 60, 20, 0], [90, 50, 16, 0] ]
-  ];
-
-  const myFlames = flameDefs[level - 1];
-  const flameSvgs = myFlames.map(([angleDeg, fh, fw, _]) => {
-    const angleRad = (angleDeg - 90) * Math.PI / 180;
-    const baseX = cx + Math.cos(angleRad) * sunR;
-    const baseY = cy + Math.sin(angleRad) * sunR;
-    const tipX = cx + Math.cos(angleRad) * (sunR + fh);
-    const tipY = cy + Math.sin(angleRad) * (sunR + fh);
-    // perpendicular for width
-    const perpX = -Math.sin(angleRad);
-    const perpY = Math.cos(angleRad);
-    const lx = baseX + perpX * fw * 0.5;
-    const ly = baseY + perpY * fw * 0.5;
-    const rx = baseX - perpX * fw * 0.5;
-    const ry = baseY - perpY * fw * 0.5;
-    // control point slightly off-axis for organic shape
-    const cx1 = tipX + perpX * fw * 0.3;
-    const cy1 = tipY + perpY * fw * 0.3;
-    return `<path d="M${lx.toFixed(1)},${ly.toFixed(1)} Q${cx1.toFixed(1)},${cy1.toFixed(1)} ${tipX.toFixed(1)},${tipY.toFixed(1)} Q${(tipX - perpX*fw*0.3).toFixed(1)},${(tipY - perpY*fw*0.3).toFixed(1)} ${rx.toFixed(1)},${ry.toFixed(1)} Z" fill="${flame}" opacity="${0.7 + level * 0.06}"/>`;
+  // Sun rays — rounded, friendly
+  const rayCount = 10;
+  const rays = Array.from({length: rayCount}, (_, i) => {
+    const angle = (i / rayCount) * Math.PI * 2;
+    const innerR = sunR + 8;
+    const outerR = sunR + 38;
+    const halfW = 0.12;
+    const x1 = cx + Math.cos(angle - halfW) * innerR;
+    const y1 = cy + Math.sin(angle - halfW) * innerR;
+    const x2 = cx + Math.cos(angle + halfW) * innerR;
+    const y2 = cy + Math.sin(angle + halfW) * innerR;
+    const tipX = cx + Math.cos(angle) * outerR;
+    const tipY = cy + Math.sin(angle) * outerR;
+    return `<path d="M${x1.toFixed(1)},${y1.toFixed(1)} Q${tipX.toFixed(1)},${tipY.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${ray}" opacity="0.9"/>`;
   }).join('');
 
-  // Inner glow ring
-  const innerFlame2 = myFlames.slice(0, Math.min(3, myFlames.length)).map(([angleDeg, fh, fw, _]) => {
-    const angleRad = (angleDeg - 90) * Math.PI / 180;
-    const baseX = cx + Math.cos(angleRad) * (sunR - 10);
-    const baseY = cy + Math.sin(angleRad) * (sunR - 10);
-    const tipX = cx + Math.cos(angleRad) * (sunR + fh * 0.5);
-    const tipY = cy + Math.sin(angleRad) * (sunR + fh * 0.5);
-    const perpX = -Math.sin(angleRad);
-    const perpY = Math.cos(angleRad);
-    const lx = baseX + perpX * fw * 0.3;
-    const ly = baseY + perpY * fw * 0.3;
-    const rx = baseX - perpX * fw * 0.3;
-    const ry = baseY - perpY * fw * 0.3;
-    return `<path d="M${lx.toFixed(1)},${ly.toFixed(1)} Q${tipX.toFixed(1)},${tipY.toFixed(1)} ${rx.toFixed(1)},${ry.toFixed(1)} Z" fill="${coreColors[level-1]}" opacity="0.5"/>`;
-  }).join('');
-
-  // FACE — gets more distressed with level
-  // Eyes: calm → worried → angry
+  // Face expressions
   const eyeExpressions = [
-    // Level 1: happy ^_^
-    `<path d="M${cx-22},${cy-8} Q${cx-16},${cy-16} ${cx-10},${cy-8}" stroke="#4A2800" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-     <path d="M${cx+10},${cy-8} Q${cx+16},${cy-16} ${cx+22},${cy-8}" stroke="#4A2800" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
-    // Level 2: flat eyes ._. slightly unsure
-    `<line x1="${cx-22}" y1="${cy-10}" x2="${cx-10}" y2="${cy-10}" stroke="#4A2800" stroke-width="2.5" stroke-linecap="round"/>
-     <line x1="${cx+10}" y1="${cy-10}" x2="${cx+22}" y2="${cy-10}" stroke="#4A2800" stroke-width="2.5" stroke-linecap="round"/>`,
-    // Level 3: raised inner brows, concerned
-    `<ellipse cx="${cx-16}" cy="${cy-10}" rx="6" ry="5" fill="#4A2800"/>
-     <ellipse cx="${cx+16}" cy="${cy-10}" rx="6" ry="5" fill="#4A2800"/>
-     <path d="M${cx-22},${cy-18} Q${cx-16},${cy-22} ${cx-10},${cy-18}" stroke="#4A2800" stroke-width="2" fill="none" stroke-linecap="round"/>
-     <path d="M${cx+10},${cy-18} Q${cx+16},${cy-22} ${cx+22},${cy-18}" stroke="#4A2800" stroke-width="2" fill="none" stroke-linecap="round"/>`,
-    // Level 4: angry V brows, mad eyes
-    `<ellipse cx="${cx-16}" cy="${cy-10}" rx="6" ry="5" fill="#4A2800"/>
-     <ellipse cx="${cx+16}" cy="${cy-10}" rx="6" ry="5" fill="#4A2800"/>
-     <path d="M${cx-24},${cy-22} L${cx-10},${cy-16}" stroke="#4A2800" stroke-width="3" stroke-linecap="round"/>
-     <path d="M${cx+10},${cy-16} L${cx+24},${cy-22}" stroke="#4A2800" stroke-width="3" stroke-linecap="round"/>`,
-    // Level 5: FULL RAGE, X eyes, unibrow
-    `<path d="M${cx-22},${cy-14} L${cx-10},${cy-6}" stroke="#4A2800" stroke-width="3" stroke-linecap="round"/>
-     <path d="M${cx-10},${cy-14} L${cx-22},${cy-6}" stroke="#4A2800" stroke-width="3" stroke-linecap="round"/>
-     <path d="M${cx+10},${cy-14} L${cx+22},${cy-6}" stroke="#4A2800" stroke-width="3" stroke-linecap="round"/>
-     <path d="M${cx+22},${cy-14} L${cx+10},${cy-6}" stroke="#4A2800" stroke-width="3" stroke-linecap="round"/>
-     <path d="M${cx-26},${cy-22} Q${cx},${cy-30} ${cx+26},${cy-22}" stroke="#4A2800" stroke-width="3" fill="none" stroke-linecap="round"/>`
+    // 1: happy ^_^
+    `<path d="M${cx-28},${cy-12} Q${cx-20},${cy-22} ${cx-12},${cy-12}" stroke="#5A2800" stroke-width="3" fill="none" stroke-linecap="round"/>
+     <path d="M${cx+12},${cy-12} Q${cx+20},${cy-22} ${cx+28},${cy-12}" stroke="#5A2800" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+    // 2: neutral open eyes
+    `<ellipse cx="${cx-20}" cy="${cy-12}" rx="7" ry="7" fill="#5A2800"/>
+     <ellipse cx="${cx+20}" cy="${cy-12}" rx="7" ry="7" fill="#5A2800"/>
+     <ellipse cx="${cx-18}" cy="${cy-14}" rx="2.5" ry="2.5" fill="rgba(255,255,255,0.6)"/>
+     <ellipse cx="${cx+22}" cy="${cy-14}" rx="2.5" ry="2.5" fill="rgba(255,255,255,0.6)"/>`,
+    // 3: worried, inner brows raised
+    `<ellipse cx="${cx-20}" cy="${cy-12}" rx="7" ry="7" fill="#5A2800"/>
+     <ellipse cx="${cx+20}" cy="${cy-12}" rx="7" ry="7" fill="#5A2800"/>
+     <ellipse cx="${cx-18}" cy="${cy-14}" rx="2.5" ry="2.5" fill="rgba(255,255,255,0.6)"/>
+     <ellipse cx="${cx+22}" cy="${cy-14}" rx="2.5" ry="2.5" fill="rgba(255,255,255,0.6)"/>
+     <path d="M${cx-30},${cy-24} Q${cx-20},${cy-30} ${cx-10},${cy-24}" stroke="#5A2800" stroke-width="3" fill="none" stroke-linecap="round"/>
+     <path d="M${cx+10},${cy-24} Q${cx+20},${cy-30} ${cx+30},${cy-24}" stroke="#5A2800" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+    // 4: angry V brows
+    `<ellipse cx="${cx-20}" cy="${cy-10}" rx="7" ry="7" fill="#5A2800"/>
+     <ellipse cx="${cx+20}" cy="${cy-10}" rx="7" ry="7" fill="#5A2800"/>
+     <ellipse cx="${cx-18}" cy="${cy-12}" rx="2.5" ry="2.5" fill="rgba(255,255,255,0.6)"/>
+     <ellipse cx="${cx+22}" cy="${cy-12}" rx="2.5" ry="2.5" fill="rgba(255,255,255,0.6)"/>
+     <path d="M${cx-32},${cy-28} L${cx-10},${cy-20}" stroke="#5A2800" stroke-width="3.5" stroke-linecap="round"/>
+     <path d="M${cx+10},${cy-20} L${cx+32},${cy-28}" stroke="#5A2800" stroke-width="3.5" stroke-linecap="round"/>`,
+    // 5: X eyes + unibrow
+    `<path d="M${cx-28},${cy-18} L${cx-12},${cy-4}" stroke="#5A2800" stroke-width="3.5" stroke-linecap="round"/>
+     <path d="M${cx-12},${cy-18} L${cx-28},${cy-4}" stroke="#5A2800" stroke-width="3.5" stroke-linecap="round"/>
+     <path d="M${cx+12},${cy-18} L${cx+28},${cy-4}" stroke="#5A2800" stroke-width="3.5" stroke-linecap="round"/>
+     <path d="M${cx+28},${cy-18} L${cx+12},${cy-4}" stroke="#5A2800" stroke-width="3.5" stroke-linecap="round"/>
+     <path d="M${cx-34},${cy-28} Q${cx},${cy-38} ${cx+34},${cy-28}" stroke="#5A2800" stroke-width="4" fill="none" stroke-linecap="round"/>`
   ];
 
-  // Mouths: smile → flat → frown → big frown → screaming O
   const mouths = [
-    `<path d="M${cx-18},${cy+18} Q${cx},${cy+28} ${cx+18},${cy+18}" stroke="#4A2800" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
-    `<line x1="${cx-16}" y1="${cy+22}" x2="${cx+16}" y2="${cy+22}" stroke="#4A2800" stroke-width="2.5" stroke-linecap="round"/>`,
-    `<path d="M${cx-18},${cy+26} Q${cx},${cy+18} ${cx+18},${cy+26}" stroke="#4A2800" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
-    `<path d="M${cx-20},${cy+28} Q${cx},${cy+16} ${cx+20},${cy+28}" stroke="#4A2800" stroke-width="3" fill="none" stroke-linecap="round"/>`,
-    `<ellipse cx="${cx}" cy="${cy+22}" rx="12" ry="9" fill="#4A2800"/>
-     <ellipse cx="${cx}" cy="${cy+22}" rx="8" ry="6" fill="#8B3A00"/>`
+    `<path d="M${cx-22},${cy+22} Q${cx},${cy+36} ${cx+22},${cy+22}" stroke="#5A2800" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+    `<line x1="${cx-20}" y1="${cy+26}" x2="${cx+20}" y2="${cy+26}" stroke="#5A2800" stroke-width="3" stroke-linecap="round"/>`,
+    `<path d="M${cx-20},${cy+30} Q${cx},${cy+20} ${cx+20},${cy+30}" stroke="#5A2800" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+    `<path d="M${cx-22},${cy+32} Q${cx},${cy+18} ${cx+22},${cy+32}" stroke="#5A2800" stroke-width="3.5" fill="none" stroke-linecap="round"/>`,
+    `<ellipse cx="${cx}" cy="${cy+26}" rx="14" ry="10" fill="#5A2800"/>
+     <ellipse cx="${cx}" cy="${cy+26}" rx="9" ry="6" fill="#8B3000"/>`
   ];
 
-  // Cheeks — rosy when calm, gone when angry
   const cheeks = level <= 2
-    ? `<ellipse cx="${cx-28}" cy="${cy+8}" rx="10" ry="6" fill="rgba(255,100,50,0.25)"/>
-       <ellipse cx="${cx+28}" cy="${cy+8}" rx="10" ry="6" fill="rgba(255,100,50,0.25)"/>`
+    ? `<ellipse cx="${cx-34}" cy="${cy+10}" rx="12" ry="7" fill="rgba(255,120,60,0.25)"/>
+       <ellipse cx="${cx+34}" cy="${cy+10}" rx="12" ry="7" fill="rgba(255,120,60,0.25)"/>`
     : '';
 
-  // Sweat drop at level 3+
-  const sweat = level >= 3
-    ? `<path d="M${cx+32},${cy-20} Q${cx+36},${cy-10} ${cx+32},${cy-5} Q${cx+28},${cy-10} ${cx+32},${cy-20}" fill="rgba(100,180,255,0.7)"/>`
+  const sweat = level === 3
+    ? `<path d="M${cx+38},${cy-20} Q${cx+43},${cy-8} ${cx+38},${cy-2} Q${cx+33},${cy-8} ${cx+38},${cy-20}" fill="rgba(120,200,255,0.8)"/>`
     : '';
 
-  // Little exclamation marks at level 5
-  const exclaim = level === 5
-    ? `<text x="${cx-42}" y="${cy-35}" font-size="18" font-weight="700" fill="${flame}" font-family="sans-serif">!</text>
-       <text x="${cx+36}" y="${cy-30}" font-size="14" font-weight="700" fill="${flame}" font-family="sans-serif">!</text>`
+  const veins = level >= 4
+    ? `<path d="M${cx-38},${cy-35} Q${cx-30},${cy-42} ${cx-20},${cy-36}" stroke="rgba(90,0,0,0.5)" stroke-width="1.5" fill="none"/>
+       <path d="M${cx+20},${cy-36} Q${cx+30},${cy-42} ${cx+38},${cy-35}" stroke="rgba(90,0,0,0.5)" stroke-width="1.5" fill="none"/>`
+    : '';
+
+  const sparks = level === 5
+    ? `<text x="${cx-52}" y="${cy-42}" font-size="16" font-weight="700" fill="#FF6010" font-family="sans-serif" opacity="0.9">!</text>
+       <text x="${cx+44}" y="${cy-36}" font-size="13" font-weight="700" fill="#FF6010" font-family="sans-serif" opacity="0.8">!</text>`
     : '';
 
   return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="${core}"/>
-        <stop offset="70%" stop-color="${core}" stop-opacity="0.3"/>
-        <stop offset="100%" stop-color="${core}" stop-opacity="0"/>
+      <radialGradient id="sg" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="${body}" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="${body}" stop-opacity="0"/>
       </radialGradient>
-      <radialGradient id="sunCore" cx="40%" cy="35%" r="65%">
-        <stop offset="0%" stop-color="#FFF5C0"/>
-        <stop offset="40%" stop-color="${core}"/>
-        <stop offset="100%" stop-color="${flameColors[Math.max(0,level-2)]}"/>
+      <radialGradient id="sb" cx="38%" cy="32%" r="65%">
+        <stop offset="0%" stop-color="#FFF8D0"/>
+        <stop offset="35%" stop-color="${body}"/>
+        <stop offset="100%" stop-color="${rayColors[Math.max(0,level-2)]}"/>
       </radialGradient>
     </defs>
-
-    <!-- outer glow -->
-    <circle cx="${cx}" cy="${cy}" r="${sunR + 40}" fill="url(#sunGlow)" opacity="0.6"/>
-
-    <!-- flames behind sun -->
-    ${flameSvgs}
-    ${innerFlame2}
-
-    <!-- sun body -->
-    <circle cx="${cx}" cy="${cy}" r="${sunR}" fill="url(#sunCore)"/>
-    <circle cx="${cx}" cy="${cy}" r="${sunR}" fill="none" stroke="${flame}" stroke-width="2" opacity="0.4"/>
-
-    <!-- thermometer tube on sun body -->
-    <rect x="${tubeX - tubeW/2}" y="${tubeTop}" width="${tubeW}" height="${tubeH}" rx="${tubeW/2}" fill="rgba(0,0,0,0.35)"/>
-    <rect x="${tubeX - tubeW/2 + 2}" y="${fillY}" width="${tubeW - 4}" height="${fillH}" rx="${(tubeW-4)/2}" fill="${mercuryColor}"/>
-    <circle cx="${tubeX}" cy="${tubeBottom}" r="${bulbR}" fill="${mercuryColor}"/>
-    <circle cx="${tubeX}" cy="${tubeBottom}" r="${bulbR - 4}" fill="${mercuryColor}" opacity="0.7"/>
-    <!-- tick marks on thermometer -->
-    ${[1,2,3,4].map(t => {
-      const tickY = tubeBottom - (tubeH * t / 4);
-      return `<line x1="${tubeX - tubeW/2 - 3}" y1="${tickY}" x2="${tubeX - tubeW/2}" y2="${tickY}" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>`;
-    }).join('')}
-
-    <!-- face -->
+    <circle cx="${cx}" cy="${cy}" r="${sunR+50}" fill="url(#sg)"/>
+    ${rays}
+    <circle cx="${cx}" cy="${cy}" r="${sunR}" fill="url(#sb)"/>
+    <circle cx="${cx}" cy="${cy}" r="${sunR}" fill="none" stroke="${ray}" stroke-width="2" opacity="0.3"/>
     ${cheeks}
     ${eyeExpressions[level-1]}
     ${mouths[level-1]}
     ${sweat}
-    ${exclaim}
+    ${veins}
+    ${sparks}
   </svg>`;
 }
+
+
+async function loadData() {
+
 
 async function loadData() {
   const today = new Date().toISOString().split('T')[0];
