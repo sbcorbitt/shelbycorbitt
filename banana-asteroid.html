@@ -14,171 +14,120 @@
       --text-faint: rgba(232,228,216,0.28);
       --accent: #C4845A;
       --banana: #F5C842;
-      --banana-dark: #B8920A;
     }
     html { scroll-behavior: smooth; }
-    body {
-      background: var(--space);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      overflow-x: hidden;
-    }
+    body { background: var(--space); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+    .stars-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
 
-    /* STARS */
-    .stars-layer {
-      position: fixed; inset: 0;
-      pointer-events: none; z-index: 0;
-    }
-
-    /* LOADING */
     #loading {
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 1.5rem; position: relative; z-index: 1;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 1.5rem;
+      position: relative; z-index: 1;
     }
-    .load-title {
-      font-family: 'Space Mono', monospace;
-      font-size: 18px; color: var(--banana);
-      letter-spacing: 0.15em;
-    }
+    .load-title { font-family: 'Space Mono', monospace; font-size: 18px; color: var(--banana); letter-spacing: 0.15em; }
     .load-bar { width: 200px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
     .load-fill { height: 100%; background: var(--banana); animation: loadAnim 2s ease infinite; }
     @keyframes loadAnim {
-      0% { width: 0%; margin-left: 0; }
-      50% { width: 60%; margin-left: 20%; }
-      100% { width: 0%; margin-left: 100%; }
+      0% { width:0%; margin-left:0; } 50% { width:60%; margin-left:20%; } 100% { width:0%; margin-left:100%; }
     }
     .load-sub { font-size: 13px; color: var(--text-dim); letter-spacing: 0.1em; font-family: 'Space Mono', monospace; }
 
-    /* HEADER */
     .site-header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 1rem 2rem;
-      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between;
       background: linear-gradient(to bottom, rgba(7,9,26,0.95), transparent);
     }
-    .site-logo {
-      font-family: 'Space Mono', monospace; font-size: 14px;
-      color: var(--banana); letter-spacing: 0.12em; text-decoration: none;
-    }
-    .site-date { font-size: 12px; color: var(--text-dim); font-family: 'Space Mono', monospace; letter-spacing: 0.08em; }
+    .site-logo { font-family: 'Space Mono', monospace; font-size: 14px; color: var(--banana); letter-spacing: 0.12em; text-decoration: none; }
+    .site-date { font-size: 12px; color: var(--text-dim); font-family: 'Space Mono', monospace; }
 
-    /* HERO */
     .hero {
-      min-height: 55vh;
-      display: flex; flex-direction: column;
+      min-height: 55vh; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       text-align: center; padding: 6rem 2rem 3rem;
       position: relative; z-index: 1;
     }
-    .hero-eyebrow {
-      font-family: 'Space Mono', monospace; font-size: 11px;
-      letter-spacing: 0.2em; color: var(--accent);
-      text-transform: uppercase; margin-bottom: 1rem;
-    }
-    .hero-title {
-      font-family: 'Space Mono', monospace;
-      font-size: clamp(30px, 7vw, 58px); font-weight: 700;
-      color: var(--text); line-height: 1.1; margin-bottom: 1rem;
-    }
+    .hero-eyebrow { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 1rem; }
+    .hero-title { font-family: 'Space Mono', monospace; font-size: clamp(28px, 7vw, 56px); font-weight: 700; line-height: 1.1; margin-bottom: 1rem; }
     .hero-title span { color: var(--banana); }
     .hero-sub { font-size: 15px; color: var(--text-dim); max-width: 440px; line-height: 1.7; }
-    .scroll-hint {
-      margin-top: 3rem; font-size: 12px; color: var(--text-faint);
-      letter-spacing: 0.15em; font-family: 'Space Mono', monospace;
-      animation: bob 2s ease infinite;
-    }
-    @keyframes bob {
-      0%,100% { opacity: 0.3; transform: translateY(0); }
-      50% { opacity: 0.7; transform: translateY(5px); }
-    }
+    .scroll-hint { margin-top: 3rem; font-size: 12px; color: var(--text-faint); letter-spacing: 0.15em; font-family: 'Space Mono', monospace; animation: bob 2s ease infinite; }
+    @keyframes bob { 0%,100% { opacity:0.3; transform:translateY(0); } 50% { opacity:0.7; transform:translateY(5px); } }
 
-    /* ASTEROID SECTION */
+    /* ASTEROID SECTION — the asteroid IS the background */
     .asteroid-section {
       position: relative;
       min-height: 100vh;
-      display: flex; flex-direction: column; justify-content: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       overflow: hidden;
       border-top: 1px solid rgba(255,255,255,0.04);
     }
 
-    /* BIG ILLUSTRATED ASTEROID BEHIND EVERYTHING */
-    .asteroid-illustration {
+    /* Giant asteroid centered behind everything */
+    .asteroid-bg-illustration {
       position: absolute;
-      right: -5%;
       top: 50%;
-      transform: translateY(-50%);
+      left: 50%;
+      transform: translate(-50%, -50%);
       z-index: 0;
-      opacity: 0.18;
       pointer-events: none;
     }
 
-    /* BANANA SCALE - positioned near asteroid */
-    .banana-scale-wrap {
+    /* Tiny banana perched in bottom-right of the asteroid */
+    .banana-perch {
       position: absolute;
-      z-index: 1;
-      pointer-events: none;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+    .banana-label {
+      font-size: 9px;
+      color: rgba(245,200,66,0.6);
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
     }
 
+    /* Content sits on top */
     .asteroid-inner {
-      position: relative; z-index: 2;
-      max-width: 620px;
+      position: relative;
+      z-index: 2;
+      max-width: 580px;
       margin: 0 auto;
-      padding: 4rem 2rem;
+      padding: 5rem 2rem;
       width: 100%;
     }
 
-    .asteroid-number {
-      font-family: 'Space Mono', monospace; font-size: 11px;
-      letter-spacing: 0.2em; color: var(--accent);
-      text-transform: uppercase; margin-bottom: 0.6rem;
-    }
-
-    .asteroid-official-name {
-      font-family: 'Space Mono', monospace;
-      font-size: clamp(20px, 4vw, 32px); font-weight: 700;
-      color: var(--text); line-height: 1.2; margin-bottom: 0.3rem;
-    }
-
-    .asteroid-nickname {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px; font-style: italic;
-      color: var(--banana); margin-bottom: 0.4rem;
-      opacity: 0.9;
-    }
+    .asteroid-number { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.6rem; }
+    .asteroid-official-name { font-family: 'Space Mono', monospace; font-size: clamp(22px, 5vw, 38px); font-weight: 700; line-height: 1.2; margin-bottom: 0.3rem; }
+    .asteroid-nickname { font-size: 16px; font-style: italic; color: var(--banana); margin-bottom: 0.4rem; }
     .asteroid-nickname span { color: var(--text-faint); font-style: normal; font-size: 13px; }
-
-    .asteroid-discovery {
-      font-size: 12px; color: var(--text-faint);
-      font-family: 'Space Mono', monospace; letter-spacing: 0.1em;
-      margin-bottom: 1.75rem;
-    }
+    .asteroid-discovery { font-size: 11px; color: var(--text-faint); font-family: 'Space Mono', monospace; letter-spacing: 0.1em; margin-bottom: 1.75rem; }
 
     .asteroid-meta {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
       gap: 1px;
       background: rgba(255,255,255,0.06);
       border-radius: 8px; overflow: hidden;
       margin-bottom: 1.75rem;
     }
-    .meta-item { background: rgba(14,18,48,0.85); padding: 0.9rem 1.1rem; }
-    .meta-label {
-      font-size: 10px; letter-spacing: 0.15em; color: var(--text-faint);
-      text-transform: uppercase; font-family: 'Space Mono', monospace; margin-bottom: 0.35rem;
-    }
+    .meta-item { background: rgba(7,9,26,0.75); backdrop-filter: blur(4px); padding: 0.85rem 1rem; }
+    .meta-label { font-size: 10px; letter-spacing: 0.15em; color: var(--text-faint); text-transform: uppercase; font-family: 'Space Mono', monospace; margin-bottom: 0.35rem; }
     .meta-value { font-family: 'Space Mono', monospace; font-size: 15px; color: var(--text); font-weight: 700; }
     .meta-value.banana-val { color: var(--banana); }
-    .meta-value.danger-val { color: #E24B4A; }
 
     .summary-text {
-      font-size: 15px; line-height: 1.9;
-      color: rgba(232,228,216,0.78);
-      font-style: italic;
-      border-left: 2px solid var(--accent);
-      padding-left: 1.25rem;
-      margin-bottom: 1.5rem;
+      font-size: 15px; line-height: 1.9; color: rgba(232,228,216,0.82);
+      font-style: italic; border-left: 2px solid var(--accent);
+      padding-left: 1.25rem; margin-bottom: 1.5rem;
+      background: rgba(7,9,26,0.5);
+      border-radius: 0 6px 6px 0;
+      padding: 0.75rem 1rem 0.75rem 1.25rem;
+      backdrop-filter: blur(6px);
     }
 
     .hazard-badge {
@@ -187,18 +136,10 @@
       font-size: 11px; font-family: 'Space Mono', monospace; letter-spacing: 0.1em;
     }
     .hazard-yes { background: rgba(226,75,74,0.15); color: #E24B4A; border: 1px solid rgba(226,75,74,0.3); }
-    .hazard-no { background: rgba(255,255,255,0.05); color: var(--text-faint); border: 1px solid rgba(255,255,255,0.08); }
+    .hazard-no { background: rgba(7,9,26,0.5); color: var(--text-faint); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(4px); }
 
-    /* FOOTER */
-    .site-footer {
-      position: relative; z-index: 2;
-      padding: 3rem 2rem; text-align: center;
-      border-top: 1px solid rgba(255,255,255,0.04);
-    }
-    .footer-text {
-      font-size: 12px; color: var(--text-faint);
-      font-family: 'Space Mono', monospace; letter-spacing: 0.08em; line-height: 2;
-    }
+    .site-footer { position: relative; z-index: 2; padding: 3rem 2rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.04); }
+    .footer-text { font-size: 12px; color: var(--text-faint); font-family: 'Space Mono', monospace; letter-spacing: 0.08em; line-height: 2; }
     .footer-text a { color: var(--accent); text-decoration: none; }
   </style>
 </head>
@@ -221,7 +162,7 @@
   <section class="hero">
     <div class="hero-eyebrow">Daily Near-Earth Object Report</div>
     <h1 class="hero-title">Today's <span>Asteroids</span>,<br>in Bananas</h1>
-    <p class="hero-sub">Three near-Earth objects passing today, ranked by scientific interest. Official NASA names. Sizes expressed in bananas. The bananas are to scale.</p>
+    <p class="hero-sub">Three near-Earth objects passing today, ranked by scientific interest. Sizes expressed in bananas. The bananas are to scale.</p>
     <div class="scroll-hint">scroll to begin</div>
   </section>
 
@@ -231,93 +172,96 @@
     <div class="footer-text">
       Data: <a href="https://api.nasa.gov" target="_blank">NASA NeoWs API</a> &nbsp;|&nbsp;
       Nicknames + summaries: Claude &nbsp;|&nbsp;
-      1 banana = 18cm &nbsp;|&nbsp;
-      Refreshed daily<br>
+      1 banana = 18cm &nbsp;|&nbsp; Refreshed daily<br>
       <a href="index.html">shelbycorbitt.com</a>
     </div>
   </footer>
 </div>
 
 <script>
-const CACHE_KEY = 'banana_v2_data';
-const CACHE_DATE_KEY = 'banana_v2_date';
+const CACHE_KEY = 'banana_v3_data';
+const CACHE_DATE_KEY = 'banana_v3_date';
 
 function drawStars() {
   const svg = document.getElementById('starsSvg');
-  const w = window.innerWidth, h = window.innerHeight * 3;
+  const w = window.innerWidth, h = window.innerHeight * 4;
   let html = '';
-  for (let i = 0; i < 300; i++) {
-    const x = Math.random() * w;
-    const y = Math.random() * h;
+  for (let i = 0; i < 350; i++) {
+    const x = Math.random() * w, y = Math.random() * h;
     const r = Math.random() * 1.3 + 0.2;
-    const op = Math.random() * 0.55 + 0.08;
+    const op = Math.random() * 0.5 + 0.08;
     html += `<circle cx="${x}" cy="${y}" r="${r}" fill="white" opacity="${op}"/>`;
   }
   svg.innerHTML = html;
 }
 
 function makeAsteroidSvg(diamM) {
-  // Scale asteroid illustration: max 400px for huge ones, min 120px
-  const size = Math.min(500, Math.max(120, (diamM / 800) * 500 + 80));
-  const cx = size / 2, cy = size / 2;
-  const rx = size * 0.44, ry = size * 0.38;
+  // Asteroid fills the viewport — always big, scales with actual diameter
+  const vw = Math.min(window.innerWidth, 900);
+  const minSize = vw * 0.7;
+  const maxSize = vw * 1.4;
+  const size = Math.min(maxSize, Math.max(minSize, minSize + (diamM / 500) * (maxSize - minSize)));
 
-  // Generate bumpy asteroid outline using path
-  const bumps = 14;
-  const points = [];
+  const cx = size / 2, cy = size / 2;
+  const rx = size * 0.42, ry = size * 0.38;
+
+  // Bumpy outline
+  const bumps = 18;
+  const pts = [];
   for (let i = 0; i < bumps; i++) {
     const angle = (i / bumps) * Math.PI * 2;
-    const jitter = 0.82 + Math.sin(i * 3.7) * 0.12 + Math.cos(i * 2.1) * 0.07;
-    const x = cx + Math.cos(angle) * rx * jitter;
-    const y = cy + Math.sin(angle) * ry * jitter;
-    points.push([x, y]);
+    const jitter = 0.78 + Math.sin(i * 4.1 + 1.3) * 0.14 + Math.cos(i * 2.7 + 0.5) * 0.08;
+    pts.push([cx + Math.cos(angle) * rx * jitter, cy + Math.sin(angle) * ry * jitter]);
   }
-
-  // Smooth path through points
-  let d = `M ${points[0][0]} ${points[0][1]}`;
-  for (let i = 0; i < points.length; i++) {
-    const next = points[(i + 1) % points.length];
-    const mx = (points[i][0] + next[0]) / 2;
-    const my = (points[i][1] + next[1]) / 2;
-    d += ` Q ${points[i][0]} ${points[i][1]} ${mx} ${my}`;
+  let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  for (let i = 0; i < pts.length; i++) {
+    const n = pts[(i + 1) % pts.length];
+    const mx = ((pts[i][0] + n[0]) / 2).toFixed(1);
+    const my = ((pts[i][1] + n[1]) / 2).toFixed(1);
+    d += ` Q ${pts[i][0].toFixed(1)} ${pts[i][1].toFixed(1)} ${mx} ${my}`;
   }
   d += ' Z';
 
-  // Crater positions
+  // Craters
   const craters = [
-    { cx: cx * 0.7, cy: cy * 0.75, r: size * 0.06 },
-    { cx: cx * 1.3, cy: cy * 0.6, r: size * 0.04 },
-    { cx: cx * 0.85, cy: cy * 1.25, r: size * 0.05 },
-    { cx: cx * 1.1, cy: cy * 1.1, r: size * 0.03 },
+    { x: cx*0.65, y: cy*0.72, r: size*0.055 },
+    { x: cx*1.28, y: cy*0.58, r: size*0.038 },
+    { x: cx*0.82, y: cy*1.22, r: size*0.048 },
+    { x: cx*1.12, y: cy*1.08, r: size*0.028 },
+    { x: cx*0.5,  y: cy*1.1,  r: size*0.032 },
+    { x: cx*1.3,  y: cy*1.2,  r: size*0.022 },
   ];
+  const craterSvg = craters.map(c => `
+    <ellipse cx="${c.x.toFixed(1)}" cy="${c.y.toFixed(1)}" rx="${c.r.toFixed(1)}" ry="${(c.r*0.6).toFixed(1)}" fill="rgba(0,0,0,0.3)"/>
+    <ellipse cx="${(c.x-c.r*0.15).toFixed(1)}" cy="${(c.y-c.r*0.15).toFixed(1)}" rx="${(c.r*0.75).toFixed(1)}" ry="${(c.r*0.4).toFixed(1)}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  `).join('');
 
-  const craterSvg = craters.map(c =>
-    `<ellipse cx="${c.cx}" cy="${c.cy}" rx="${c.r}" ry="${c.r * 0.6}" fill="rgba(0,0,0,0.35)" />
-     <ellipse cx="${c.cx - c.r*0.2}" cy="${c.cy - c.r*0.2}" rx="${c.r * 0.8}" ry="${c.r * 0.45}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>`
-  ).join('');
+  const gradId = `ag${Math.floor(Math.random()*9999)}`;
 
-  return { svg: `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="agrad${Math.round(size)}" cx="35%" cy="35%" r="65%">
-        <stop offset="0%" stop-color="#6B6055"/>
-        <stop offset="60%" stop-color="#3D3530"/>
-        <stop offset="100%" stop-color="#1A1510"/>
-      </radialGradient>
-    </defs>
-    <path d="${d}" fill="url(#agrad${Math.round(size)})" />
-    <path d="${d}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1.5"/>
-    ${craterSvg}
-    <ellipse cx="${cx * 0.65}" cy="${cy * 0.6}" rx="${rx * 0.35}" ry="${ry * 0.15}" fill="rgba(255,255,255,0.06)"/>
-  </svg>`, size };
+  return {
+    svg: `<svg width="${size.toFixed(0)}" height="${size.toFixed(0)}" viewBox="0 0 ${size.toFixed(0)} ${size.toFixed(0)}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="${gradId}" cx="32%" cy="30%" r="70%">
+          <stop offset="0%" stop-color="#7A6E62"/>
+          <stop offset="45%" stop-color="#4A4038"/>
+          <stop offset="100%" stop-color="#16120E"/>
+        </radialGradient>
+      </defs>
+      <path d="${d}" fill="url(#${gradId})"/>
+      <path d="${d}" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2"/>
+      ${craterSvg}
+      <ellipse cx="${(cx*0.62).toFixed(0)}" cy="${(cy*0.55).toFixed(0)}" rx="${(rx*0.28).toFixed(0)}" ry="${(ry*0.12).toFixed(0)}" fill="rgba(255,255,255,0.05)"/>
+    </svg>`,
+    size
+  };
 }
 
-function makeBananaSvg(heightPx) {
-  const h = Math.max(8, heightPx);
+function makeBananaSvg(h) {
   const w = h * 0.42;
-  return `<svg width="${Math.round(w)}" height="${Math.round(h)}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
-    <path d="M${w*0.5},${h} Q${w*0.95},${h*0.65} ${w*0.75},${h*0.18} Q${w*0.55},0 ${w*0.32},${h*0.12} Q${w*0.1},${h*0.48} ${w*0.5},${h}" fill="#F5C842"/>
-    <path d="M${w*0.32},${h*0.12} Q${w*0.44},${h*0.06} ${w*0.75},${h*0.18}" stroke="#B8920A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <path d="M${w*0.52},${h*0.95} Q${w*0.85},${h*0.62} ${w*0.72},${h*0.22}" stroke="rgba(0,0,0,0.15)" stroke-width="${Math.max(1,w*0.06)}" fill="none" stroke-linecap="round"/>
+  return `<svg width="${w.toFixed(0)}" height="${h.toFixed(0)}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <path d="M${w*.5},${h} Q${w*.95},${h*.65} ${w*.75},${h*.18} Q${w*.55},0 ${w*.32},${h*.12} Q${w*.1},${h*.48} ${w*.5},${h}" fill="#F5C842"/>
+    <path d="M${w*.32},${h*.12} Q${w*.44},${h*.06} ${w*.75},${h*.18}" stroke="#B8920A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M${w*.52},${h*.92} Q${w*.85},${h*.62} ${w*.72},${h*.22}" stroke="rgba(0,0,0,0.12)" stroke-width="${Math.max(1,w*.05)}" fill="none" stroke-linecap="round"/>
   </svg>`;
 }
 
@@ -328,35 +272,33 @@ function renderAsteroids(data) {
   }).toUpperCase();
 
   const container = document.getElementById('asteroidsContainer');
-  const ordinals = ['First', 'Second', 'Third'];
+  const ordinals = ['First','Second','Third'];
 
   container.innerHTML = data.asteroids.map((a, i) => {
-    const { svg: asteroidSvg, size: asteroidSize } = makeAsteroidSvg(a.diameter_m);
+    const { svg: astSvg, size: astSize } = makeAsteroidSvg(a.diameter_m);
 
-    // Banana size: if asteroid is 100px wide on screen, banana = 100 * (0.18 / diameter_m) px
-    // We show banana at a fixed display scale relative to asteroid illustration
-    const asteroidDisplaySize = Math.min(500, Math.max(120, (a.diameter_m / 800) * 500 + 80));
-    const bananaPx = Math.max(6, (0.18 / a.diameter_m) * asteroidDisplaySize);
+    // Banana size: mathematically correct relative to asteroid display size
+    // asteroid display = astSize px = a.diameter_m meters
+    // banana = 0.18m → (0.18 / a.diameter_m) * astSize px
+    const bananaPx = Math.max(6, Math.min(60, (0.18 / a.diameter_m) * astSize));
     const bananaSvg = makeBananaSvg(bananaPx);
 
-    const bgTints = [
-      'radial-gradient(ellipse at 75% 50%, rgba(100,75,50,0.12) 0%, transparent 55%)',
-      'radial-gradient(ellipse at 70% 40%, rgba(50,70,110,0.1) 0%, transparent 55%)',
-      'radial-gradient(ellipse at 80% 55%, rgba(70,90,60,0.1) 0%, transparent 55%)'
-    ];
+    // Perch banana at bottom-right of the asteroid circle
+    // Asteroid is centered in the section, offset slightly right
+    // Banana sits just below the right edge of the asteroid
+    const perchRight = `calc(50% - ${(astSize * 0.52).toFixed(0)}px - 30px)`;
+    const perchBottom = `calc(50% - ${(astSize * 0.48).toFixed(0)}px)`;
 
     return `
-    <section class="asteroid-section" style="background:${bgTints[i]};">
+    <section class="asteroid-section">
 
-      <div class="asteroid-illustration" style="width:${asteroidSize}px; height:${asteroidSize}px;">
-        ${asteroidSvg}
+      <div class="asteroid-bg-illustration" style="opacity: 0.22; width:${astSize.toFixed(0)}px; height:${astSize.toFixed(0)}px;">
+        ${astSvg}
       </div>
 
-      <div class="banana-scale-wrap" style="right: calc(5% + ${asteroidSize * 0.05}px); top: 50%; transform: translateY(-50%) translateY(${asteroidSize * 0.15}px);">
-        <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-          ${bananaSvg}
-          <span style="font-size:9px; color:rgba(245,200,66,0.5); font-family:'Space Mono',monospace; letter-spacing:0.08em; writing-mode:vertical-rl; text-orientation:mixed;">← to scale</span>
-        </div>
+      <div class="banana-perch" style="right:${perchRight}; bottom:${perchBottom}; transform: none;">
+        ${bananaSvg}
+        <div class="banana-label">← to scale</div>
       </div>
 
       <div class="asteroid-inner">
@@ -427,7 +369,7 @@ async function loadData() {
       localStorage.setItem(CACHE_DATE_KEY, today);
       renderAsteroids(data);
     } else {
-      document.querySelector('.load-sub').textContent = 'No asteroids found for today. The universe is taking a day off.';
+      document.querySelector('.load-sub').textContent = 'No asteroids found today. The universe is taking a day off.';
     }
   } catch (err) {
     document.querySelector('.load-sub').textContent = 'Failed to load. The asteroid belt is unavailable.';
