@@ -283,12 +283,6 @@ function renderAsteroids(data) {
     const bananaPx = Math.max(6, Math.min(60, (0.18 / a.diameter_m) * astSize));
     const bananaSvg = makeBananaSvg(bananaPx);
 
-    // Place banana in bottom-right quadrant of the asteroid, clearly on its surface
-    // Asteroid is centered. Bottom-right edge of asteroid is at cx + rx*0.7, cy + ry*0.7
-    // We position banana so it sits right on the edge, with arrow pointing left into the rock
-    const perchRight = `calc(50% - ${(astSize * 0.28).toFixed(0)}px)`;
-    const perchTop = `calc(50% + ${(astSize * 0.28).toFixed(0)}px)`;
-
     return `
     <section class="asteroid-section">
 
@@ -296,11 +290,9 @@ function renderAsteroids(data) {
         ${astSvg}
       </div>
 
-      <div class="banana-perch" style="right:${perchRight}; top:${perchTop};">
-        <div style="display:flex; align-items:center; gap:6px;">
-          <span style="font-size:11px; color:rgba(245,200,66,0.7); font-family:'Space Mono',monospace; letter-spacing:0.06em;">🍌 banana</span>
-          ${bananaSvg}
-        </div>
+      <div style="position:absolute; bottom:2rem; right:2rem; z-index:3; display:flex; flex-direction:column; align-items:center; gap:5px;">
+        ${bananaSvg}
+        <div style="font-size:11px; color:rgba(245,200,66,0.7); font-family:'Space Mono',monospace; letter-spacing:0.06em;">🍌 banana</div>
       </div>
 
       <div class="asteroid-inner">
