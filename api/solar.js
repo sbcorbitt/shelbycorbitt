@@ -12,12 +12,24 @@ export default async function handler(req, res) {
     const today = new Date().toISOString().split('T')[0];
     const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
 
-    const [flareRes, cmeRes] = await Promise.all([
-      fetch(`https://api.nasa.gov/DONKI/FLR?startDate=${yesterday}&endDate=${today}&api_key=${NASA_KEY}`),
-      fetch(`https://api.nasa.gov/DONKI/CME?startDate=${yesterday}&endDate=${today}&api_key=${NASA_KEY}`)
-    ]);
-    const flares = await flareRes.json();
-    const cmes = await cmeRes.json();
+    // Fetch with timeout — DONKI can be slow
+    const fetchWithTimeout = (url, ms = 8000) => {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), ms);
+      return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timeout));
+    };
+
+    let flares = [], cmes = [];
+    try {
+      const [flareRes, cmeRes] = await Promise.all([
+        fetchWithTimeout(`https://api.nasa.gov/DONKI/FLR?startDate=${yesterday}&endDate=${today}&api_key=${NASA_KEY}`),
+        fetchWithTimeout(`https://api.nasa.gov/DONKI/CME?startDate=${yesterday}&endDate=${today}&api_key=${NASA_KEY}`)
+      ]);
+      flares = await flareRes.json();
+      cmes = await cmeRes.json();
+    } catch (e) {
+      // NASA API timed out or failed — proceed with empty data (quiet sun)
+    }
 
     const classScore = { 'A': 1, 'B': 2, 'C': 3, 'M': 4, 'X': 5 };
     let peakScore = 0;
