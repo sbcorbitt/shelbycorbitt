@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Banana Asteroid</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --space: #07091A;
+      --space-mid: #0E1230;
+      --text: #E8E4D8;
+      --text-dim: rgba(232,228,216,0.5);
+      --text-faint: rgba(232,228,216,0.25);
+      --accent: #C4845A;
+      --accent-dim: rgba(196,132,90,0.2);
+      --banana: #F5C842;
+      --banana-dim: rgba(245,200,66,0.15);
+      --danger: #E24B4A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--space);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* LOADING */
+    #loading {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    .load-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 18px;
+      color: var(--banana);
+      letter-spacing: 0.15em;
+    }
+    .load-sub {
+      font-size: 13px;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+    .load-bar {
+      width: 200px;
+      height: 2px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .load-fill {
+      height: 100%;
+      background: var(--banana);
+      animation: loadAnim 2s ease infinite;
+    }
+    @keyframes loadAnim {
+      0% { width: 0%; margin-left: 0; }
+      50% { width: 60%; margin-left: 20%; }
+      100% { width: 0%; margin-left: 100%; }
+    }
+
+    /* HEADER */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(7,9,26,0.95), transparent);
+    }
+    .site-logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      color: var(--banana);
+      letter-spacing: 0.12em;
+      text-decoration: none;
+    }
+    .site-date {
+      font-size: 12px;
+      color: var(--text-dim);
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.08em;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 50vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 3rem;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .hero-title {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(32px, 8vw, 64px);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .hero-title span { color: var(--banana); }
+    .hero-sub {
+      font-size: 15px;
+      color: var(--text-dim);
+      max-width: 440px;
+      line-height: 1.7;
+    }
+    .scroll-hint {
+      margin-top: 3rem;
+      font-size: 12px;
+      color: var(--text-faint);
+      letter-spacing: 0.15em;
+      font-family: 'Space Mono', monospace;
+      animation: fadeUpDown 2s ease infinite;
+    }
+    @keyframes fadeUpDown {
+      0%, 100% { opacity: 0.3; transform: translateY(0); }
+      50% { opacity: 0.7; transform: translateY(4px); }
+    }
+
+    /* ASTEROID SECTIONS */
+    .asteroid-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .asteroid-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .asteroid-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .asteroid-number {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .asteroid-name {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(22px, 5vw, 38px);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .asteroid-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .meta-item {
+      background: rgba(14,18,48,0.8);
+      padding: 1rem 1.25rem;
+    }
+
+    .meta-label {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 0.4rem;
+    }
+
+    .meta-value {
+      font-family: 'Space Mono', monospace;
+      font-size: 16px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .meta-value.banana-val { color: var(--banana); }
+    .meta-value.danger-val { color: var(--danger); }
+
+    /* SCALE VIZ */
+    .scale-section {
+      margin-bottom: 2rem;
+    }
+
+    .scale-label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 0.75rem;
+    }
+
+    .scale-viz {
+      display: flex;
+      align-items: flex-end;
+      gap: 20px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+      padding: 1.5rem;
+      min-height: 120px;
+      overflow: hidden;
+    }
+
+    .scale-asteroid { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .scale-banana { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .scale-name { font-size: 10px; color: var(--text-dim); font-family: 'Space Mono', monospace; letter-spacing: 0.1em; }
+
+    /* SUMMARY */
+    .summary-text {
+      font-size: 16px;
+      line-height: 1.85;
+      color: rgba(232,228,216,0.8);
+      font-style: italic;
+      border-left: 2px solid var(--accent);
+      padding-left: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hazard-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.1em;
+    }
+    .hazard-yes { background: rgba(226,75,74,0.15); color: var(--danger); border: 1px solid rgba(226,75,74,0.3); }
+    .hazard-no { background: rgba(255,255,255,0.05); color: var(--text-faint); border: 1px solid rgba(255,255,255,0.08); }
+
+    /* FOOTER */
+    .site-footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .footer-text {
+      font-size: 12px;
+      color: var(--text-faint);
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.08em;
+      line-height: 2;
+    }
+    .footer-text a { color: var(--accent); text-decoration: none; }
+
+    /* STARS BG */
+    .stars-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+<div class="stars-layer">
+  <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" id="starsSvg"></svg>
+</div>
+
+<div id="loading">
+  <div class="load-title">BANANA ASTEROID</div>
+  <div class="load-bar"><div class="load-fill"></div></div>
+  <div class="load-sub">consulting the asteroid belt</div>
+</div>
+
+<div id="main" style="display:none;">
+  <header class="site-header">
+    <a class="site-logo" href="index.html">← BANANA ASTEROID</a>
+    <div class="site-date" id="headerDate"></div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-eyebrow">Daily Near-Earth Object Report</div>
+    <h1 class="hero-title">Today's <span>Asteroids</span>,<br>in Bananas</h1>
+    <p class="hero-sub">Three near-Earth objects, ranked by scientific interest. Sizes expressed in bananas for scale. All data from NASA JPL.</p>
+    <div class="scroll-hint">scroll to begin</div>
+  </section>
+
+  <div id="asteroidsContainer"></div>
+
+  <footer class="site-footer">
+    <div class="footer-text">
+      Data: <a href="https://api.nasa.gov" target="_blank">NASA NeoWs API</a> &nbsp;|&nbsp;
+      Summaries: Claude &nbsp;|&nbsp;
+      1 banana = 18cm &nbsp;|&nbsp;
+      Updated daily<br>
+      <a href="index.html">shelbycorbitt.com</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+const CACHE_KEY = 'banana_asteroid_cache';
+const CACHE_DATE_KEY = 'banana_asteroid_date';
+
+function drawStars() {
+  const svg = document.getElementById('starsSvg');
+  const w = window.innerWidth, h = window.innerHeight;
+  let html = '';
+  for (let i = 0; i < 180; i++) {
+    const x = Math.random() * w;
+    const y = Math.random() * h;
+    const r = Math.random() * 1.2 + 0.3;
+    const op = Math.random() * 0.5 + 0.1;
+    html += `<circle cx="${x}" cy="${y}" r="${r}" fill="white" opacity="${op}"/>`;
+  }
+  svg.innerHTML = html;
+}
+
+function asteroidSvg(diamM, color) {
+  const maxH = 80;
+  const minH = 12;
+  const h = Math.min(maxH, Math.max(minH, (diamM / 500) * maxH));
+  const w = h * (0.7 + Math.random() * 0.4);
+  const cx = w / 2 + 4, cy = h / 2 + 4;
+  const rx = w / 2, ry = h / 2;
+  return `<svg width="${w+8}" height="${h+8}" viewBox="0 0 ${w+8} ${h+8}" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${color}" opacity="0.85"/>
+    <ellipse cx="${cx - rx*0.25}" cy="${cy - ry*0.2}" rx="${rx*0.15}" ry="${ry*0.1}" fill="rgba(0,0,0,0.25)"/>
+    <ellipse cx="${cx + rx*0.2}" cy="${cy + ry*0.25}" rx="${rx*0.1}" ry="${ry*0.08}" fill="rgba(0,0,0,0.2)"/>
+    <ellipse cx="${cx - rx*0.1}" cy="${cy - ry*0.35}" rx="${rx*0.3}" ry="${ry*0.12}" fill="rgba(255,255,255,0.08)"/>
+  </svg>`;
+}
+
+function bananaSvg(height) {
+  const h = Math.min(80, Math.max(14, height));
+  const w = h * 0.38;
+  return `<svg width="${w+4}" height="${h+4}" viewBox="0 0 ${w+4} ${h+4}" xmlns="http://www.w3.org/2000/svg">
+    <path d="M${w/2+2},${h+2} Q${w+2},${h*0.6} ${w*0.7+2},${h*0.2} Q${w*0.5+2},2 ${w*0.3+2},${h*0.15} Q${w*0.1+2},${h*0.5} ${w/2+2},${h+2}" fill="#F5C842" opacity="0.9"/>
+    <path d="M${w*0.3+2},${h*0.15} Q${w*0.4+2},${h*0.08} ${w*0.7+2},${h*0.2}" stroke="#D4A017" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  </svg>`;
+}
+
+function buildScaleViz(diamM) {
+  const asteroidH = Math.min(80, Math.max(14, (diamM / 600) * 80));
+  const bananaH = 36;
+  const asteroidColors = ['#8A7A6E','#6B7A8A','#7A8A6B'];
+  const color = asteroidColors[Math.floor(Math.random() * asteroidColors.length)];
+  return `
+    <div class="scale-viz">
+      <div class="scale-asteroid">
+        ${asteroidSvg(diamM, color)}
+        <div class="scale-name">${diamM}m</div>
+      </div>
+      <div style="font-size:13px; color:rgba(232,228,216,0.25); align-self:center; font-family:'Space Mono',monospace;">vs</div>
+      <div class="scale-banana">
+        ${bananaSvg(bananaH)}
+        <div class="scale-name">0.18m</div>
+      </div>
+    </div>`;
+}
+
+function formatDate(str) {
+  if (!str) return '';
+  const d = new Date(str);
+  return isNaN(d) ? str : d.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
+}
+
+function renderAsteroids(data) {
+  document.getElementById('headerDate').textContent = formatDate(data.date).toUpperCase();
+
+  const container = document.getElementById('asteroidsContainer');
+  const ordinals = ['First', 'Second', 'Third'];
+  const bgColors = [
+    'radial-gradient(ellipse at 80% 50%, rgba(100,80,60,0.08) 0%, transparent 60%)',
+    'radial-gradient(ellipse at 20% 60%, rgba(60,80,110,0.08) 0%, transparent 60%)',
+    'radial-gradient(ellipse at 60% 30%, rgba(80,100,70,0.07) 0%, transparent 60%)'
+  ];
+
+  container.innerHTML = data.asteroids.map((a, i) => `
+    <section class="asteroid-section">
+      <div class="asteroid-bg" style="background:${bgColors[i]};"></div>
+      <div class="asteroid-inner">
+        <div class="asteroid-number">${ordinals[i]} Object &mdash; ${i + 1} of 3</div>
+        <h2 class="asteroid-name">${a.name}</h2>
+
+        <div class="asteroid-meta">
+          <div class="meta-item">
+            <div class="meta-label">Diameter</div>
+            <div class="meta-value">${a.diameter_m.toLocaleString()}m</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">In Bananas</div>
+            <div class="meta-value banana-val">${a.bananas.toLocaleString()}</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Distance</div>
+            <div class="meta-value">${a.distance_km.toLocaleString()} km</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Lunar Distances</div>
+            <div class="meta-value">${a.distance_moon}</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Velocity</div>
+            <div class="meta-value">${a.velocity_kms} km/s</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Approach</div>
+            <div class="meta-value" style="font-size:12px;">${a.approach_date}</div>
+          </div>
+        </div>
+
+        <div class="scale-section">
+          <div class="scale-label">Size comparison</div>
+          ${buildScaleViz(a.diameter_m)}
+        </div>
+
+        <blockquote class="summary-text">${a.summary}</blockquote>
+
+        <div>
+          <span class="hazard-badge ${a.hazardous ? 'hazard-yes' : 'hazard-no'}">
+            ${a.hazardous ? 'Potentially hazardous' : 'Not hazardous'}
+          </span>
+        </div>
+      </div>
+    </section>
+  `).join('');
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('main').style.display = 'block';
+}
+
+async function loadData() {
+  const today = new Date().toISOString().split('T')[0];
+  const cached = localStorage.getItem(CACHE_KEY);
+  const cachedDate = localStorage.getItem(CACHE_DATE_KEY);
+
+  if (cached && cachedDate === today) {
+    renderAsteroids(JSON.parse(cached));
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/banana-asteroid', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'fetch' })
+    });
+    const data = await res.json();
+    if (data.asteroids && data.asteroids.length) {
+      localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+      localStorage.setItem(CACHE_DATE_KEY, today);
+      renderAsteroids(data);
+    } else {
+      document.querySelector('.load-sub').textContent = 'No asteroids found today. Try again tomorrow.';
+    }
+  } catch (err) {
+    document.querySelector('.load-sub').textContent = 'Failed to load asteroid data.';
+  }
+}
+
+drawStars();
+loadData();
+</script>
+</body>
+</html>
