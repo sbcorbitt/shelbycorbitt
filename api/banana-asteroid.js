@@ -11,19 +11,16 @@ export default async function handler(req, res) {
     const NASA_KEY = process.env.NASA_API_KEY || 'DEMO_KEY';
     const today = new Date().toISOString().split('T')[0];
 
-    // Fetch NEO data from NASA
     const neoRes = await fetch(
       `https://api.nasa.gov/neo/rest/v1/feed?start_date=${today}&end_date=${today}&api_key=${NASA_KEY}`
     );
     const neoData = await neoRes.json();
-
     const allAsteroids = Object.values(neoData.near_earth_objects || {}).flat();
 
     if (!allAsteroids.length) {
       return res.status(200).json({ asteroids: [], date: today });
     }
 
-    // Score each asteroid for interestingness
     const scored = allAsteroids.map(a => {
       const approach = a.close_approach_data?.[0];
       const distKm = parseFloat(approach?.miss_distance?.kilometers || '999999999');
@@ -36,34 +33,31 @@ export default async function handler(req, res) {
     scored.sort((a, b) => b.score - a.score);
     const top3 = scored.slice(0, 3);
 
-    // Format asteroid data
     const asteroids = top3.map(({ raw, distKm, diamMax, velocity }) => {
       const approach = raw.close_approach_data?.[0];
       const diamMin = raw.estimated_diameter?.meters?.estimated_diameter_min || 0;
       const avgDiam = (diamMin + diamMax) / 2;
-      const bananas = Math.round(avgDiam / 0.18); // avg banana ~18cm
-      const approachDate = approach?.close_approach_date_full || today;
+      const bananas = Math.round(avgDiam / 0.18);
+      const discoveryYear = raw.name.match(/\d{4}/)?.[0] || '';
       return {
         name: raw.name.replace(/[()]/g, '').trim(),
-        id: raw.id,
+        discovery_year: discoveryYear,
         diameter_m: Math.round(avgDiam),
         bananas,
         distance_km: Math.round(distKm),
         distance_moon: parseFloat((distKm / 384400).toFixed(2)),
         velocity_kms: parseFloat(velocity.toFixed(1)),
-        approach_date: approachDate,
-        hazardous: raw.is_potentially_hazardous_asteroid,
-        nasa_url: raw.nasa_jpl_url
+        approach_date: approach?.close_approach_date_full || today,
+        hazardous: raw.is_potentially_hazardous_asteroid
       };
     });
 
-    // Generate deadpan summaries with Claude
     const summaryPrompt = asteroids.map((a, i) =>
       `Asteroid ${i + 1}: ${a.name}
-Diameter: ${a.diameter_m}m (${a.bananas.toLocaleString()} bananas)
+Diameter: ${a.diameter_m}m (${a.bananas.toLocaleString()} bananas end to end)
 Distance: ${a.distance_km.toLocaleString()} km (${a.distance_moon} lunar distances)
 Velocity: ${a.velocity_kms} km/s
-Potentially hazardous: ${a.hazardous ? 'Yes' : 'No'}`
+Hazardous: ${a.hazardous ? 'Yes' : 'No'}`
     ).join('\n\n');
 
     const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
@@ -75,31 +69,34 @@ Potentially hazardous: ${a.hazardous ? 'Yes' : 'No'}`
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 600,
+        max_tokens: 800,
         messages: [{
           role: 'user',
-          content: `Write deadpan scientific summaries for 3 near-Earth asteroids. Rules:
-- No emojis
-- No exclamation points
-- Understatement as humor
-- Facts first, then dry commentary
-- Use banana as a legitimate unit of measurement where natural
-- 2-3 sentences each
-- Tone: like a bored scientist filing a routine report
+          content: `You are writing content for "Banana Asteroid" — a deadpan daily asteroid tracker where everything is measured in bananas.
+
+For each of the 3 asteroids below, provide:
+1. A ridiculous banana-themed nickname (e.g. "The Big Peel", "Slightly Concerning Fruit", "Banana Hammock 9000") — funny but not try-hard
+2. A 2-3 sentence deadpan scientific summary. Rules: no emojis, no exclamation points, understatement as humor, treat bananas as a legitimate scientific unit, tone like a bored scientist filing routine paperwork
 
 ${summaryPrompt}
 
-Return ONLY a JSON array of 3 strings, one per asteroid, no markdown:
-["summary1","summary2","summary3"]`
+Return ONLY valid JSON, no markdown:
+[
+  {"nickname": "...", "summary": "..."},
+  {"nickname": "...", "summary": "..."},
+  {"nickname": "...", "summary": "..."}
+]`
         }]
       })
     });
 
     const claudeData = await claudeRes.json();
-    const summaryText = claudeData.content?.[0]?.text?.trim() || '["No summary available.","No summary available.","No summary available."]';
-    const summaries = JSON.parse(summaryText);
-
-    asteroids.forEach((a, i) => { a.summary = summaries[i] || 'Summary unavailable.'; });
+    const raw = claudeData.content?.[0]?.text?.trim() || '[]';
+    const generated = JSON.parse(raw);
+    asteroids.forEach((a, i) => {
+      a.nickname = generated[i]?.nickname || 'The Unnamed One';
+      a.summary = generated[i]?.summary || 'Summary unavailable.';
+    });
 
     res.status(200).json({ asteroids, date: today });
 
