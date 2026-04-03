@@ -72,6 +72,8 @@
       transform: translate(-50%, -50%);
       z-index: 0;
       pointer-events: none;
+      -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 75%);
+      mask-image: linear-gradient(to bottom, black 30%, transparent 75%);
     }
 
     /* Tiny banana perched in bottom-right of the asteroid */
@@ -286,7 +288,7 @@ function renderAsteroids(data) {
     return `
     <section class="asteroid-section">
 
-      <div class="asteroid-bg-illustration" style="opacity: 0.22; width:${astSize.toFixed(0)}px; height:${astSize.toFixed(0)}px;">
+      <div class="asteroid-bg-illustration" style="opacity: 0.45; width:${astSize.toFixed(0)}px; height:${astSize.toFixed(0)}px; top: 50%; left: 50%; transform: translate(-50%, -55%);">
         ${astSvg}
       </div>
 
