@@ -333,8 +333,6 @@ function buildSunSvg(level) {
 }
 
 
-async function loadData() {
-
 
 async function loadData() {
   const today = new Date().toISOString().split('T')[0];
@@ -346,17 +344,28 @@ async function loadData() {
   }
 
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+
     const res = await fetch('/api/solar', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'fetch' })
+      body: JSON.stringify({ type: 'fetch' }),
+      signal: controller.signal
     });
+    clearTimeout(timeout);
     const data = await res.json();
+
+    if (data.error) throw new Error(data.error);
+
     localStorage.setItem('solar_v1_data', JSON.stringify(data));
     localStorage.setItem('solar_v1_date', today);
     render(data);
   } catch(err) {
-    document.querySelector('.load-sub').textContent = 'Could not reach the sun. It is not taking calls.';
+    const msg = err.name === 'AbortError'
+      ? 'The sun took too long to respond. Try again.'
+      : 'Could not reach the sun. It is not taking calls.';
+    document.querySelector('.load-sub').textContent = msg;
   }
 }
 
