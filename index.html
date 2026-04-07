@@ -48,276 +48,73 @@
       from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .header {
-      text-align: center;
-      margin-bottom: 2.25rem;
-    }
-    .avatar {
-      width: 76px;
-      height: 76px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin: 0 auto 1.25rem;
-      display: block;
-    }
-    .name {
-      font-family: 'Lora', serif;
-      font-size: 28px;
-      font-weight: 500;
-      color: var(--text-dark);
-      letter-spacing: -0.01em;
-      margin-bottom: 0.25rem;
-    }
-    .tagline {
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--soft-terra);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 1.25rem;
-    }
-    .bio {
-      font-family: 'Lora', serif;
-      font-size: 15px;
-      font-style: italic;
-      color: var(--text-mid);
-      line-height: 1.8;
-      max-width: 380px;
-      margin: 0 auto;
-    }
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 2rem 0;
-    }
-    .divider::before, .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-    .divider-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--soft-terra);
-      opacity: 0.5;
-    }
-    .links {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    .header { text-align: center; margin-bottom: 2.25rem; }
+    .avatar { width: 76px; height: 76px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem; display: block; }
+    .name { font-family: 'Lora', serif; font-size: 28px; font-weight: 500; color: var(--text-dark); letter-spacing: -0.01em; margin-bottom: 0.25rem; }
+    .tagline { font-size: 13px; font-weight: 400; color: var(--soft-terra); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.25rem; }
+    .bio { font-family: 'Lora', serif; font-size: 15px; font-style: italic; color: var(--text-mid); line-height: 1.8; max-width: 380px; margin: 0 auto; }
+    .divider { display: flex; align-items: center; gap: 12px; margin: 2rem 0; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .divider-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--soft-terra); opacity: 0.5; }
+    .links { display: flex; flex-direction: column; gap: 10px; }
     .link-card {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 18px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      text-decoration: none;
-      color: var(--text-dark);
+      display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px;
+      text-decoration: none; color: var(--text-dark);
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
     }
-    .link-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(107,79,58,0.10);
-      border-color: #D9C9B8;
-    }
-    .link-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
+    .link-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(107,79,58,0.10); border-color: #D9C9B8; }
+    .link-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .icon-li { background: #EBF3FB; }
-    .link-text { flex: 1; }
-    .link-label {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-dark);
-      margin-bottom: 1px;
-    }
-    .link-sub {
-      font-size: 12px;
-      color: var(--text-light);
-    }
-    .link-arrow {
-      font-size: 16px;
-      color: var(--text-light);
-      transition: transform 0.18s ease;
-    }
-    .link-card:hover .link-arrow {
-      transform: translateX(3px);
-    }
-    .currently-title {
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--soft-terra);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-    .currently-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    .currently-item {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 16px;
-    }
-    .currently-icon {
-      width: 22px;
-      height: 22px;
-      margin-bottom: 10px;
-      color: var(--soft-terra);
-    }
-    .currently-label {
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--text-light);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 3px;
-    }
-    .currently-value {
-      font-family: 'Lora', serif;
-      font-size: 13px;
-      color: var(--text-dark);
-      line-height: 1.5;
-    }
-    .thinking {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .thinking-item {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px 18px;
-    }
-    .thinking-heading {
-      font-family: 'Lora', serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-dark);
-      margin-bottom: 5px;
-    }
-    .thinking-body {
-      font-size: 13px;
-      color: var(--text-mid);
-      line-height: 1.7;
-    }
     .icon-travel { background: #EAF3DE; }
     .icon-prompt { background: #EEEDFE; }
     .icon-game { background: #FAECE7; }
     .icon-robot { background: #FFF3C4; }
-    .icon-space { background: #0A0E1A; }
     .icon-banana { background: #FFF3C4; }
+    .link-text { flex: 1; }
+    .link-label { font-size: 14px; font-weight: 500; color: var(--text-dark); margin-bottom: 1px; }
+    .link-sub { font-size: 12px; color: var(--text-light); }
+    .link-arrow { font-size: 16px; color: var(--text-light); transition: transform 0.18s ease; }
+    .link-card:hover .link-arrow { transform: translateX(3px); }
+    .currently-title { font-size: 11px; font-weight: 500; color: var(--soft-terra); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1rem; text-align: center; }
+    .currently-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .currently-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
+    .currently-icon { width: 22px; height: 22px; margin-bottom: 10px; color: var(--soft-terra); }
+    .currently-label { font-size: 11px; font-weight: 500; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; }
+    .currently-value { font-family: 'Lora', serif; font-size: 13px; color: var(--text-dark); line-height: 1.5; }
+    .thinking { display: flex; flex-direction: column; gap: 14px; }
+    .thinking-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; }
+    .thinking-heading { font-family: 'Lora', serif; font-size: 14px; font-weight: 500; color: var(--text-dark); margin-bottom: 5px; }
+    .thinking-body { font-size: 13px; color: var(--text-mid); line-height: 1.7; }
     .toggle-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 18px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-dark);
-      cursor: pointer;
-      transition: background 0.15s, border-color 0.15s;
-      text-align: left;
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px; background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; font-family: 'DM Sans', sans-serif; font-size: 14px;
+      font-weight: 500; color: var(--text-dark); cursor: pointer;
+      transition: background 0.15s, border-color 0.15s; text-align: left;
     }
-    .toggle-btn:hover {
-      background: var(--cream);
-      border-color: #D9C9B8;
-    }
-    .toggle-chevron {
-      font-size: 12px;
-      color: var(--text-light);
-      transition: transform 0.2s ease;
-      flex-shrink: 0;
-    }
+    .toggle-btn:hover { background: var(--cream); border-color: #D9C9B8; }
+    .toggle-chevron { font-size: 12px; color: var(--text-light); transition: transform 0.2s ease; flex-shrink: 0; }
     .toggle-chevron.open { transform: rotate(180deg); }
-    .collapsible {
-      overflow: hidden;
-      max-height: 0;
-      transition: max-height 0.35s ease;
-    }
-    .collapsible.open { max-height: 1200px; }
-    .collapsible-inner {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding-top: 10px;
-    }
-    .nasa-group {
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-    }
+    .collapsible { overflow: hidden; max-height: 0; transition: max-height 0.35s ease; }
+    .collapsible.open { max-height: 2000px; }
+    .collapsible-inner { display: flex; flex-direction: column; gap: 10px; padding-top: 10px; }
+    .nasa-group { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
     .nasa-toggle {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      background: rgba(10,14,26,0.04);
-      border: none;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-mid);
-      cursor: pointer;
-      text-align: left;
-      transition: background 0.15s;
+      width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+      background: rgba(10,14,26,0.04); border: none; font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 500; color: var(--text-mid); cursor: pointer;
+      text-align: left; transition: background 0.15s;
     }
     .nasa-toggle:hover { background: rgba(10,14,26,0.08); }
-    .nasa-chevron {
-      margin-left: auto;
-      font-size: 11px;
-      color: var(--text-light);
-      transition: transform 0.2s ease;
-      flex-shrink: 0;
-    }
+    .nasa-chevron { margin-left: auto; font-size: 11px; color: var(--text-light); transition: transform 0.2s ease; flex-shrink: 0; }
     .nasa-chevron.open { transform: rotate(180deg); }
-    .nasa-inner {
-      overflow: hidden;
-      max-height: 0;
-      transition: max-height 0.3s ease;
-    }
-    .nasa-inner.open { max-height: 600px; }
-    .nasa-links {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-    .nasa-links .link-card {
-      border-radius: 0;
-      border: none;
-      border-top: 1px solid var(--border);
-    }
+    .nasa-inner { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; }
+    .nasa-inner.open { max-height: 1000px; }
+    .nasa-links { display: flex; flex-direction: column; gap: 0; }
+    .nasa-links .link-card { border-radius: 0; border: none; border-top: 1px solid var(--border); }
     .nasa-links .link-card:hover { box-shadow: none; transform: none; background: var(--cream); }
-    .footer {
-      text-align: center;
-      margin-top: 2.5rem;
-      font-size: 12px;
-      color: var(--text-light);
-      letter-spacing: 0.04em;
-    }
+    .footer { text-align: center; margin-top: 2.5rem; font-size: 12px; color: var(--text-light); letter-spacing: 0.04em; }
   </style>
 </head>
 <body>
@@ -495,12 +292,25 @@
         </div>
 
         <div class="nasa-group">
-          <button class="nasa-toggle" onclick="toggleGroup(this,'aiSection')" aria-expanded="false">
-            <span>AI pages</span>
+          <button class="nasa-toggle" onclick="toggleGroup(this,'sillySection')" aria-expanded="false">
+            <span>Silly pages</span>
             <span class="nasa-chevron">▼</span>
           </button>
-          <div class="nasa-inner" id="aiSection">
+          <div class="nasa-inner" id="sillySection">
             <div class="nasa-links">
+              <a class="link-card" href="travel.html">
+                <div class="link-icon icon-travel">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/>
+                    <circle cx="12" cy="8" r="2"/>
+                  </svg>
+                </div>
+                <div class="link-text">
+                  <div class="link-label">Travel</div>
+                  <div class="link-sub">Places I've been</div>
+                </div>
+                <span class="link-arrow">→</span>
+              </a>
               <a class="link-card" href="prompt-lab.html">
                 <div class="link-icon icon-prompt">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -528,17 +338,6 @@
                 </div>
                 <span class="link-arrow">→</span>
               </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="nasa-group">
-          <button class="nasa-toggle" onclick="toggleGroup(this,'sillySection')" aria-expanded="false">
-            <span>Silly pages</span>
-            <span class="nasa-chevron">▼</span>
-          </button>
-          <div class="nasa-inner" id="sillySection">
-            <div class="nasa-links">
               <a class="link-card" href="robot.html">
                 <div class="link-icon icon-robot">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -560,20 +359,6 @@
             </div>
           </div>
         </div>
-
-        <a class="link-card" href="travel.html">
-          <div class="link-icon icon-travel">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/>
-              <circle cx="12" cy="8" r="2"/>
-            </svg>
-          </div>
-          <div class="link-text">
-            <div class="link-label">Travel</div>
-            <div class="link-sub">Places I've been</div>
-          </div>
-          <span class="link-arrow">→</span>
-        </a>
 
       </div>
     </div>
