@@ -12,289 +12,412 @@ body{background:var(--space);color:#fff;font-family:'Exo 2',sans-serif;min-heigh
 .star{position:absolute;background:#fff;border-radius:50%;animation:tw var(--d,3s) ease-in-out infinite var(--dl,0s)}
 @keyframes tw{0%,100%{opacity:var(--m,.2)}50%{opacity:1}}
 #app{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:20px 16px 80px}
-
-/* TOP NAV TABS */
-.tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
-.tab{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.15);color:#b0bec5;padding:10px 18px;border-radius:8px;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:1px;transition:all .25s;font-weight:700}
+.tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tab{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.15);color:#b0bec5;padding:10px 16px;border-radius:8px;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:1px;transition:all .25s;font-weight:700}
 .tab:hover{border-color:rgba(0,212,255,.4);color:var(--c1)}
 .tab.active{background:rgba(0,212,255,.12);border-color:var(--c1);color:var(--c1)}
-
-/* HEADER */
-.pg-hdr{text-align:center;padding:32px 0 24px}
-.badge{display:inline-block;background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.5);color:var(--c1);padding:5px 16px;border-radius:20px;font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:2px;margin-bottom:14px}
-h1.pg-ttl{font-family:'Orbitron',sans-serif;font-size:clamp(18px,3.5vw,30px);font-weight:900;color:#fff;line-height:1.2;margin-bottom:8px}
+.pg-hdr{text-align:center;padding:28px 0 20px}
+.badge{display:inline-block;background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.5);color:var(--c1);padding:5px 16px;border-radius:20px;font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:2px;margin-bottom:12px}
+h1.pg-ttl{font-family:'Orbitron',sans-serif;font-size:clamp(17px,3vw,28px);font-weight:900;color:#fff;line-height:1.2;margin-bottom:8px}
 h1.pg-ttl span{color:var(--c1)}
-.pg-sub{color:#fff;font-size:14px;line-height:1.6;max-width:560px;margin:0 auto}
-
-/* TOOL PANELS */
+.pg-sub{color:#fff;font-size:13px;line-height:1.6;max-width:580px;margin:0 auto}
 .tool-panel{display:none}
 .tool-panel.active{display:block;animation:fi .4s ease}
 @keyframes fi{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-
-/* SECTION CARDS */
-.scard{background:var(--card);border:1px solid rgba(0,212,255,.2);border-radius:14px;padding:22px;margin-bottom:16px;position:relative;overflow:hidden}
-.scard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent-bar,linear-gradient(90deg,#7c3aed,#00d4ff))}
-.scard-title{font-family:'Orbitron',sans-serif;font-size:12px;color:var(--c1);letter-spacing:2px;margin-bottom:10px}
-.scard p{font-size:14px;color:#fff;line-height:1.7;margin-bottom:10px}
+.scard{background:var(--card);border:1px solid rgba(0,212,255,.2);border-radius:14px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden}
+.scard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ab,linear-gradient(90deg,#7c3aed,#00d4ff))}
+.scard-title{font-family:'Orbitron',sans-serif;font-size:11px;color:var(--c1);letter-spacing:2px;margin-bottom:10px}
+.scard p{font-size:13px;color:#fff;line-height:1.7;margin-bottom:9px}
 .scard strong{color:#67e8f9}
-
-/* COMPARE CARDS */
-.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
-.weak-card{background:rgba(239,68,68,.08);border:2px solid rgba(239,68,68,.3);border-radius:10px;padding:14px}
-.strong-card{background:rgba(16,185,129,.08);border:2px solid rgba(16,185,129,.3);border-radius:10px;padding:14px}
-.compare-lbl{font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;margin-bottom:8px}
-.weak-card .compare-lbl{color:#fca5a5}
-.strong-card .compare-lbl{color:var(--c4)}
-.compare-text{font-size:13px;color:#fff;line-height:1.6;font-style:italic}
-.compare-why{font-size:12px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.1);line-height:1.5}
-.weak-card .compare-why{color:#fca5a5}
-.strong-card .compare-why{color:var(--c4)}
-
-/* CRITERIA CHIPS */
-.criteria-row{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
-.chip{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-family:'Orbitron',sans-serif;letter-spacing:1px}
-.chip.req{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.4);color:var(--c3)}
-.chip.tip{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--c1)}
-
-/* PROMPT ACCORDION */
-.prompt-toggle{width:100%;background:rgba(124,58,237,.1);border:2px solid rgba(124,58,237,.3);color:#fff;padding:13px 16px;border-radius:8px;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:11px;text-align:left;letter-spacing:1px;transition:all .2s;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
-.prompt-toggle:hover{background:rgba(124,58,237,.2)}
-.prompt-toggle.open{border-color:#a78bfa;color:#c4b5fd}
-.prompt-body{display:none;background:rgba(13,22,53,.8);border:1px solid rgba(124,58,237,.2);border-radius:0 0 8px 8px;padding:16px;margin-bottom:10px}
-.prompt-body.show{display:block}
-
-/* PSEUDOCODE */
-.pseudo-wrap{background:rgba(0,0,0,.4);border:1px solid rgba(0,212,255,.2);border-radius:10px;overflow:hidden;margin:12px 0}
-.pseudo-hdr{background:rgba(0,212,255,.08);padding:8px 14px;font-family:'Orbitron',sans-serif;font-size:9px;color:var(--c1);letter-spacing:2px;border-bottom:1px solid rgba(0,212,255,.15)}
-.pseudo-code{font-family:'JetBrains Mono',monospace;font-size:13px;color:#e2e8f0;padding:14px;line-height:1.8;white-space:pre}
-.pseudo-code .kw{color:#c4b5fd}
-.pseudo-code .op{color:#67e8f9}
-.pseudo-code .val{color:#f59e0b}
-.pseudo-code .cm{color:#64748b;font-style:italic}
-
-/* TRACE INPUT */
-.trace-area{margin-top:12px}
-.trace-label{font-size:12px;color:#b0bec5;margin-bottom:6px;font-family:'Orbitron',sans-serif;letter-spacing:1px}
-.trace-input{width:100%;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.15);color:#fff;padding:11px 14px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:14px;outline:none;transition:border-color .2s}
-.trace-input:focus{border-color:var(--c1)}
-.trace-btn{background:#00d4ff;color:#03050f;border:none;padding:10px 22px;border-radius:8px;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;cursor:pointer;margin-top:8px;transition:all .25s;letter-spacing:1px}
-.trace-btn:hover{background:#33ddff;transform:scale(1.03)}
-.trace-result{margin-top:10px;padding:12px 14px;border-radius:8px;font-size:13px;display:none;line-height:1.6}
-.trace-result.show{display:block}
-.trace-result.correct{background:rgba(16,185,129,.15);border:2px solid rgba(16,185,129,.4);color:#fff}
-.trace-result.wrong{background:rgba(239,68,68,.12);border:2px solid rgba(239,68,68,.3);color:#fff}
-.trace-result.reveal{background:rgba(0,212,255,.08);border:2px solid rgba(0,212,255,.2);color:#fff}
-
-/* PROGRESS DOTS */
-.prog-dots{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-.dot{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,.2);cursor:pointer;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#b0bec5;transition:all .2s}
-.dot:hover{border-color:var(--c1);color:var(--c1)}
-.dot.current{border-color:var(--c1);background:rgba(0,212,255,.15);color:var(--c1)}
-.dot.done-correct{border-color:var(--c4);background:rgba(16,185,129,.15);color:var(--c4)}
-.dot.done-wrong{border-color:var(--danger);background:rgba(239,68,68,.1);color:#fca5a5}
-
-/* AI REVIEWER */
-.ai-section{margin-bottom:16px}
-.ai-label{font-family:'Orbitron',sans-serif;font-size:10px;color:var(--c1);letter-spacing:2px;margin-bottom:8px}
-.ai-textarea{width:100%;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.15);color:#fff;padding:13px;border-radius:8px;font-family:'Exo 2',sans-serif;font-size:14px;line-height:1.7;resize:vertical;min-height:120px;outline:none;transition:border-color .2s}
-.ai-textarea:focus{border-color:var(--c1)}
-.ai-btn{background:#00d4ff;color:#03050f;border:none;padding:12px 28px;border-radius:8px;font-family:'Orbitron',sans-serif;font-size:12px;font-weight:900;cursor:pointer;letter-spacing:1px;transition:all .25s;display:flex;align-items:center;gap:8px}
-.ai-btn:hover{background:#33ddff;transform:scale(1.03)}
-.ai-btn:disabled{background:#334155;color:#64748b;cursor:default;transform:none}
-.ai-response{margin-top:14px;background:rgba(13,22,53,.9);border:1px solid rgba(0,212,255,.2);border-radius:12px;padding:18px;display:none;font-size:14px;line-height:1.8;color:#fff}
-.ai-response.show{display:block;animation:fi .4s ease}
-.score-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.score-chip{padding:5px 12px;border-radius:20px;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px}
-.score-full{background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.5);color:var(--c4)}
-.score-partial{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.4);color:var(--c3)}
-.score-missing{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#fca5a5}
-.ai-loading{display:none;text-align:center;padding:20px;color:#b0bec5;font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:2px}
-.ai-loading.show{display:block}
-.spinner{display:inline-block;width:20px;height:20px;border:2px solid rgba(0,212,255,.2);border-top-color:var(--c1);border-radius:50%;animation:spin 1s linear infinite;margin-right:8px;vertical-align:middle}
-@keyframes spin{to{transform:rotate(360deg)}}
-.prompt-selector{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.ps-btn{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.15);color:#b0bec5;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-family:'Exo 2',sans-serif;font-weight:600;transition:all .2s}
-.ps-btn:hover{border-color:rgba(0,212,255,.4);color:var(--c1)}
-.ps-btn.active{background:rgba(0,212,255,.1);border-color:var(--c1);color:var(--c1)}
-.hl{background:rgba(0,212,255,.08);border-left:3px solid var(--c1);padding:10px 14px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;color:#fff}
+.hl{background:rgba(0,212,255,.08);border-left:3px solid var(--c1);padding:10px 13px;border-radius:0 8px 8px 0;margin:10px 0;font-size:13px;color:#fff;line-height:1.6}
 .hl.am{border-left-color:var(--c3);background:rgba(245,158,11,.08)}
 .hl.gr{border-left-color:var(--c4);background:rgba(16,185,129,.08)}
+.hl.pu{border-left-color:#a78bfa;background:rgba(124,58,237,.08)}
+.hl.rd{border-left-color:var(--danger);background:rgba(239,68,68,.07)}
+
+/* PROMPT ROWS */
+.prompt-row{border:2px solid rgba(255,255,255,.1);border-radius:12px;margin-bottom:10px;overflow:hidden}
+.prompt-hdr{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer;background:rgba(255,255,255,.04);transition:background .2s}
+.prompt-hdr:hover{background:rgba(255,255,255,.08)}
+.prompt-hdr.open{background:rgba(0,212,255,.07);border-bottom:1px solid rgba(0,212,255,.2)}
+.prompt-left{display:flex;align-items:center;gap:12px}
+.prompt-num{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pn-1{background:rgba(0,212,255,.2);color:var(--c1);border:1px solid var(--c1)}
+.pn-2a{background:rgba(245,158,11,.2);color:var(--c3);border:1px solid var(--c3)}
+.pn-2b{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid var(--danger)}
+.pn-2c{background:rgba(16,185,129,.15);color:var(--c4);border:1px solid var(--c4)}
+.prompt-name{font-family:'Orbitron',sans-serif;font-size:10px;color:#fff;letter-spacing:1px}
+.prompt-sub{font-size:11px;color:#b0bec5;margin-top:2px}
+.prompt-arrow{color:#b0bec5;font-size:12px;transition:transform .2s}
+.prompt-hdr.open .prompt-arrow{transform:rotate(180deg)}
+.prompt-body{display:none;padding:16px}
+.prompt-body.show{display:block}
+
+/* EXACT PROMPT BOX */
+.exact-prompt{background:rgba(0,0,0,.3);border:2px solid rgba(0,212,255,.3);border-radius:10px;padding:14px;margin-bottom:14px}
+.ep-label{font-family:'Orbitron',sans-serif;font-size:9px;color:var(--c1);letter-spacing:2px;margin-bottom:8px}
+.ep-text{font-size:13px;color:#e2e8f0;line-height:1.7;font-style:italic}
+
+/* COMPARE */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+@media(max-width:600px){.compare{grid-template-columns:1fr}}
+.weak-card{background:rgba(239,68,68,.07);border:2px solid rgba(239,68,68,.3);border-radius:10px;padding:13px}
+.strong-card{background:rgba(16,185,129,.07);border:2px solid rgba(16,185,129,.3);border-radius:10px;padding:13px}
+.clbl{font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;margin-bottom:7px}
+.weak-card .clbl{color:#fca5a5}
+.strong-card .clbl{color:var(--c4)}
+.ctext{font-size:12px;color:#fff;line-height:1.6;font-style:italic}
+.cwhy{font-size:11px;margin-top:7px;padding-top:7px;border-top:1px solid rgba(255,255,255,.1);line-height:1.5}
+.weak-card .cwhy{color:#fca5a5}
+.strong-card .cwhy{color:var(--c4)}
+
+/* CRITERIA CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.chip{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10px;font-family:'Orbitron',sans-serif;letter-spacing:1px}
+.chip.req{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.4);color:var(--c3)}
+.chip.warn{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#fca5a5}
+.chip.tip{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:var(--c1)}
+
+/* PPR BOX */
+.ppr-box{background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.3);border-radius:10px;padding:13px;margin:10px 0}
+.ppr-title{font-family:'Orbitron',sans-serif;font-size:9px;color:#c4b5fd;letter-spacing:2px;margin-bottom:8px}
+.ppr-item{font-size:13px;color:#fff;margin-bottom:6px;padding-left:16px;position:relative}
+.ppr-item::before{content:'→';position:absolute;left:0;color:#c4b5fd;font-size:11px}
+
+/* PSEUDOCODE */
+.pseudo-wrap{background:rgba(0,0,0,.4);border:1px solid rgba(0,212,255,.2);border-radius:10px;overflow:hidden;margin:10px 0}
+.pseudo-hdr{background:rgba(0,212,255,.07);padding:7px 13px;font-family:'Orbitron',sans-serif;font-size:9px;color:var(--c1);letter-spacing:2px;border-bottom:1px solid rgba(0,212,255,.15)}
+.pseudo-code{font-family:'JetBrains Mono',monospace;font-size:12px;color:#e2e8f0;padding:13px;line-height:1.9;white-space:pre}
+.kw{color:#c4b5fd}
+.op{color:#67e8f9}
+.val{color:#f59e0b}
+.cm{color:#475569;font-style:italic}
+.str{color:#86efac}
+
+/* TRACER */
+.prog-dots{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap}
+.dot{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.2);cursor:pointer;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#b0bec5;transition:all .2s}
+.dot:hover{border-color:var(--c1);color:var(--c1)}
+.dot.current{border-color:var(--c1);background:rgba(0,212,255,.15);color:var(--c1)}
+.dot.dc{border-color:var(--c4);background:rgba(16,185,129,.15);color:var(--c4)}
+.dot.dw{border-color:var(--danger);background:rgba(239,68,68,.1);color:#fca5a5}
+.trace-input{width:100%;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.15);color:#fff;padding:10px 13px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;transition:border-color .2s;margin-top:6px}
+.trace-input:focus{border-color:var(--c1)}
+.tbtn{background:#00d4ff;color:#03050f;border:none;padding:9px 20px;border-radius:8px;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:900;cursor:pointer;margin-top:7px;letter-spacing:1px;transition:all .2s}
+.tbtn:hover{background:#33ddff;transform:scale(1.03)}
+.tbtn.sec{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);margin-left:6px}
+.tbtn.sec:hover{background:rgba(255,255,255,.15)}
+.tresult{margin-top:9px;padding:11px 13px;border-radius:8px;font-size:13px;display:none;line-height:1.6}
+.tresult.show{display:block}
+.tresult.correct{background:rgba(16,185,129,.14);border:2px solid rgba(16,185,129,.4);color:#fff}
+.tresult.wrong{background:rgba(239,68,68,.1);border:2px solid rgba(239,68,68,.3);color:#fff}
+.tresult.reveal{background:rgba(0,212,255,.07);border:2px solid rgba(0,212,255,.2);color:#fff}
+.tlabel{font-size:11px;color:#b0bec5;font-family:'Orbitron',sans-serif;letter-spacing:1px;margin-top:10px}
+
+/* AI REVIEWER */
+.ps-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.ps-btn{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.15);color:#b0bec5;padding:8px 13px;border-radius:8px;cursor:pointer;font-size:11px;font-family:'Exo 2',sans-serif;font-weight:600;transition:all .2s}
+.ps-btn:hover{border-color:rgba(0,212,255,.4);color:var(--c1)}
+.ps-btn.active{background:rgba(0,212,255,.1);border-color:var(--c1);color:var(--c1)}
+.ai-label{font-family:'Orbitron',sans-serif;font-size:10px;color:var(--c1);letter-spacing:2px;margin-bottom:7px}
+.ai-ta{width:100%;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.15);color:#fff;padding:12px;border-radius:8px;font-family:'Exo 2',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:110px;outline:none;transition:border-color .2s}
+.ai-ta:focus{border-color:var(--c1)}
+.ai-btn{background:#00d4ff;color:#03050f;border:none;padding:11px 26px;border-radius:8px;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;cursor:pointer;letter-spacing:1px;transition:all .25s;display:inline-flex;align-items:center;gap:7px;margin-top:9px}
+.ai-btn:hover{background:#33ddff;transform:scale(1.03)}
+.ai-btn:disabled{background:#1e293b;color:#475569;cursor:default;transform:none}
+.ai-resp{margin-top:12px;background:rgba(13,22,53,.9);border:1px solid rgba(0,212,255,.2);border-radius:12px;padding:16px;display:none;font-size:13px;line-height:1.8;color:#fff}
+.ai-resp.show{display:block;animation:fi .4s ease}
+.ai-load{display:none;text-align:center;padding:18px;color:#b0bec5;font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:2px}
+.ai-load.show{display:block}
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(0,212,255,.2);border-top-color:var(--c1);border-radius:50%;animation:spin 1s linear infinite;margin-right:7px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sc{display:inline-block;padding:4px 10px;border-radius:20px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px}
+.sc-full{background:rgba(16,185,129,.18);border:1px solid rgba(16,185,129,.5);color:var(--c4)}
+.sc-miss{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#fca5a5}
+.srow{border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:11px;margin-bottom:7px}
+/* FOOTER */
+.site-footer{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 16px 32px;text-align:center}
+.footer-inner{border-top:1px solid rgba(255,255,255,.08);padding-top:20px}
+.footer-disclaimer{font-size:12px;color:#475569;line-height:1.7;max-width:640px;margin:0 auto 10px}
+.footer-disclaimer a{color:var(--c1);text-decoration:none}
+.footer-disclaimer a:hover{text-decoration:underline}
+.footer-badge{display:inline-block;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.3);color:#a78bfa;font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;padding:4px 12px;border-radius:20px;margin-bottom:10px}
 </style>
 </head>
 <body>
 <div id="stars"></div>
 <div id="app">
 
-<!-- HEADER -->
 <div class="pg-hdr">
-  <div class="badge">AP CSP CREATE TASK PREP</div>
+  <div class="badge">AP CSP — CREATE TASK PREP</div>
   <h1 class="pg-ttl">Mission:<br><span>Create Task Launch Pad</span></h1>
-  <p class="pg-sub">Three tools to prepare you for the Create Performance Task — 30% of your AP exam score.</p>
+  <p class="pg-sub">Three tools to prepare you for the Create Performance Task — worth 30% of your AP exam score. Updated for the 2024+ exam format.</p>
 </div>
 
-<!-- TABS -->
 <div class="tabs">
   <button class="tab active" onclick="switchTab('guide')">📋 WRITTEN RESPONSE GUIDE</button>
   <button class="tab" onclick="switchTab('tracer')">💻 PSEUDOCODE TRACER</button>
   <button class="tab" onclick="switchTab('reviewer')">🤖 AI RESPONSE REVIEWER</button>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════
      TOOL 1: WRITTEN RESPONSE GUIDE
-══════════════════════════════════════════════════════ -->
+═══════════════════════════════════════ -->
 <div id="tool-guide" class="tool-panel active">
 
   <div class="scard">
-    <div class="scard-title">WHAT IS THE CREATE PERFORMANCE TASK?</div>
-    <p>The Create Task is worth <strong>30% of your AP CSP exam score</strong>. You write a program of your choice, record a short video of it running, and submit three written responses. The written responses are where most students lose points — not the code itself.</p>
-    <p>The College Board scores each response on a checklist. You either earn the point or you do not — there is no partial credit per row. The key is learning to write exactly what the rubric is looking for.</p>
-    <div class="hl am">⚡ <strong>The three written prompts</strong> ask you to: (1) describe your program's purpose and what it does, (2) explain how your code uses abstraction, and (3) describe an algorithm you developed and how it works — including sequencing, selection, and iteration.</div>
+    <div class="scard-title">HOW THE CREATE TASK WORKS IN 2024+</div>
+    <p>Starting in 2024, the Create Task changed significantly. Here is exactly what happens:</p>
+    <div class="ppr-box">
+      <div class="ppr-title">STEP 1 — BUILD YOUR PROGRAM (9 hours of class time)</div>
+      <div class="ppr-item">Write a program of your choice that solves a problem or explores a personal interest</div>
+      <div class="ppr-item">Record a short video of your program running (showing input, functionality, output)</div>
+      <div class="ppr-item">Build your <strong>Personalized Project Reference (PPR)</strong> — 4 screenshots of specific code segments</div>
+    </div>
+    <div class="ppr-box" style="--c:rgba(245,158,11,.3);border-color:rgba(245,158,11,.3)">
+      <div class="ppr-title" style="color:var(--c3)">STEP 2 — SUBMIT YOUR PPR (deadline: April 30)</div>
+      <div class="ppr-item">Procedure (i): Your student-developed procedure that includes sequencing, selection, and iteration</div>
+      <div class="ppr-item">Procedure (ii): A call to that procedure within your program</div>
+      <div class="ppr-item">List (i): Code showing data being stored into your list</div>
+      <div class="ppr-item">List (ii): Code showing that list being used to fulfill your program's purpose</div>
+    </div>
+    <div class="ppr-box" style="border-color:rgba(16,185,129,.3)">
+      <div class="ppr-title" style="color:var(--c4)">STEP 3 — ANSWER 4 PROMPTS ON EXAM DAY (60 minutes)</div>
+      <div class="ppr-item">You get a printed copy of your PPR to refer to while answering</div>
+      <div class="ppr-item">Question 1 (1 prompt) — about your program's output, function, or purpose</div>
+      <div class="ppr-item">Question 2 (3 prompts: 2a, 2b, 2c) — about your procedure, list, and algorithm</div>
+    </div>
+    <div class="hl rd">⚠️ <strong>Critical:</strong> Each prompt is worth exactly 1 point with no partial credit. There are 6 total points. Missing one row costs the same as getting 5 fewer multiple choice questions wrong. Every word matters.</div>
   </div>
 
-  <!-- PROMPT 1 -->
-  <button class="prompt-toggle" onclick="togglePrompt(1)">
-    <span>PROMPT 1 — Program Purpose &amp; Function</span>
-    <span id="arrow1">▼</span>
-  </button>
-  <div class="prompt-body" id="pb1">
-    <div class="criteria-row">
-      <span class="chip req">REQUIRED: State the overall purpose</span>
-      <span class="chip req">REQUIRED: Describe what the video shows</span>
-      <span class="chip tip">TIP: Be specific — not just "it runs"</span>
-    </div>
-    <p style="font-size:13px;color:#b0bec5;margin-bottom:12px">Imagine a student built a <strong>Playlist Mood Matcher</strong> — an app that takes your current mood as input and suggests a Spotify playlist genre.</p>
-    <div class="compare">
-      <div class="weak-card">
-        <div class="compare-lbl">❌ WEAK RESPONSE</div>
-        <div class="compare-text">"My program is a music app. In the video it shows the program running and the user clicking buttons to get music suggestions."</div>
-        <div class="compare-why">Missing: No specific purpose stated. "Shows the program running" tells the scorer nothing. No mention of input, output, or what problem it solves.</div>
+  <!-- WR1 -->
+  <div class="prompt-row">
+    <div class="prompt-hdr" onclick="togglePrompt('wr1')">
+      <div class="prompt-left">
+        <div class="prompt-num pn-1">1</div>
+        <div>
+          <div class="prompt-name">WRITTEN RESPONSE 1 — Program Design, Function &amp; Purpose</div>
+          <div class="prompt-sub">Worth 1 point · scored on your output, functionality description</div>
+        </div>
       </div>
-      <div class="strong-card">
-        <div class="compare-lbl">✅ STRONG RESPONSE</div>
-        <div class="compare-text">"The purpose of my program is to help users discover music that matches their current emotional state. The video shows a user entering 'stressed' as their mood input. The program processes this through a mood-to-genre mapping algorithm and displays 'lo-fi hip hop' as the recommended genre output."</div>
-        <div class="compare-why">Earns the point: Specific purpose stated. Input and output identified. What the video shows is clearly described with detail.</div>
-      </div>
+      <div class="prompt-arrow">▼</div>
     </div>
-    <div class="hl">🛸 <strong>Formula:</strong> "The purpose of my program is to [solve specific problem]. The video shows [specific user action] which causes [specific program behavior] resulting in [specific output]."</div>
+    <div class="prompt-body" id="pb-wr1">
+      <div class="exact-prompt">
+        <div class="ep-label">2025 EXAM — EXAMPLE PROMPT WORDING (Set 1)</div>
+        <div class="ep-text">"Identify an example output of your program. Explain how this output shows an aspect of your program's functionality."</div>
+      </div>
+      <div class="exact-prompt" style="border-color:rgba(245,158,11,.3)">
+        <div class="ep-label" style="color:var(--c3)">2025 EXAM — ALTERNATE WORDING (Set 2)</div>
+        <div class="ep-text">"Identify an unexpected or invalid input that a user could provide to your program. Describe the behavior of your program after it receives this input."</div>
+      </div>
+      <p style="font-size:13px;color:#b0bec5;margin-bottom:10px">The exact wording changes every year but always targets CRD-2 learning objectives — program purpose, function, inputs, and outputs. The project used in examples below is a <strong>Social Media Mood Tracker</strong> — a high schooler's app that lets users log their mood after using different social media apps and tracks patterns over time.</p>
+      <div class="chips">
+        <span class="chip req">REQUIRED: Identify a specific output</span>
+        <span class="chip req">REQUIRED: Explain how it shows program functionality</span>
+        <span class="chip warn">DO NOT: Describe purpose (why) instead of function (what)</span>
+        <span class="chip warn">DO NOT: Be vague — "it displays results" earns nothing</span>
+      </div>
+      <div class="compare">
+        <div class="weak-card">
+          <div class="clbl">❌ DOES NOT EARN THE POINT</div>
+          <div class="ctext">"My program outputs a chart showing the user's mood data. It helps users understand how social media affects their mood over time."</div>
+          <div class="cwhy">The second sentence describes PURPOSE (why it exists), not FUNCTION (what it does). The output description is vague — no specific value shown. Scorer cannot verify this is real output from the program.</div>
+        </div>
+        <div class="strong-card">
+          <div class="clbl">✅ EARNS THE POINT</div>
+          <div class="ctext">"An example output of my program is the text 'Your average mood after using Instagram this week: 3.2 / 5.' This output shows the program's functionality by demonstrating that the program processes the stored mood entries in the moodLog list, calculates an average using the calculateAverage procedure, and displays a formatted result string to the user."</div>
+          <div class="cwhy">Specific output value identified. Explains HOW it demonstrates functionality — connects the output to specific program components (the list and procedure). Scorer can verify this against the PPR and video.</div>
+        </div>
+      </div>
+      <div class="hl">🛸 <strong>Formula:</strong> "An example output is [specific value or text]. This shows functionality because the program [specific steps: what data it uses, what it processes, what decision it makes] to produce this result."</div>
+    </div>
   </div>
 
-  <!-- PROMPT 2 -->
-  <button class="prompt-toggle" onclick="togglePrompt(2)">
-    <span>PROMPT 2 — Abstraction</span>
-    <span id="arrow2">▼</span>
-  </button>
-  <div class="prompt-body" id="pb2">
-    <div class="criteria-row">
-      <span class="chip req">REQUIRED: Name your procedure</span>
-      <span class="chip req">REQUIRED: Describe what it does</span>
-      <span class="chip req">REQUIRED: Explain how it manages complexity</span>
-      <span class="chip tip">TIP: Show it being called with different inputs</span>
-    </div>
-    <p style="font-size:13px;color:#b0bec5;margin-bottom:12px">Same student, Playlist Mood Matcher. They wrote a procedure called <code style="color:#67e8f9">getMoodGenre(mood)</code> that takes a mood string and returns a genre.</p>
-    <div class="compare">
-      <div class="weak-card">
-        <div class="compare-lbl">❌ WEAK RESPONSE</div>
-        <div class="compare-text">"I used a procedure called getMoodGenre. It uses a list to find the right genre. It makes the program easier to read."</div>
-        <div class="compare-why">Missing: Does not explain what the procedure actually does. "Makes the program easier to read" is vague — needs to explain HOW it manages complexity (reuse, hiding detail, shorter code elsewhere).</div>
+  <!-- WR2a -->
+  <div class="prompt-row">
+    <div class="prompt-hdr" onclick="togglePrompt('wr2a')">
+      <div class="prompt-left">
+        <div class="prompt-num pn-2a">2a</div>
+        <div>
+          <div class="prompt-name">WRITTEN RESPONSE 2(a) — Algorithm Development</div>
+          <div class="prompt-sub">Worth 1 point · scored on Boolean expression identification and explanation · only 43% earned this in 2025</div>
+        </div>
       </div>
-      <div class="strong-card">
-        <div class="compare-lbl">✅ STRONG RESPONSE</div>
-        <div class="compare-text">"My procedure getMoodGenre(mood) takes a mood string as a parameter and searches a list of mood-genre pairs to return the matching genre string. This procedure manages complexity because it is called three times in my program — once for the initial input, once after a quiz result, and once to refresh the suggestion. Without this abstraction, I would have repeated the same 15 lines of search code three times. The procedure hides those details and lets the rest of the program work at a higher level."</div>
-        <div class="compare-why">Earns the point: Names the procedure and parameter. Describes exactly what it does. Explains specifically how it manages complexity (reuse, hiding detail, avoiding repetition).</div>
-      </div>
+      <div class="prompt-arrow">▼</div>
     </div>
-    <div class="hl am">⚡ <strong>Key phrase:</strong> "This manages complexity because..." — then explain reuse, hiding implementation details, or reducing duplicate code. Concrete beats vague every time.</div>
+    <div class="prompt-body" id="pb-wr2a">
+      <div class="exact-prompt">
+        <div class="ep-label">2025 EXAM — EXACT PROMPT WORDING (Set 1)</div>
+        <div class="ep-text">"Consider the first selection statement included in the Procedure section of your Personalized Project Reference. Identify the Boolean expression in this selection statement. Identify a specific value or set of values that will cause this expression to evaluate to true. Explain why the specified value(s) will cause the expression to evaluate to true."</div>
+      </div>
+      <p style="font-size:13px;color:#b0bec5;margin-bottom:10px">This prompt asks about a Boolean expression inside your procedure's first IF statement. The alternate set asks about evaluating to <strong>false</strong> instead of true. You need to know your own code deeply enough to trace through specific values.</p>
+      <div class="chips">
+        <span class="chip req">REQUIRED: Identify the Boolean expression (the condition inside the IF)</span>
+        <span class="chip req">REQUIRED: Give a SPECIFIC value that makes it true (not just "any number greater than 0")</span>
+        <span class="chip req">REQUIRED: Explain WHY that value makes it true</span>
+        <span class="chip warn">DO NOT: Describe what the IF block does instead of the condition itself</span>
+        <span class="chip warn">DO NOT: Give a vague range without a concrete example</span>
+      </div>
+      <p style="font-size:12px;color:#b0bec5;margin-bottom:8px">Example: The Mood Tracker's procedure has the condition <code style="color:#67e8f9">IF (moodScore &gt;= 4)</code></p>
+      <div class="compare">
+        <div class="weak-card">
+          <div class="clbl">❌ DOES NOT EARN THE POINT</div>
+          <div class="ctext">"The Boolean expression checks if the mood score is high. If the score is high enough, the program displays a positive message. This is true when the user is in a good mood."</div>
+          <div class="cwhy">Never identifies the actual Boolean expression. "High enough" and "good mood" are not specific values. Does not explain the logical relationship between the value and the expression.</div>
+        </div>
+        <div class="strong-card">
+          <div class="clbl">✅ EARNS THE POINT</div>
+          <div class="ctext">"The Boolean expression is moodScore &gt;= 4. A specific value that causes this to evaluate to true is moodScore = 5. This causes the expression to evaluate to true because 5 is greater than or equal to 4, which satisfies the &gt;= relational operator."</div>
+          <div class="cwhy">Identifies the exact Boolean expression from the PPR. Gives a concrete specific value (5, not just "any value ≥ 4"). Explains the logical reason using the operator — exactly what the rubric requires.</div>
+        </div>
+      </div>
+      <div class="hl am">⚡ <strong>The hardest row nationally.</strong> Before exam day, know your procedure's first IF condition by heart. Practice saying: "The Boolean expression is [exact condition]. A value that makes it [true/false] is [specific number or string]. This works because [logical explanation using the operator]."</div>
+    </div>
   </div>
 
-  <!-- PROMPT 3 -->
-  <button class="prompt-toggle" onclick="togglePrompt(3)">
-    <span>PROMPT 3 — Algorithm You Developed</span>
-    <span id="arrow3">▼</span>
-  </button>
-  <div class="prompt-body" id="pb3">
-    <div class="criteria-row">
-      <span class="chip req">REQUIRED: Describe the algorithm</span>
-      <span class="chip req">REQUIRED: Include sequencing, selection, AND iteration</span>
-      <span class="chip req">REQUIRED: Explain how it works step by step</span>
-      <span class="chip tip">TIP: The algorithm must be one YOU developed, not a built-in function</span>
-    </div>
-    <p style="font-size:13px;color:#b0bec5;margin-bottom:12px">The student developed the mood-matching algorithm inside getMoodGenre — it loops through a list and uses a condition to find a match.</p>
-    <div class="compare">
-      <div class="weak-card">
-        <div class="compare-lbl">❌ WEAK RESPONSE</div>
-        <div class="compare-text">"My algorithm loops through a list of moods to find the matching genre. It uses iteration and selection to find the answer and return it."</div>
-        <div class="compare-why">Missing: Just names the concepts without explaining HOW they work together. No step-by-step description. Scorer cannot verify sequencing, selection, and iteration are all present.</div>
+  <!-- WR2b -->
+  <div class="prompt-row">
+    <div class="prompt-hdr" onclick="togglePrompt('wr2b')">
+      <div class="prompt-left">
+        <div class="prompt-num pn-2b">2b</div>
+        <div>
+          <div class="prompt-name">WRITTEN RESPONSE 2(b) — Errors and Testing</div>
+          <div class="prompt-sub">Worth 1 point · scored on logic error identification and behavioral impact</div>
+        </div>
       </div>
-      <div class="strong-card">
-        <div class="compare-lbl">✅ STRONG RESPONSE</div>
-        <div class="compare-text">"My algorithm inside getMoodGenre works as follows: First (sequencing) the procedure initializes a result variable to 'unknown' and sets an index to 1. Then (iteration) it uses REPEAT UNTIL to loop through each element of the moodList until the index exceeds the list length. Inside the loop (selection) an IF statement checks whether the mood at the current index matches the input parameter. If it matches, the algorithm sets result to the corresponding genre and sets a flag to stop the loop. Finally (sequencing) the procedure returns the result value."</div>
-        <div class="compare-why">Earns the point: Step-by-step. All three building blocks (sequencing, selection, iteration) explicitly identified and described. Scorer can clearly see how the algorithm functions.</div>
-      </div>
+      <div class="prompt-arrow">▼</div>
     </div>
-    <div class="hl gr">✅ <strong>Checklist before submitting Prompt 3:</strong> Can you find the word "sequencing" (or describe ordered steps)? Can you find "selection" (IF/ELSE)? Can you find "iteration" (loop)? If any is missing, your response will not earn the point.</div>
+    <div class="prompt-body" id="pb-wr2b">
+      <div class="exact-prompt">
+        <div class="ep-label">2025 EXAM — EXACT PROMPT WORDING (Set 1)</div>
+        <div class="ep-text">"Consider the procedure included in part (i) of the Procedure section of your Personalized Project Reference. Suppose another programmer modifies the code within this procedure. Describe a modification the other programmer could make that would cause this procedure to have a logic error. Describe how the behavior of this procedure would change because of the error."</div>
+      </div>
+      <div class="exact-prompt" style="border-color:rgba(245,158,11,.3)">
+        <div class="ep-label" style="color:var(--c3)">2025 EXAM — ALTERNATE WORDING (Set 2)</div>
+        <div class="ep-text">"Consider the code segment in part (ii) of the List section of your PPR. Suppose another programmer modifies this code segment. Describe a modification that would result in a logic error. Explain why this modification would result in a logic error."</div>
+      </div>
+      <div class="chips">
+        <span class="chip req">REQUIRED: Describe a specific modification (change/add/delete something)</span>
+        <span class="chip req">REQUIRED: Describe how the BEHAVIOR changes as a result</span>
+        <span class="chip warn">DO NOT: Say only "the program will not run" without further explanation</span>
+        <span class="chip warn">DO NOT: Describe a syntax error — it must be a LOGIC error (wrong output, wrong behavior)</span>
+      </div>
+      <div class="compare">
+        <div class="weak-card">
+          <div class="clbl">❌ DOES NOT EARN THE POINT</div>
+          <div class="ctext">"If another programmer changed the code, it would cause a logic error and the program would not work correctly. The procedure would give wrong results."</div>
+          <div class="cwhy">No specific modification described. "Would not work correctly" and "wrong results" say nothing about HOW the behavior changes. This response could apply to any program.</div>
+        </div>
+        <div class="strong-card">
+          <div class="clbl">✅ EARNS THE POINT</div>
+          <div class="ctext">"If the programmer changed the condition in the IF statement from moodScore &gt;= 4 to moodScore &gt; 4, this would cause a logic error. The behavior would change because a moodScore of exactly 4 would no longer trigger the positive message — it would fall through to the else branch and incorrectly display a neutral message, even though a score of 4 should be considered positive by the program's design."</div>
+          <div class="cwhy">Specific modification described (&gt;= changed to &gt;). Specific change in behavior explained (score of 4 now goes to wrong branch). Connects the modification to the wrong output — exactly what the rubric requires.</div>
+        </div>
+      </div>
+      <div class="hl gr">✅ <strong>Strategy:</strong> The easiest logic errors to describe are: changing &gt;= to &gt; or &lt;= to &lt; (off-by-one), swapping AND for OR in a Boolean, or changing the loop condition so it runs one too many or too few times. Know at least two specific modifications you could make to your own procedure before exam day.</div>
+    </div>
   </div>
 
-</div><!-- end tool-guide -->
+  <!-- WR2c -->
+  <div class="prompt-row">
+    <div class="prompt-hdr" onclick="togglePrompt('wr2c')">
+      <div class="prompt-left">
+        <div class="prompt-num pn-2c">2c</div>
+        <div>
+          <div class="prompt-name">WRITTEN RESPONSE 2(c) — Data and Procedural Abstraction</div>
+          <div class="prompt-sub">Worth 1 point · scored on list scalability and procedural abstraction explanation</div>
+        </div>
+      </div>
+      <div class="prompt-arrow">▼</div>
+    </div>
+    <div class="prompt-body" id="pb-wr2c">
+      <div class="exact-prompt">
+        <div class="ep-label">2025 EXAM — EXACT PROMPT WORDING (Set 1)</div>
+        <div class="ep-text">"Consider the list included in the List section of your Personalized Project Reference. Suppose another programmer adds several new elements to the end of the list. Explain how the code segment in part (ii) of the List section would need to be modified to account for the additional elements. If no changes to the code segment are necessary, explain why this is the case for your program."</div>
+      </div>
+      <div class="exact-prompt" style="border-color:rgba(245,158,11,.3)">
+        <div class="ep-label" style="color:var(--c3)">2025 EXAM — ALTERNATE WORDING (Set 2)</div>
+        <div class="ep-text">"Consider the procedure identified in part (i) of the Procedure section. Describe the functionality provided by this procedure. Explain how implementing this functionality as a procedure results in your program being easier to maintain than if the functionality were not implemented as a procedure."</div>
+      </div>
+      <p style="font-size:13px;color:#b0bec5;margin-bottom:10px">Set 1 asks about your LIST scaling to new elements. Set 2 asks about your PROCEDURE and why abstraction makes the program easier to maintain. You need to be ready for either version.</p>
+      <div class="chips">
+        <span class="chip req">SET 1: Explain what code changes (or why none needed) if list grows</span>
+        <span class="chip req">SET 2: Describe what the procedure does AND why it manages complexity</span>
+        <span class="chip tip">TIP for Set 1: If your list is traversed with FOR EACH or uses LENGTH, no changes needed — say that explicitly</span>
+        <span class="chip tip">TIP for Set 2: "Easier to maintain" = changes only need to be made in one place, not everywhere the logic appears</span>
+      </div>
+      <div class="compare">
+        <div class="weak-card">
+          <div class="clbl">❌ DOES NOT EARN THE POINT (Set 1)</div>
+          <div class="ctext">"If more elements were added to the list, the code would need to be updated to handle them. The program would need to process all the new elements too."</div>
+          <div class="cwhy">Does not explain WHAT specifically would need to change, or why no changes are needed. The response is generic and applies to any program. The scorer cannot verify this against the student's actual PPR code.</div>
+        </div>
+        <div class="strong-card">
+          <div class="clbl">✅ EARNS THE POINT (Set 1)</div>
+          <div class="ctext">"No changes to the code segment would be necessary. The code in part (ii) of the List section uses a FOR EACH loop to iterate through every element of moodLog. Because FOR EACH automatically processes all elements regardless of list length, adding new elements to the end of moodLog would be handled automatically without modifying the code."</div>
+          <div class="cwhy">Directly answers the question (no changes needed). Explains WHY with specific reference to how FOR EACH works. References the actual variable name from the PPR. The rubric explicitly allows "no changes necessary" as an answer if correctly explained.</div>
+        </div>
+      </div>
+      <div class="hl pu">🚀 <strong>Key insight:</strong> If your list is accessed with hard-coded indexes like moodLog[1], moodLog[2], etc., adding new elements WOULD require code changes. If you use FOR EACH or LENGTH(moodLog), it scales automatically. Design your PPR with scalable list access to make this prompt easier to answer.</div>
+    </div>
+  </div>
+
+  <!-- VIDEO ROW -->
+  <div class="scard" style="--ab:linear-gradient(90deg,#f59e0b,#ef4444)">
+    <div class="scard-title">VIDEO + PROGRAM REQUIREMENTS (2 more points)</div>
+    <p>Beyond the 4 written prompts, your submitted video and program code earn 2 additional points — for a total of 6.</p>
+    <div class="hl am">🎥 <strong>Video point:</strong> Must show the program actually running — not screenshots or storyboards. Must show an input, program functionality, and output. Keep it under 1 minute.</div>
+    <div class="hl rd">📋 <strong>Program Requirements point:</strong> Your code must include ALL of: a student-developed procedure, a call to that procedure, a list with at least 2 elements, a use of the list, selection (IF statement), and iteration (loop). The list use must be relevant to the program's purpose — not trivial.</div>
+  </div>
+
+</div><!-- end guide -->
 
 
-<!-- ══════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════
      TOOL 2: PSEUDOCODE TRACER
-══════════════════════════════════════════════════════ -->
+═══════════════════════════════════════ -->
 <div id="tool-tracer" class="tool-panel">
-
   <div class="scard">
-    <div class="scard-title">HOW THIS WORKS</div>
-    <p>The AP exam uses its own pseudocode notation from the official reference sheet. Read each program, trace through it step by step, then type what you think the output will be. The tracer checks your answer and explains why.</p>
-    <div class="hl">💻 <strong>Key syntax reminders:</strong> <code style="color:#67e8f9">a ← expression</code> assigns a value. <code style="color:#67e8f9">DISPLAY(x)</code> prints x followed by a space. List indexes start at <strong>1</strong>. <code style="color:#67e8f9">MOD</code> returns the remainder.</div>
+    <div class="scard-title">AP PSEUDOCODE TRACER</div>
+    <p>The AP exam uses its own pseudocode reference sheet. Practice reading and tracing it here — the same notation you will see on exam day. Type what you think the program outputs, then check your answer.</p>
+    <div class="hl">💻 <strong>Key syntax:</strong> <code style="color:#67e8f9">a ← expression</code> assigns a value. <code style="color:#67e8f9">DISPLAY(x)</code> prints x with a space after. List indexes start at <strong>1</strong>. <code style="color:#67e8f9">MOD</code> returns the remainder.</div>
   </div>
-
   <div class="prog-dots" id="tracer-dots"></div>
   <div id="tracer-content"></div>
+</div>
 
-</div><!-- end tool-tracer -->
 
-
-<!-- ══════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════
      TOOL 3: AI RESPONSE REVIEWER
-══════════════════════════════════════════════════════ -->
+═══════════════════════════════════════ -->
 <div id="tool-reviewer" class="tool-panel">
-
   <div class="scard">
-    <div class="scard-title">AI-POWERED CREATE TASK REVIEWER</div>
-    <p>Paste your written response draft below. The AI will score it against the actual College Board rubric criteria and give you specific feedback — just like a teacher would, but available any time.</p>
-    <div class="hl am">⚡ Select which prompt you are submitting a response for, then paste your draft. The AI knows the exact scoring criteria for each prompt.</div>
+    <div class="scard-title">AI-POWERED RESPONSE REVIEWER</div>
+    <p>Paste your written response draft below. Select which prompt you are practicing, and Claude will score it against the exact College Board rubric criteria — giving you a pass/fail per row plus specific feedback on what to fix.</p>
+    <div class="hl am">⚡ These responses are about YOUR specific code. The more detail you include about your actual variable names, procedure names, and list contents, the more accurate the feedback will be.</div>
   </div>
-
   <div class="scard">
-    <div class="ai-label">STEP 1 — WHICH PROMPT IS THIS FOR?</div>
-    <div class="prompt-selector">
-      <button class="ps-btn active" onclick="selectPrompt(1,this)">Prompt 1: Purpose &amp; Function</button>
-      <button class="ps-btn" onclick="selectPrompt(2,this)">Prompt 2: Abstraction</button>
-      <button class="ps-btn" onclick="selectPrompt(3,this)">Prompt 3: Algorithm</button>
+    <div class="ai-label">STEP 1 — SELECT THE PROMPT YOU ARE PRACTICING</div>
+    <div class="ps-row">
+      <button class="ps-btn active" onclick="selectPrompt(1,this)">WR1: Output &amp; Function</button>
+      <button class="ps-btn" onclick="selectPrompt('2a',this)">WR2(a): Boolean Expression</button>
+      <button class="ps-btn" onclick="selectPrompt('2b',this)">WR2(b): Logic Error</button>
+      <button class="ps-btn" onclick="selectPrompt('2c-list',this)">WR2(c): List Scaling</button>
+      <button class="ps-btn" onclick="selectPrompt('2c-proc',this)">WR2(c): Procedural Abstraction</button>
     </div>
-
     <div class="ai-label">STEP 2 — PASTE YOUR RESPONSE DRAFT</div>
-    <textarea class="ai-textarea" id="student-response" placeholder="Paste your written response here. Be as detailed as you would on the real exam — the AI will score it the same way the College Board would..."></textarea>
-
-    <div style="margin-top:10px">
-      <button class="ai-btn" id="review-btn" onclick="reviewResponse()">
-        <span>🤖</span> REVIEW MY RESPONSE
-      </button>
-    </div>
-
-    <div class="ai-loading" id="ai-loading">
-      <span class="spinner"></span>ANALYZING YOUR RESPONSE...
-    </div>
-
-    <div class="ai-response" id="ai-response"></div>
+    <textarea class="ai-ta" id="student-response" placeholder="Paste your written response here. Include your actual variable names, procedure names, and specific values from your code — the AI scores based on the actual rubric criteria..."></textarea>
+    <button class="ai-btn" id="review-btn" onclick="reviewResponse()"><span>🤖</span> REVIEW MY RESPONSE</button>
+    <div class="ai-load" id="ai-load"><span class="spinner"></span>ANALYZING YOUR RESPONSE...</div>
+    <div class="ai-resp" id="ai-resp"></div>
   </div>
-
-</div><!-- end tool-reviewer -->
+</div>
 
 </div><!-- end app -->
 
 <script>
-// ── STARS ──────────────────────────────────────────────────────────────────
+// STARS
 (function(){
   var c=document.getElementById('stars');
   for(var i=0;i<100;i++){
@@ -305,7 +428,7 @@ h1.pg-ttl span{color:var(--c1)}
   }
 })();
 
-// ── TABS ───────────────────────────────────────────────────────────────────
+// TABS
 function switchTab(name){
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
   document.querySelectorAll('.tool-panel').forEach(function(p){p.classList.remove('active');});
@@ -314,315 +437,234 @@ function switchTab(name){
   if(name==='tracer') initTracer();
 }
 
-// ── PROMPT ACCORDION ───────────────────────────────────────────────────────
-function togglePrompt(n){
-  var body=document.getElementById('pb'+n);
-  var arrow=document.getElementById('arrow'+n);
-  var btn=body.previousElementSibling;
+// PROMPT ACCORDION
+function togglePrompt(id){
+  var body=document.getElementById('pb-'+id);
+  var hdr=body.previousElementSibling;
   var isOpen=body.classList.contains('show');
   body.classList.toggle('show',!isOpen);
-  btn.classList.toggle('open',!isOpen);
-  arrow.textContent=isOpen?'▼':'▲';
+  hdr.classList.toggle('open',!isOpen);
 }
 
-// ── PSEUDOCODE TRACER ──────────────────────────────────────────────────────
+// ── TRACER ─────────────────────────────────────────────────
 var tracerQs=[
-  {
-    title:'Variables & Assignment',
-    obj:'AAP-1.B',
-    code:'<span class="kw">a</span> <span class="op">←</span> <span class="val">5</span>\n<span class="kw">b</span> <span class="op">←</span> <span class="val">3</span>\n<span class="kw">a</span> <span class="op">←</span> <span class="kw">a</span> <span class="op">+</span> <span class="kw">b</span>\n<span class="kw">b</span> <span class="op">←</span> <span class="kw">a</span> <span class="op">*</span> <span class="val">2</span>\nDISPLAY(<span class="kw">a</span>)\nDISPLAY(<span class="kw">b</span>)',
-    answer:'8 16',
-    explain:'a starts at 5. b starts at 3. a ← a + b means a becomes 5+3 = 8. Then b ← a * 2 means b becomes 8*2 = 16. DISPLAY(a) shows 8, DISPLAY(b) shows 16. Each DISPLAY is followed by a space, so the output is "8 16".'
-  },
-  {
-    title:'IF / ELSE Selection',
-    obj:'AAP-2.H',
-    code:'<span class="kw">score</span> <span class="op">←</span> <span class="val">73</span>\n<span class="kw">IF</span> (<span class="kw">score</span> <span class="op">≥</span> <span class="val">90</span>)\n{\n  DISPLAY(<span class="val">"A"</span>)\n}\n<span class="kw">ELSE</span>\n{\n  <span class="kw">IF</span> (<span class="kw">score</span> <span class="op">≥</span> <span class="val">70</span>)\n  {\n    DISPLAY(<span class="val">"B or C"</span>)\n  }\n  <span class="kw">ELSE</span>\n  {\n    DISPLAY(<span class="val">"Below 70"</span>)\n  }\n}',
-    answer:'B or C',
-    explain:'score is 73. The first condition (score ≥ 90) is false — 73 is not ≥ 90. So we go to ELSE. The nested condition (score ≥ 70) is true — 73 ≥ 70. So "B or C" is displayed.'
-  },
-  {
-    title:'REPEAT n TIMES Loop',
-    obj:'AAP-2.K',
-    code:'<span class="kw">total</span> <span class="op">←</span> <span class="val">0</span>\n<span class="kw">counter</span> <span class="op">←</span> <span class="val">1</span>\n<span class="kw">REPEAT</span> <span class="val">4</span> <span class="kw">TIMES</span>\n{\n  <span class="kw">total</span> <span class="op">←</span> <span class="kw">total</span> <span class="op">+</span> <span class="kw">counter</span>\n  <span class="kw">counter</span> <span class="op">←</span> <span class="kw">counter</span> <span class="op">+</span> <span class="val">1</span>\n}\nDISPLAY(<span class="kw">total</span>)',
-    answer:'10',
-    explain:'Start: total=0, counter=1. Loop runs 4 times:\nRound 1: total = 0+1 = 1, counter = 2\nRound 2: total = 1+2 = 3, counter = 3\nRound 3: total = 3+3 = 6, counter = 4\nRound 4: total = 6+4 = 10, counter = 5\nDISPLAY(total) shows 10.'
-  },
-  {
-    title:'REPEAT UNTIL Loop',
-    obj:'AAP-2.K',
-    code:'<span class="kw">x</span> <span class="op">←</span> <span class="val">1</span>\n<span class="kw">REPEAT UNTIL</span> (<span class="kw">x</span> <span class="op">></span> <span class="val">20</span>)\n{\n  <span class="kw">x</span> <span class="op">←</span> <span class="kw">x</span> <span class="op">*</span> <span class="val">2</span>\n}\nDISPLAY(<span class="kw">x</span>)',
-    answer:'32',
-    explain:'x starts at 1. The loop runs UNTIL x > 20:\nx=1 → not >20 → x becomes 2\nx=2 → not >20 → x becomes 4\nx=4 → not >20 → x becomes 8\nx=8 → not >20 → x becomes 16\nx=16 → not >20 → x becomes 32\nx=32 → 32 > 20 is TRUE → loop stops\nDISPLAY(32)'
-  },
-  {
-    title:'List Operations & FOR EACH',
-    obj:'AAP-2.O',
-    code:'<span class="kw">scores</span> <span class="op">←</span> [<span class="val">85</span>, <span class="val">92</span>, <span class="val">78</span>, <span class="val">95</span>, <span class="val">88</span>]\n<span class="kw">total</span> <span class="op">←</span> <span class="val">0</span>\n<span class="kw">FOR EACH</span> <span class="kw">item</span> <span class="kw">IN</span> <span class="kw">scores</span>\n{\n  <span class="kw">total</span> <span class="op">←</span> <span class="kw">total</span> <span class="op">+</span> <span class="kw">item</span>\n}\nDISPLAY(<span class="kw">total</span>)',
-    answer:'438',
-    explain:'FOR EACH loops through every element in scores one by one.\n85+92+78+95+88 = 438\nDISPLAY(438)'
-  },
-  {
-    title:'MOD Operator',
-    obj:'AAP-2.C',
-    code:'<span class="kw">n</span> <span class="op">←</span> <span class="val">17</span>\n<span class="kw">IF</span> (<span class="kw">n</span> <span class="kw">MOD</span> <span class="val">2</span> <span class="op">=</span> <span class="val">0</span>)\n{\n  DISPLAY(<span class="val">"even"</span>)\n}\n<span class="kw">ELSE</span>\n{\n  DISPLAY(<span class="val">"odd"</span>)\n}',
-    answer:'odd',
-    explain:'17 MOD 2 = 1 (17 divided by 2 is 8 remainder 1). Since 1 ≠ 0, the condition is false. The ELSE branch runs and displays "odd".'
-  },
-  {
-    title:'Procedure with Return',
-    obj:'AAP-3.A',
-    code:'<span class="kw">PROCEDURE</span> <span class="op">double</span>(<span class="kw">n</span>)\n{\n  <span class="kw">RETURN</span>(<span class="kw">n</span> <span class="op">*</span> <span class="val">2</span>)\n}\n<span class="kw">result</span> <span class="op">←</span> <span class="op">double</span>(<span class="val">7</span>)\n<span class="kw">result</span> <span class="op">←</span> <span class="op">double</span>(<span class="kw">result</span>)\nDISPLAY(<span class="kw">result</span>)',
-    answer:'28',
-    explain:'double(7) returns 7*2 = 14. result ← 14.\ndouble(result) = double(14) returns 14*2 = 28. result ← 28.\nDISPLAY(28)'
-  },
-  {
-    title:'List Index Access',
-    obj:'AAP-2.N',
-    code:'<span class="kw">playlist</span> <span class="op">←</span> [<span class="val">"pop"</span>, <span class="val">"rock"</span>, <span class="val">"jazz"</span>, <span class="val">"lo-fi"</span>]\n<span class="kw">i</span> <span class="op">←</span> <span class="val">2</span>\nDISPLAY(<span class="kw">playlist</span>[<span class="kw">i</span>])\n<span class="kw">i</span> <span class="op">←</span> <span class="kw">i</span> <span class="op">+</span> <span class="val">2</span>\nDISPLAY(<span class="kw">playlist</span>[<span class="kw">i</span>])',
-    answer:'rock lo-fi',
-    explain:'AP lists are 1-indexed. playlist[2] is "rock" (the second element). i becomes 2+2=4. playlist[4] is "lo-fi" (the fourth element). Output: "rock lo-fi"'
-  },
-  {
-    title:'Boolean Logic — AND / OR',
-    obj:'AAP-2.F',
-    code:'<span class="kw">age</span> <span class="op">←</span> <span class="val">16</span>\n<span class="kw">hasTicket</span> <span class="op">←</span> <span class="kw">true</span>\n<span class="kw">IF</span> (<span class="kw">age</span> <span class="op">≥</span> <span class="val">13</span> <span class="kw">AND</span> <span class="kw">hasTicket</span> <span class="op">=</span> <span class="kw">true</span>)\n{\n  DISPLAY(<span class="val">"enter"</span>)\n}\n<span class="kw">ELSE</span>\n{\n  DISPLAY(<span class="val">"denied"</span>)\n}',
-    answer:'enter',
-    explain:'age ≥ 13 → 16 ≥ 13 → TRUE. hasTicket = true → TRUE. TRUE AND TRUE → TRUE. The IF block runs and displays "enter".'
-  },
-  {
-    title:'Nested Loop with Condition',
-    obj:'AAP-2.K',
-    code:'<span class="kw">count</span> <span class="op">←</span> <span class="val">0</span>\n<span class="kw">REPEAT</span> <span class="val">4</span> <span class="kw">TIMES</span>\n{\n  <span class="kw">x</span> <span class="op">←</span> <span class="kw">count</span> <span class="op">*</span> <span class="val">3</span>\n  <span class="kw">IF</span> (<span class="kw">x</span> <span class="kw">MOD</span> <span class="val">2</span> <span class="op">=</span> <span class="val">0</span>)\n  {\n    DISPLAY(<span class="kw">x</span>)\n  }\n  <span class="kw">count</span> <span class="op">←</span> <span class="kw">count</span> <span class="op">+</span> <span class="val">1</span>\n}',
-    answer:'0 6',
-    explain:'Round 1: count=0, x=0*3=0. 0 MOD 2=0 → DISPLAY(0). count=1\nRound 2: count=1, x=1*3=3. 3 MOD 2=1 → not 0, no display. count=2\nRound 3: count=2, x=2*3=6. 6 MOD 2=0 → DISPLAY(6). count=3\nRound 4: count=3, x=3*3=9. 9 MOD 2=1 → not 0, no display. count=4\nOutput: "0 6"'
-  }
+  {title:'Variables & Assignment',obj:'AAP-1.B',
+  code:'<span class="kw">a</span> <span class="op">←</span> <span class="val">5</span>\n<span class="kw">b</span> <span class="op">←</span> <span class="val">3</span>\n<span class="kw">a</span> <span class="op">←</span> <span class="kw">a</span> <span class="op">+</span> <span class="kw">b</span>\n<span class="kw">b</span> <span class="op">←</span> <span class="kw">a</span> <span class="op">*</span> <span class="val">2</span>\nDISPLAY(<span class="kw">a</span>)\nDISPLAY(<span class="kw">b</span>)',
+  answer:'8 16',
+  explain:'a=5, b=3. a ← a+b → a=8. b ← a*2 → b=16. DISPLAY(a) shows 8, DISPLAY(b) shows 16. Each DISPLAY adds a space, so output is "8 16".'},
+
+  {title:'IF / ELSE Selection',obj:'AAP-2.H',
+  code:'<span class="kw">score</span> <span class="op">←</span> <span class="val">73</span>\n<span class="kw">IF</span> (<span class="kw">score</span> <span class="op">≥</span> <span class="val">90</span>)\n{\n  DISPLAY(<span class="str">"A"</span>)\n}\n<span class="kw">ELSE</span>\n{\n  <span class="kw">IF</span> (<span class="kw">score</span> <span class="op">≥</span> <span class="val">70</span>)\n  {\n    DISPLAY(<span class="str">"B or C"</span>)\n  }\n  <span class="kw">ELSE</span>\n  {\n    DISPLAY(<span class="str">"Below 70"</span>)\n  }\n}',
+  answer:'B or C',
+  explain:'score=73. First condition: 73 ≥ 90 → FALSE. ELSE branch: 73 ≥ 70 → TRUE. Displays "B or C".'},
+
+  {title:'REPEAT n TIMES',obj:'AAP-2.K',
+  code:'<span class="kw">total</span> <span class="op">←</span> <span class="val">0</span>\n<span class="kw">counter</span> <span class="op">←</span> <span class="val">1</span>\n<span class="kw">REPEAT</span> <span class="val">4</span> <span class="kw">TIMES</span>\n{\n  <span class="kw">total</span> <span class="op">←</span> <span class="kw">total</span> <span class="op">+</span> <span class="kw">counter</span>\n  <span class="kw">counter</span> <span class="op">←</span> <span class="kw">counter</span> <span class="op">+</span> <span class="val">1</span>\n}\nDISPLAY(<span class="kw">total</span>)',
+  answer:'10',
+  explain:'Round 1: total=0+1=1, counter=2\nRound 2: total=1+2=3, counter=3\nRound 3: total=3+3=6, counter=4\nRound 4: total=6+4=10, counter=5\nDISPLAY(10)'},
+
+  {title:'REPEAT UNTIL',obj:'AAP-2.K',
+  code:'<span class="kw">x</span> <span class="op">←</span> <span class="val">1</span>\n<span class="kw">REPEAT UNTIL</span> (<span class="kw">x</span> <span class="op">></span> <span class="val">20</span>)\n{\n  <span class="kw">x</span> <span class="op">←</span> <span class="kw">x</span> <span class="op">*</span> <span class="val">2</span>\n}\nDISPLAY(<span class="kw">x</span>)',
+  answer:'32',
+  explain:'x doubles each round: 1→2→4→8→16→32. At 32, the condition x>20 is TRUE and the loop stops. DISPLAY(32).'},
+
+  {title:'FOR EACH List Traversal',obj:'AAP-2.O',
+  code:'<span class="kw">scores</span> <span class="op">←</span> [<span class="val">85</span>, <span class="val">92</span>, <span class="val">78</span>, <span class="val">95</span>, <span class="val">88</span>]\n<span class="kw">total</span> <span class="op">←</span> <span class="val">0</span>\n<span class="kw">FOR EACH</span> <span class="kw">item</span> <span class="kw">IN</span> <span class="kw">scores</span>\n{\n  <span class="kw">total</span> <span class="op">←</span> <span class="kw">total</span> <span class="op">+</span> <span class="kw">item</span>\n}\nDISPLAY(<span class="kw">total</span>)',
+  answer:'438',
+  explain:'FOR EACH loops through every element: 85+92+78+95+88=438. DISPLAY(438).'},
+
+  {title:'MOD Operator',obj:'AAP-2.C',
+  code:'<span class="kw">n</span> <span class="op">←</span> <span class="val">17</span>\n<span class="kw">IF</span> (<span class="kw">n</span> <span class="kw">MOD</span> <span class="val">2</span> <span class="op">=</span> <span class="val">0</span>)\n{\n  DISPLAY(<span class="str">"even"</span>)\n}\n<span class="kw">ELSE</span>\n{\n  DISPLAY(<span class="str">"odd"</span>)\n}',
+  answer:'odd',
+  explain:'17 MOD 2 = 1 (17 ÷ 2 = 8 remainder 1). 1 ≠ 0, so condition is FALSE. ELSE branch runs: "odd".'},
+
+  {title:'Procedure with RETURN',obj:'AAP-3.A',
+  code:'<span class="kw">PROCEDURE</span> double(<span class="kw">n</span>)\n{\n  <span class="kw">RETURN</span>(<span class="kw">n</span> <span class="op">*</span> <span class="val">2</span>)\n}\n<span class="kw">result</span> <span class="op">←</span> double(<span class="val">7</span>)\n<span class="kw">result</span> <span class="op">←</span> double(<span class="kw">result</span>)\nDISPLAY(<span class="kw">result</span>)',
+  answer:'28',
+  explain:'double(7) returns 14. result=14. double(14) returns 28. result=28. DISPLAY(28).'},
+
+  {title:'List Index Access',obj:'AAP-2.N',
+  code:'<span class="kw">apps</span> <span class="op">←</span> [<span class="str">"TikTok"</span>, <span class="str">"Instagram"</span>, <span class="str">"Twitter"</span>, <span class="str">"Snapchat"</span>]\n<span class="kw">i</span> <span class="op">←</span> <span class="val">2</span>\nDISPLAY(<span class="kw">apps</span>[<span class="kw">i</span>])\n<span class="kw">i</span> <span class="op">←</span> <span class="kw">i</span> <span class="op">+</span> <span class="val">2</span>\nDISPLAY(<span class="kw">apps</span>[<span class="kw">i</span>])',
+  answer:'Instagram Snapchat',
+  explain:'AP lists are 1-indexed. apps[2]="Instagram". i=2+2=4. apps[4]="Snapchat". Output: "Instagram Snapchat".'},
+
+  {title:'Boolean AND / OR',obj:'AAP-2.F',
+  code:'<span class="kw">age</span> <span class="op">←</span> <span class="val">16</span>\n<span class="kw">hasAccount</span> <span class="op">←</span> <span class="kw">true</span>\n<span class="kw">IF</span> (<span class="kw">age</span> <span class="op">≥</span> <span class="val">13</span> <span class="kw">AND</span> <span class="kw">hasAccount</span> <span class="op">=</span> <span class="kw">true</span>)\n{\n  DISPLAY(<span class="str">"access granted"</span>)\n}\n<span class="kw">ELSE</span>\n{\n  DISPLAY(<span class="str">"access denied"</span>)\n}',
+  answer:'access granted',
+  explain:'age ≥ 13 → 16 ≥ 13 → TRUE. hasAccount = true → TRUE. TRUE AND TRUE → TRUE. Displays "access granted".'},
+
+  {title:'Nested Loop + Condition',obj:'AAP-2.K',
+  code:'<span class="kw">count</span> <span class="op">←</span> <span class="val">0</span>\n<span class="kw">REPEAT</span> <span class="val">4</span> <span class="kw">TIMES</span>\n{\n  <span class="kw">x</span> <span class="op">←</span> <span class="kw">count</span> <span class="op">*</span> <span class="val">3</span>\n  <span class="kw">IF</span> (<span class="kw">x</span> <span class="kw">MOD</span> <span class="val">2</span> <span class="op">=</span> <span class="val">0</span>)\n  {\n    DISPLAY(<span class="kw">x</span>)\n  }\n  <span class="kw">count</span> <span class="op">←</span> <span class="kw">count</span> <span class="op">+</span> <span class="val">1</span>\n}',
+  answer:'0 6',
+  explain:'count=0: x=0, 0 MOD 2=0 → DISPLAY(0)\ncount=1: x=3, 3 MOD 2=1 → no display\ncount=2: x=6, 6 MOD 2=0 → DISPLAY(6)\ncount=3: x=9, 9 MOD 2=1 → no display\nOutput: "0 6"'}
 ];
 
-var tracerState={current:0,results:{}};
+var tState={cur:0,results:{},answers:{}};
 
-function initTracer(){
-  renderTracerDots();
-  renderTracerQ(tracerState.current);
-}
+function initTracer(){renderDots();renderQ(tState.cur);}
 
-function renderTracerDots(){
-  var d=document.getElementById('tracer-dots');
-  d.innerHTML='';
+function renderDots(){
+  var d=document.getElementById('tracer-dots');d.innerHTML='';
   for(var i=0;i<tracerQs.length;i++){
     var dot=document.createElement('button');
-    dot.className='dot';
-    dot.textContent=(i+1);
-    dot.setAttribute('data-idx',i);
-    if(i===tracerState.current) dot.classList.add('current');
-    if(tracerState.results[i]==='correct') dot.classList.add('done-correct');
-    if(tracerState.results[i]==='wrong') dot.classList.add('done-wrong');
-    dot.onclick=(function(idx){return function(){goToTracer(idx);};})(i);
+    dot.className='dot'+(i===tState.cur?' current':tState.results[i]==='correct'?' dc':tState.results[i]==='wrong'?' dw':'');
+    dot.textContent=i+1;
+    (function(idx){dot.onclick=function(){tState.cur=idx;renderDots();renderQ(idx);};})(i);
     d.appendChild(dot);
   }
 }
 
-function goToTracer(idx){
-  tracerState.current=idx;
-  renderTracerDots();
-  renderTracerQ(idx);
-  document.getElementById('tool-tracer').scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-function renderTracerQ(idx){
+function renderQ(idx){
   var q=tracerQs[idx];
-  var isAnswered=(tracerState.results[idx]!==undefined);
-  var prev=idx>0?'<button class="trace-btn" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);margin-right:8px" onclick="goToTracer('+(idx-1)+')">← PREV</button>':'';
-  var next=idx<tracerQs.length-1?'<button class="trace-btn" onclick="goToTracer('+(idx+1)+')">NEXT →</button>':'';
+  var done=tState.results[idx]!==undefined;
+  var prev=idx>0?'<button class="tbtn sec" onclick="tState.cur='+(idx-1)+';renderDots();renderQ('+(idx-1)+')">← PREV</button>':'';
+  var next=idx<tracerQs.length-1?'<button class="tbtn" onclick="tState.cur='+(idx+1)+';renderDots();renderQ('+(idx+1)+')">NEXT →</button>':'';
   document.getElementById('tracer-content').innerHTML=
     '<div class="scard">'+
-      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'+
-        '<div><div class="scard-title">'+q.title+'</div>'+
-        '<span style="font-family:Orbitron,sans-serif;font-size:9px;color:#f59e0b;letter-spacing:1px">'+q.obj+'</span></div>'+
-        '<span style="font-size:11px;color:#64748b;font-family:Orbitron,sans-serif">'+(idx+1)+'/'+tracerQs.length+'</span>'+
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'+
+        '<div><div class="scard-title">'+q.title+'</div><span style="font-size:9px;color:var(--c3);font-family:Orbitron,sans-serif;letter-spacing:1px">'+q.obj+'</span></div>'+
+        '<span style="font-size:10px;color:#475569;font-family:Orbitron,sans-serif">'+(idx+1)+'/'+tracerQs.length+'</span>'+
       '</div>'+
-      '<div class="pseudo-wrap">'+
-        '<div class="pseudo-hdr">AP CSP PSEUDOCODE</div>'+
+      '<div class="pseudo-wrap"><div class="pseudo-hdr">AP CSP PSEUDOCODE — WHAT DOES THIS DISPLAY?</div>'+
         '<div class="pseudo-code">'+q.code+'</div>'+
       '</div>'+
-      '<div class="trace-area">'+
-        '<div class="trace-label">WHAT DOES THIS PROGRAM DISPLAY?</div>'+
-        '<input class="trace-input" id="trace-ans" type="text" placeholder="Type the exact output..." '+(isAnswered?'disabled':'')+' />'+
-        (!isAnswered?'<button class="trace-btn" onclick="checkTrace('+idx+')">CHECK ANSWER</button>':'')+
-        '<button class="trace-btn" style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);margin-left:8px" onclick="revealTrace('+idx+')">SHOW ANSWER</button>'+
+      '<div class="tlabel">YOUR ANSWER</div>'+
+      '<input class="trace-input" id="tans" type="text" placeholder="Type the exact output..." '+(done?'value="'+escHtml(tState.answers[idx]||'')+'" disabled':'')+' />'+
+      '<div style="margin-top:6px">'+
+        (!done?'<button class="tbtn" onclick="checkT('+idx+')">CHECK ANSWER</button>':'')+
+        '<button class="tbtn sec" onclick="revealT('+idx+')">SHOW ANSWER</button>'+
       '</div>'+
-      '<div class="trace-result" id="trace-result"></div>'+
-      '<div style="margin-top:14px">'+prev+next+'</div>'+
+      '<div class="tresult" id="tres"></div>'+
+      '<div style="margin-top:12px">'+prev+next+'</div>'+
     '</div>';
-
-  if(isAnswered){
-    // show previous result
-    var r=tracerState.results[idx];
-    var el=document.getElementById('trace-result');
-    document.getElementById('trace-ans').value=tracerState.answers&&tracerState.answers[idx]||'';
-    showTracerResult(idx,r==='correct');
-  }
+  if(done) showResult(idx,tState.results[idx]==='correct',false);
 }
 
-var tracerAnswers={};
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-function checkTrace(idx){
+function checkT(idx){
+  var ans=document.getElementById('tans');
+  if(!ans||!ans.value.trim()) return;
+  var user=ans.value.trim();
+  tState.answers[idx]=user;
+  var correct=(user===tracerQs[idx].answer);
+  tState.results[idx]=correct?'correct':'wrong';
+  ans.disabled=true;
+  showResult(idx,correct,true);
+  renderDots();
+}
+
+function revealT(idx){
+  tState.results[idx]='wrong';
+  var ans=document.getElementById('tans');
+  if(ans) ans.disabled=true;
+  var el=document.getElementById('tres');
+  el.className='tresult show reveal';
+  el.innerHTML='💡 <strong>Answer: '+tracerQs[idx].answer+'</strong><br><br>'+tracerQs[idx].explain.replace(/\n/g,'<br>');
+  renderDots();
+}
+
+function showResult(idx,correct,fresh){
   var q=tracerQs[idx];
-  var userAns=document.getElementById('trace-ans').value.trim();
-  if(!userAns) return;
-  tracerAnswers[idx]=userAns;
-  var correct=(userAns===q.answer);
-  tracerState.results[idx]=correct?'correct':'wrong';
-  document.getElementById('trace-ans').disabled=true;
-  showTracerResult(idx,correct);
-  renderTracerDots();
+  var el=document.getElementById('tres');
+  el.className='tresult show '+(correct?'correct':'wrong');
+  el.innerHTML=(correct?'✅ <strong>Correct!</strong> ':'❌ <strong>Not quite.</strong> Answer: <strong>'+q.answer+'</strong><br><br>')+q.explain.replace(/\n/g,'<br>');
 }
 
-function showTracerResult(idx,correct){
-  var q=tracerQs[idx];
-  var el=document.getElementById('trace-result');
-  el.className='trace-result show '+(correct?'correct':'wrong');
-  el.innerHTML=(correct?'✅ <strong>Correct!</strong> ':'❌ <strong>Not quite.</strong> The correct output is: <strong>'+q.answer+'</strong><br><br>')+
-    '<strong>Explanation:</strong> '+q.explain.replace(/\n/g,'<br>');
-}
+// ── AI REVIEWER ────────────────────────────────────────────
+var selPrompt=1;
+var promptDefs={
+  1:{name:'WR1: Output & Function',
+    criteria:['Identifies at least one specific example output of the program','Explains how the identified output shows an aspect of the program\'s functionality — connecting the output to specific program behavior, not just restating what it displays'],
+    system:'You score AP CSP Written Response 1 (Program Design, Function, and Purpose). The student must identify a specific program output AND explain how it demonstrates program functionality. Functionality means HOW the program works — what it processes, what decisions it makes, what data it uses to produce the output. Purpose (why the program exists) does NOT earn this point alone. Respond only in JSON: {"scores":[{"criterion":"string","earned":true/false,"reason":"string under 60 words"}],"strength":"string under 40 words","fix":"string under 50 words","summary":"string under 60 words"}'},
+  '2a':{name:'WR2(a): Boolean Expression',
+    criteria:['Identifies the Boolean expression from the first selection statement in the Procedure section of the PPR','Identifies a SPECIFIC value or set of values that will cause the expression to evaluate to true (or false depending on prompt version)','Explains WHY the specified value(s) cause the expression to evaluate to true (or false) — using the logic of the operator'],
+    system:'You score AP CSP Written Response 2(a) (Algorithm Development). The student must: (1) identify the Boolean expression from their IF statement — not describe what the IF block does, but the actual condition expression, (2) give a SPECIFIC concrete value that makes it true or false (not a range, a specific example), and (3) explain the logical reason using the relational/logical operator. "A high score" is not specific. "moodScore = 5" is specific. Respond only in JSON: {"scores":[{"criterion":"string","earned":true/false,"reason":"string under 60 words"}],"strength":"string under 40 words","fix":"string under 50 words","summary":"string under 60 words"}'},
+  '2b':{name:'WR2(b): Logic Error',
+    criteria:['Describes a specific modification that would cause a logic error — a change, addition, or deletion to the procedure or list code that would cause wrong behavior (NOT a crash or syntax error)','Describes how the BEHAVIOR of the procedure or program would change because of the modification — what different output would be produced or what wrong decision would be made'],
+    system:'You score AP CSP Written Response 2(b) (Errors and Testing). The student must describe: (1) a specific code modification that introduces a LOGIC error — wrong behavior, not crash. Changing >= to > is a logic error. Deleting a loop iteration is a logic error. Removing the procedure entirely is not. And (2) the specific behavioral change — what wrong output or wrong decision results. "It would not work" does not earn the point. Respond only in JSON: {"scores":[{"criterion":"string","earned":true/false,"reason":"string under 60 words"}],"strength":"string under 40 words","fix":"string under 50 words","summary":"string under 60 words"}'},
+  '2c-list':{name:'WR2(c): List Scaling',
+    criteria:['Explains what specific changes to the list-accessing code would be necessary if new elements were added to the end of the list, OR explains why no changes are necessary with a specific reason tied to how the code traverses the list'],
+    system:'You score AP CSP Written Response 2(c) List version (Data Abstraction). The student explains what code changes would be needed if the list grew, or why no changes are needed. If the list uses FOR EACH or LENGTH, no changes are needed — this is a valid and correct answer. If it uses hardcoded indexes, changes would be needed. The response must be specific to their actual code, not generic. Respond only in JSON: {"scores":[{"criterion":"string","earned":true/false,"reason":"string under 70 words"}],"strength":"string under 40 words","fix":"string under 50 words","summary":"string under 60 words"}'},
+  '2c-proc':{name:'WR2(c): Procedural Abstraction',
+    criteria:['Describes the functionality of the procedure — what it does, what inputs it takes, what it returns or outputs','Explains specifically how implementing this as a procedure makes the program easier to maintain — for example: changes only need to be made in one place, code reuse avoids duplication, or the procedure hides complexity from the rest of the program'],
+    system:'You score AP CSP Written Response 2(c) Procedure version (Procedural Abstraction). The student must describe what the procedure does AND explain why using a procedure makes the program easier to maintain. "Easier to read" is not the same as "easier to maintain." Maintainability means: if the logic needs to change, you only change it once (in the procedure) rather than everywhere it appears. Vague answers like "it organizes the code" do not earn the point. Respond only in JSON: {"scores":[{"criterion":"string","earned":true/false,"reason":"string under 70 words"}],"strength":"string under 40 words","fix":"string under 50 words","summary":"string under 60 words"}'}
+};
 
-function revealTrace(idx){
-  var q=tracerQs[idx];
-  var el=document.getElementById('trace-result');
-  el.className='trace-result show reveal';
-  el.innerHTML='💡 <strong>Answer: '+q.answer+'</strong><br><br><strong>Explanation:</strong> '+q.explain.replace(/\n/g,'<br>');
-  if(document.getElementById('trace-ans')) document.getElementById('trace-ans').disabled=true;
-  renderTracerDots();
-}
-
-// ── AI REVIEWER ────────────────────────────────────────────────────────────
-var selectedPrompt=1;
-
-function selectPrompt(n,btn){
-  selectedPrompt=n;
+function selectPrompt(p,btn){
+  selPrompt=p;
   document.querySelectorAll('.ps-btn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');
-  document.getElementById('ai-response').classList.remove('show');
-  document.getElementById('ai-response').innerHTML='';
+  document.getElementById('ai-resp').classList.remove('show');
 }
-
-var promptCriteria={
-  1:{
-    name:'Program Purpose & Function',
-    criteria:[
-      'States the overall purpose of the program',
-      'Describes what the video demonstrates — specific inputs, outputs, or behaviors shown',
-      'Explains the function of the program clearly — not just "it runs" but what it actually does'
-    ],
-    context:'The student is describing their AP CSP Create Task program. They need to earn points by (1) clearly stating the overall purpose, and (2) describing what their video shows with specific detail about inputs and outputs.'
-  },
-  2:{
-    name:'Abstraction',
-    criteria:[
-      'Names the procedure and its parameter(s)',
-      'Describes what the procedure does — its inputs, processing, and return/output',
-      'Explains HOW the procedure manages complexity — reuse, hiding implementation details, reducing duplicate code, or enabling higher-level thinking elsewhere in the program'
-    ],
-    context:'The student is explaining how their program uses procedural abstraction. They need to identify a specific procedure they wrote, explain what it does, and explain how it manages complexity in their program.'
-  },
-  3:{
-    name:'Algorithm Development',
-    criteria:[
-      'Describes an algorithm they developed (not a built-in function)',
-      'Explicitly shows or describes SEQUENCING — ordered steps',
-      'Explicitly shows or describes SELECTION — a conditional/IF statement',
-      'Explicitly shows or describes ITERATION — a loop',
-      'The description is clear enough that a reader could understand how the algorithm works step by step'
-    ],
-    context:'The student is describing an algorithm they developed for their Create Task. The algorithm must incorporate sequencing, selection, AND iteration. They need to describe it step by step clearly enough that a scorer can verify all three are present.'
-  }
-};
 
 async function reviewResponse(){
   var text=document.getElementById('student-response').value.trim();
-  if(!text||text.length<20){
-    alert('Please paste your written response first.');
-    return;
-  }
-
+  if(!text||text.length<15){alert('Please paste your response first.');return;}
+  var def=promptDefs[selPrompt];
   var btn=document.getElementById('review-btn');
   btn.disabled=true;
-  document.getElementById('ai-loading').classList.add('show');
-  document.getElementById('ai-response').classList.remove('show');
-
-  var pc=promptCriteria[selectedPrompt];
-  var criteriaList=pc.criteria.map(function(c,i){return (i+1)+'. '+c;}).join('\n');
-
-  var systemPrompt='You are an AP Computer Science Principles Create Task scorer. '+
-    'You score student written responses against the College Board rubric criteria. '+
-    'You are direct, specific, and helpful. You identify exactly what earns points and what is missing. '+
-    'You respond in structured JSON only — no markdown, no extra text. '+
-    'Format: {"scores": [{"criterion": "string", "rating": "full|partial|missing", "reason": "string"}], "overall": "string", "topStrength": "string", "topImprovement": "string"}';
-
-  var userPrompt='This is a student\'s written response for '+pc.name+' (Prompt '+selectedPrompt+') of the AP CSP Create Performance Task.\n\n'+
-    'CONTEXT: '+pc.context+'\n\n'+
-    'SCORING CRITERIA:\n'+criteriaList+'\n\n'+
-    'STUDENT RESPONSE:\n'+text+'\n\n'+
-    'Score each criterion as full (clearly addressed), partial (vaguely addressed or incomplete), or missing (not addressed). '+
-    'Be specific — quote or reference the student\'s actual words. '+
-    'Keep each reason under 60 words. Overall summary under 80 words.';
-
-  try {
-    var res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system:systemPrompt,
-        messages:[{role:'user',content:userPrompt}]
-      })
-    });
+  document.getElementById('ai-load').classList.add('show');
+  document.getElementById('ai-resp').classList.remove('show');
+  var criteriaStr=def.criteria.map(function(c,i){return (i+1)+'. '+c;}).join('\n');
+  var userMsg='SCORING CRITERIA FOR THIS PROMPT:\n'+criteriaStr+'\n\nSTUDENT\'S WRITTEN RESPONSE:\n'+text+'\n\nScore each criterion as earned (true) or not earned (false). Be specific — reference the student\'s actual words.';
+  try{
+    var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:def.system,messages:[{role:'user',content:userMsg}]})});
     var data=await res.json();
-    var raw=data.content&&data.content[0]&&data.content[0].text||'{}';
-    var clean=raw.replace(/```json|```/g,'').trim();
-    var parsed=JSON.parse(clean);
-    renderReview(parsed,pc);
-  } catch(e) {
-    document.getElementById('ai-response').className='ai-response show';
-    document.getElementById('ai-response').innerHTML='<p style="color:#fca5a5">Something went wrong — please try again.</p>';
+    var raw=(data.content&&data.content[0]&&data.content[0].text)||'{}';
+    var parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    renderReview(parsed,def);
+  }catch(e){
+    var el=document.getElementById('ai-resp');
+    el.className='ai-resp show';
+    el.innerHTML='<p style="color:#fca5a5">Something went wrong — please try again.</p>';
   }
-
   btn.disabled=false;
-  document.getElementById('ai-loading').classList.remove('show');
+  document.getElementById('ai-load').classList.remove('show');
 }
 
-function renderReview(data,pc){
-  var el=document.getElementById('ai-response');
+function renderReview(data,def){
   var scores=data.scores||[];
-  var chipsHtml=scores.map(function(s){
-    var cls=s.rating==='full'?'score-full':s.rating==='partial'?'score-partial':'score-missing';
-    var icon=s.rating==='full'?'✅':s.rating==='partial'?'⚡':'❌';
-    return '<span class="score-chip '+cls+'">'+icon+' '+s.rating.toUpperCase()+'</span>';
-  }).join('');
-
-  var detailHtml=scores.map(function(s,i){
-    var cls=s.rating==='full'?'score-full':s.rating==='partial'?'score-partial':'score-missing';
-    var border=s.rating==='full'?'rgba(16,185,129,.3)':s.rating==='partial'?'rgba(245,158,11,.3)':'rgba(239,68,68,.3)';
-    return '<div style="border:1px solid '+border+';border-radius:8px;padding:12px;margin-bottom:8px">'+
-      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'+
-        '<span class="score-chip '+cls+'" style="font-size:9px">'+(s.rating==='full'?'✅ FULL':s.rating==='partial'?'⚡ PARTIAL':'❌ MISSING')+'</span>'+
-        '<span style="font-size:12px;color:#b0bec5;font-family:Orbitron,sans-serif;font-size:9px">CRITERION '+(i+1)+'</span>'+
+  var allEarned=scores.every(function(s){return s.earned;});
+  var rows=scores.map(function(s,i){
+    var border=s.earned?'rgba(16,185,129,.3)':'rgba(239,68,68,.3)';
+    return '<div class="srow" style="border-color:'+border+'">'+
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'+
+        '<span class="sc '+(s.earned?'sc-full':'sc-miss')+'">'+(s.earned?'✅ EARNED':'❌ NOT EARNED')+'</span>'+
+        '<span style="font-size:10px;color:#94a3b8">Criterion '+(i+1)+'</span>'+
       '</div>'+
-      '<div style="font-size:12px;color:#fff;margin-bottom:4px;font-weight:600">'+pc.criteria[i]+'</div>'+
-      '<div style="font-size:13px;color:#b0bec5">'+s.reason+'</div>'+
+      '<div style="font-size:11px;color:#cbd5e1;margin-bottom:4px">'+def.criteria[i]+'</div>'+
+      '<div style="font-size:12px;color:#fff">'+s.reason+'</div>'+
     '</div>';
   }).join('');
-
-  el.className='ai-response show';
+  var el=document.getElementById('ai-resp');
+  el.className='ai-resp show';
   el.innerHTML=
-    '<div style="font-family:Orbitron,sans-serif;font-size:10px;color:var(--c1);letter-spacing:2px;margin-bottom:10px">SCORING RESULTS — '+pc.name.toUpperCase()+'</div>'+
-    '<div class="score-row">'+chipsHtml+'</div>'+
-    detailHtml+
-    (data.topStrength?'<div class="hl gr" style="margin-top:12px">💪 <strong>Strongest element:</strong> '+data.topStrength+'</div>':'')+
-    (data.topImprovement?'<div class="hl am" style="margin-top:8px">🎯 <strong>Most important fix:</strong> '+data.topImprovement+'</div>':'')+
-    (data.overall?'<div style="margin-top:12px;padding:12px;background:rgba(0,0,0,.2);border-radius:8px;font-size:13px;color:#fff;line-height:1.6">'+data.overall+'</div>':'');
+    '<div style="font-family:Orbitron,sans-serif;font-size:10px;color:var(--c1);letter-spacing:2px;margin-bottom:10px">SCORING — '+def.name.toUpperCase()+'</div>'+
+    rows+
+    (data.strength?'<div class="hl gr" style="margin-top:10px">💪 <strong>Strength:</strong> '+data.strength+'</div>':'')+
+    (data.fix&&!allEarned?'<div class="hl am" style="margin-top:7px">🎯 <strong>Most important fix:</strong> '+data.fix+'</div>':'')+
+    (allEarned?'<div class="hl gr" style="margin-top:7px">🌟 This response earns the point. Strong work!</div>':'')+
+    (data.summary?'<div style="margin-top:10px;padding:11px;background:rgba(0,0,0,.2);border-radius:8px;font-size:12px;color:#cbd5e1;line-height:1.6">'+data.summary+'</div>':'');
 }
 </script>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-badge">BUILT WITH AI</div>
+    <p class="footer-disclaimer">
+      This tool was vibe coded with AI assistance and is intended for educational and study purposes only.
+      Prompt wording and rubric criteria are based on publicly released AP Computer Science Principles exam materials from College Board (2024–2025).
+      This tool is not affiliated with, endorsed by, or reviewed by College Board.
+      The AI reviewer provides practice feedback only — it is not a College Board scorer and its assessments should not be taken as a guarantee of exam performance.
+      Always verify against your official AP CSP materials and teacher guidance.
+      AP® is a registered trademark of College Board.
+    </p>
+    <p class="footer-disclaimer">
+      Built by <a href="https://shelbycorbitt.com" target="_blank">Shelby Corbitt</a> for Arkansas AP CSP students. 🚀
+    </p>
+  </div>
+</footer>
+
 </body>
 </html>
