@@ -123,6 +123,15 @@ h2.ltit{font-family:'Orbitron',sans-serif;font-size:clamp(14px,2.6vw,20px);font-
 .mrq{font-size:12px;color:#fff;margin-bottom:3px;font-weight:500}
 .mra{font-size:12px;color:#10b981;font-weight:600}
 .mrw{font-size:12px;color:#fca5a5;text-decoration:line-through}
+/* FOOTER */
+.site-footer{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 16px 32px;text-align:center}
+.footer-inner{border-top:1px solid rgba(255,255,255,.08);padding-top:20px}
+.footer-disclaimer{font-size:12px;color:#475569;line-height:1.7;max-width:640px;margin:0 auto 12px}
+.footer-disclaimer a{color:#00d4ff;text-decoration:none}
+.footer-disclaimer a:hover{text-decoration:underline}
+.footer-badge{display:inline-block;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.3);color:#a78bfa;font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;padding:4px 12px;border-radius:20px;margin-bottom:10px}
+.footer-prep-link{display:inline-block;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:#00d4ff;font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:1px;padding:9px 22px;border-radius:8px;text-decoration:none;transition:all .25s;font-weight:700;margin-top:4px}
+.footer-prep-link:hover{background:rgba(0,212,255,.2)}
 /* splash concept item */
 .ci2{background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.2);border-radius:10px;padding:11px;text-align:center}
 .ci2 .ico{font-size:20px;margin-bottom:5px}
@@ -539,5 +548,25 @@ function endGame(){
     '</div>'+mh;
 }
 </script>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-badge">BUILT WITH AI</div>
+    <p class="footer-disclaimer">
+      This learning module was vibe coded with AI assistance and is intended for educational and study purposes only.
+      Content is based on the official AP Computer Science Principles Course and Exam Description published by College Board,
+      but this tool is not affiliated with, endorsed by, or reviewed by College Board.
+      Always verify information against your official AP CSP course materials and teacher guidance.
+      AP® is a registered trademark of College Board.
+    </p>
+    <p class="footer-disclaimer" style="margin-bottom:16px">
+      Built by <a href="https://shelbycorbitt.com" target="_blank">Shelby Corbitt</a> for Arkansas AP CSP students. 🚀
+    </p>
+    <a class="footer-prep-link" href="https://shelbycorbitt.com/apcspprep.html" target="_blank">
+      🛸 READY FOR THE CREATE TASK? → AP CSP CREATE TASK PREP TOOLS
+    </a>
+  </div>
+</footer>
+
 </body>
 </html>
