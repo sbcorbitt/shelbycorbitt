@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#03050f;color:#fff;font-family:'Exo 2',sans-serif;min-height:100vh;overflow-x:hidden}
+#stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.star{position:absolute;background:#fff;border-radius:50%;animation:tw var(--d,3s) ease-in-out infinite var(--dl,0s)}
+@keyframes tw{0%,100%{opacity:var(--m,.2)}50%{opacity:1}}
+#app{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:24px 16px 80px}
+.screen{display:none;animation:fi .5s ease}
+.screen.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+/* SPLASH */
+.mhdr{text-align:center;padding:36px 0 28px}
+.badge{display:inline-block;background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.5);color:#00d4ff;padding:6px 18px;border-radius:20px;font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:2px;margin-bottom:14px}
+h1.ttl{font-family:'Orbitron',sans-serif;font-size:clamp(20px,4vw,32px);font-weight:900;color:#fff;line-height:1.2;margin-bottom:10px}
+h1.ttl span{color:#00d4ff}
+.sub{color:#fff;font-size:14px;line-height:1.6;max-width:580px;margin:0 auto 10px}
+.enote{display:inline-block;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.4);color:#f59e0b;padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;margin-bottom:20px}
+.sgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:700px;margin:0 auto 22px}
+.sbtn,.nbtn,.bpri{background:#00d4ff;color:#03050f;border:none;font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:1px;cursor:pointer;transition:all .25s;border-radius:8px}
+.sbtn{padding:14px 40px;font-size:14px;box-shadow:0 0 28px rgba(0,212,255,.6)}
+.sbtn:hover,.nbtn:hover,.bpri:hover{background:#33ddff;transform:scale(1.04)}
+.nbtn{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;font-size:13px;margin-top:16px}
+.bpri{padding:11px 22px;font-size:12px;margin:5px}
+.bsec{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.3);color:#fff;padding:11px 22px;font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;border-radius:8px;cursor:pointer;letter-spacing:1px;margin:5px;transition:all .25s}
+.bsec:hover{background:rgba(0,212,255,.15);border-color:#00d4ff;color:#00d4ff}
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;padding:10px 14px;background:rgba(17,30,66,.8);border:1px solid rgba(0,212,255,.15);border-radius:12px}
+.ntit{font-family:'Orbitron',sans-serif;font-size:10px;color:#00d4ff;letter-spacing:2px}
+.pbar{flex:1;height:4px;background:rgba(255,255,255,.1);border-radius:2px;margin:0 12px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,#7c3aed,#00d4ff);border-radius:2px;transition:width .5s}
+.nstp{font-size:11px;color:#fff}
+/* LESSON */
+.lcard{background:rgba(13,22,53,.9);border:1px solid rgba(0,212,255,.2);border-radius:16px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
+.lcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent-bar,linear-gradient(90deg,#7c3aed,#00d4ff,#10b981))}
+.sico{font-size:32px;margin-bottom:8px;display:block}
+.slbl{font-family:'Orbitron',sans-serif;font-size:10px;color:#00d4ff;letter-spacing:3px;margin-bottom:4px}
+.wi{display:inline-block;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.4);color:#f59e0b;font-size:10px;padding:2px 7px;border-radius:4px;font-family:'Orbitron',sans-serif;letter-spacing:1px;margin-right:4px;margin-bottom:4px}
+.otag{display:inline-block;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);color:#67e8f9;font-size:10px;padding:2px 6px;border-radius:4px;font-family:'Orbitron',sans-serif;letter-spacing:1px;margin-right:3px;margin-bottom:3px}
+h2.ltit{font-family:'Orbitron',sans-serif;font-size:clamp(14px,2.6vw,20px);font-weight:700;color:#fff;margin:8px 0 12px;line-height:1.3}
+.lbody{color:#fff;font-size:14px;line-height:1.8}
+.lbody p{margin-bottom:12px}
+.lbody strong{color:#67e8f9}
+.hl{background:rgba(0,212,255,.1);border-left:3px solid #00d4ff;padding:10px 14px;border-radius:0 8px 8px 0;margin:12px 0;font-size:13px;color:#fff}
+.hl.am{border-left-color:#f59e0b;background:rgba(245,158,11,.1)}
+.hl.gr{border-left-color:#10b981;background:rgba(16,185,129,.1)}
+.hl.pu{border-left-color:#a78bfa;background:rgba(124,58,237,.1)}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:9px;margin:12px 0}
+.ci{background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.2);border-radius:10px;padding:12px;text-align:center}
+.ci .ico{font-size:18px;margin-bottom:6px}
+.ci .lbl{font-family:'Orbitron',sans-serif;font-size:9px;color:#00d4ff;margin-bottom:4px}
+.ci .dsc{font-size:11px;color:#fff;line-height:1.4}
+.vbox{background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.3);border-radius:10px;padding:12px;margin:12px 0}
+.vtit{font-family:'Orbitron',sans-serif;font-size:9px;color:#c4b5fd;letter-spacing:2px;margin-bottom:8px}
+.vi{margin-bottom:6px;font-size:13px;color:#fff}
+.vi span{color:#c4b5fd;font-weight:700}
+/* QUIZ */
+.qcard{background:rgba(13,22,53,.95);border:2px solid rgba(124,58,237,.4);border-radius:16px;padding:24px;margin-top:20px}
+.qlbl{font-family:'Orbitron',sans-serif;font-size:9px;color:#c4b5fd;letter-spacing:3px;margin-bottom:10px}
+.qq{font-size:15px;font-weight:600;color:#fff;margin-bottom:16px;line-height:1.6}
+.qopts{display:flex;flex-direction:column;gap:8px}
+.qopt{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.2);color:#fff;padding:11px 14px;border-radius:8px;cursor:pointer;font-family:'Exo 2',sans-serif;font-size:13px;font-weight:600;text-align:left;transition:all .2s;width:100%}
+.qopt:hover:not(:disabled){background:rgba(124,58,237,.2);border-color:#a78bfa}
+.qopt.correct{background:rgba(16,185,129,.25);border-color:#10b981;color:#fff;font-weight:700;cursor:default}
+.qopt.wrong{background:rgba(239,68,68,.2);border-color:#ef4444;color:#fff;cursor:default}
+.qopt:disabled:not(.correct):not(.wrong){opacity:.35;cursor:default}
+.qhint{font-size:12px;color:#b0bec5;margin-top:9px;font-style:italic}
+.qfb{margin-top:12px;padding:12px 14px;border-radius:8px;font-size:13px;line-height:1.6;display:none;color:#fff;font-weight:500}
+.qfb.show{display:block}
+.qfb.correct{background:rgba(16,185,129,.2);border:2px solid rgba(16,185,129,.5)}
+.sdiv{display:flex;align-items:center;gap:12px;margin:18px 0}
+.sdiv::before,.sdiv::after{content:'';flex:1;height:1px;background:rgba(0,212,255,.2)}
+.sdiv span{font-family:'Orbitron',sans-serif;font-size:9px;color:#c4b5fd;letter-spacing:2px}
+/* GAME */
+.ghdr{text-align:center;padding:16px 0}
+.gtit{font-family:'Orbitron',sans-serif;font-size:clamp(16px,3vw,24px);font-weight:900;color:#00d4ff;margin-bottom:6px}
+.gdsc{color:#fff;font-size:13px;margin-bottom:6px}
+.gstats{display:flex;justify-content:center;gap:18px;margin:12px 0}
+.sbox{background:rgba(17,30,66,.8);border:1px solid rgba(0,212,255,.2);border-radius:10px;padding:10px 16px;text-align:center;min-width:80px}
+.slb{font-size:10px;color:#b0bec5;letter-spacing:1px}
+.sv{font-family:'Orbitron',sans-serif;font-size:20px;font-weight:700;color:#00d4ff}
+.sv.am{color:#f59e0b}
+.tv.ok{color:#10b981}
+.tv.wn{color:#ef4444}
+.lives{display:flex;gap:5px;justify-content:center;margin:6px 0}
+.life{font-size:18px;transition:all .3s}
+.life.lost{opacity:.2;filter:grayscale(1)}
+.cbar{height:3px;background:rgba(255,255,255,.08);border-radius:2px;margin:6px 0;overflow:hidden}
+.cfill{height:100%;background:linear-gradient(90deg,#f59e0b,#00d4ff);border-radius:2px;transition:width .3s}
+.clbl{font-size:11px;color:#f59e0b;font-family:'Orbitron',sans-serif;min-height:16px}
+.ptmr{width:100%;height:5px;background:rgba(255,255,255,.08);border-radius:3px;margin-bottom:12px;overflow:hidden}
+.tfill{height:100%;border-radius:3px;transition:width .1s linear}
+.gqcard{background:rgba(13,22,53,.95);border:2px solid rgba(0,212,255,.25);border-radius:16px;padding:20px;margin:12px 0;position:relative}
+.gqn{font-family:'Orbitron',sans-serif;font-size:9px;color:#c4b5fd;letter-spacing:2px;margin-bottom:6px}
+.gqt{font-size:14px;color:#fff;margin-bottom:14px;line-height:1.6;font-weight:600}
+.gopts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gopt{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.2);color:#fff;padding:11px 8px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;text-align:center;transition:all .2s;font-family:'Exo 2',sans-serif;line-height:1.4}
+.gopt:hover:not(:disabled){background:rgba(0,212,255,.15);border-color:#00d4ff;transform:scale(1.02)}
+.gopt.correct{background:rgba(16,185,129,.25);border-color:#10b981;color:#fff;font-weight:700}
+.gopt.wrong{background:rgba(239,68,68,.2);border-color:#ef4444;color:#fff}
+.gopt:disabled{cursor:default}
+.xpp{position:absolute;top:-12px;right:12px;font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;color:#f59e0b;pointer-events:none;animation:xp .8s ease forwards}
+@keyframes xp{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-26px)}}
+/* RESULT */
+.rscr{text-align:center;padding:32px 16px}
+.rkt{font-size:64px;margin-bottom:12px;animation:ru 1s ease}
+@keyframes ru{from{transform:translateY(26px);opacity:0}to{transform:none;opacity:1}}
+.rgrade{font-family:'Orbitron',sans-serif;font-size:clamp(32px,8vw,60px);font-weight:900;margin:6px 0}
+.gS{color:#00d4ff;text-shadow:0 0 40px rgba(0,212,255,.7)}
+.gA{color:#10b981}.gB{color:#f59e0b}.gC{color:#c4b5fd}.gD{color:#ef4444}
+.rscore{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;color:#fff;margin:6px 0}
+.rmsg{font-size:15px;color:#fff;max-width:480px;margin:10px auto 20px;line-height:1.7}
+.rbtns{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-bottom:16px}
+.mrev{margin-top:22px;text-align:left;background:rgba(13,22,53,.8);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:16px}
+.mrtit{font-family:'Orbitron',sans-serif;font-size:10px;color:#b0bec5;letter-spacing:2px;margin-bottom:10px}
+.mri{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)}
+.mri:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.mrobj{font-size:10px;color:#f59e0b;font-family:'Orbitron',sans-serif;margin-bottom:2px}
+.mrq{font-size:12px;color:#fff;margin-bottom:3px;font-weight:500}
+.mra{font-size:12px;color:#10b981;font-weight:600}
+.mrw{font-size:12px;color:#fca5a5;text-decoration:line-through}
+/* splash concept item */
+.ci2{background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.2);border-radius:10px;padding:11px;text-align:center}
+.ci2 .ico{font-size:20px;margin-bottom:5px}
+.ci2 .lbl{font-family:'Orbitron',sans-serif;font-size:9px;color:#00d4ff;margin-bottom:3px}
+.ci2 .wt{font-size:10px;color:#f59e0b;font-weight:700;margin-bottom:3px}
+.ci2 .dsc{font-size:11px;color:#fff;line-height:1.4}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<div id="app">
+
+<div id="screen-splash" class="screen active">
+  <div class="mhdr">
+    <div class="badge">AP CSP — ALL 5 BIG IDEAS</div>
+    <h1 class="ttl">AP Computer Science<br><span>Principles</span></h1>
+    <p class="sub">A space mission through all five official College Board Big Ideas — aligned to every CSP learning objective tested on the AP exam.</p>
+    <div class="enote">📋 Full exam coverage · ~30 minutes · 5 Big Ideas · 20-question final challenge</div>
+    <div class="sgrid">
+      <div class="ci2"><div class="ico">🤝</div><div class="lbl">Big Idea 1</div><div class="wt">10–13%</div><div class="dsc">Creative Development</div></div>
+      <div class="ci2"><div class="ico">📊</div><div class="lbl">Big Idea 2</div><div class="wt">17–22%</div><div class="dsc">Data</div></div>
+      <div class="ci2"><div class="ico">⚙️</div><div class="lbl">Big Idea 3</div><div class="wt">30–35%</div><div class="dsc">Algorithms &amp; Programming</div></div>
+      <div class="ci2"><div class="ico">🌐</div><div class="lbl">Big Idea 4</div><div class="wt">11–15%</div><div class="dsc">Computer Systems &amp; Networks</div></div>
+      <div class="ci2"><div class="ico">🌍</div><div class="lbl">Big Idea 5</div><div class="wt">10–13%</div><div class="dsc">Impact of Computing</div></div>
+    </div>
+    <button class="sbtn" onclick="startModule()">LAUNCH MISSION ›</button>
+  </div>
+</div>
+
+<div id="screen-lessons" class="screen">
+  <div class="nav">
+    <span class="ntit">AP CSP — ALL BIG IDEAS</span>
+    <div class="pbar"><div class="pfill" id="progress" style="width:2%"></div></div>
+    <span class="nstp" id="nav-step">Big Idea 1 of 5</span>
+  </div>
+  <div id="lesson-content"></div>
+</div>
+
+<div id="screen-game" class="screen">
+  <div class="ghdr">
+    <div class="badge">FINAL CHALLENGE</div>
+    <div class="gtit">GALAXY KNOWLEDGE BLITZ</div>
+    <div class="gdsc">20 questions · all 5 Big Ideas · timed · 3 lives</div>
+    <div class="lives" id="lives-display"></div>
+    <div class="gstats">
+      <div class="sbox"><div class="slb">SCORE</div><div class="sv" id="g-score">0</div></div>
+      <div class="sbox"><div class="slb">STREAK</div><div class="sv am" id="g-streak">0</div></div>
+      <div class="sbox"><div class="slb">TIME</div><div class="sv tv ok" id="g-timer">15</div></div>
+    </div>
+    <div class="cbar"><div class="cfill" id="combo-fill" style="width:0%"></div></div>
+    <div class="clbl" id="combo-label"></div>
+  </div>
+  <div class="ptmr"><div class="tfill" id="timer-fill" style="width:100%;background:#10b981"></div></div>
+  <div id="game-content"></div>
+</div>
+
+<div id="screen-result" class="screen">
+  <div class="rscr" id="result-content"></div>
+</div>
+
+</div>
+<script>
+(function(){
+  var c=document.getElementById('stars');
+  for(var i=0;i<120;i++){
+    var s=document.createElement('div');s.className='star';
+    var sz=Math.random()*2+.5;
+    s.style.cssText='width:'+sz+'px;height:'+sz+'px;top:'+Math.random()*100+'%;left:'+Math.random()*100+'%;--d:'+(2+Math.random()*4)+'s;--dl:'+-Math.random()*6+'s;--m:'+(0.1+Math.random()*.4);
+    c.appendChild(s);
+  }
+})();
+
+var lessons=[
+// ── BIG IDEA 1 ──────────────────────────────────────────────────────────────
+{id:'bi1',icon:'🤝',
+label:'BIG IDEA 1 — CREATIVE DEVELOPMENT (CRD)',
+weight:'10–13% of AP Exam',
+objs:['CRD-1.A','CRD-1.B','CRD-1.C','CRD-2.A','CRD-2.B','CRD-2.C','CRD-2.D','CRD-2.E','CRD-2.F','CRD-2.G','CRD-2.H','CRD-2.I','CRD-2.J'],
+title:'Creative Development: Collaboration, Design & Debugging',
+body:'<p>Big Idea 1 is about how computing innovations are built. The core idea: <strong>collaboration produces better software</strong>. A computing innovation can be physical (a self-driving car), nonphysical software (photo editing app), or a nonphysical concept (e-commerce). Effective collaboration reflects diverse talent and perspectives, which helps avoid bias (CRD-1.A).</p>'+
+'<div class="vbox"><div class="vtit">COLLABORATION — CRD-1</div>'+
+'<div class="vi"><span>CRD-1.B:</span> Online tools let programmers share and give feedback. Common models include pair programming.</div>'+
+'<div class="vi"><span>CRD-1.C:</span> Effective teams practice communication, consensus building, conflict resolution, and negotiation.</div></div>'+
+'<p>Programs are described by their <strong>behavior</strong> — how they function during execution. Programs need to work for a variety of inputs and situations (CRD-2.B). <strong>Inputs</strong> come from users, other programs, or events (key press, mouse click). <strong>Outputs</strong> are usually based on input or prior state (CRD-2.C/D).</p>'+
+'<div class="hl">🛸 <strong>The Development Process (CRD-2.E):</strong> Development can be ordered or exploratory. An <strong>iterative</strong> process requires refinement based on feedback throughout. An <strong>incremental</strong> process breaks the problem into smaller pieces and verifies each piece before adding the next.</div>'+
+'<div class="cgrid">'+
+'<div class="ci"><div class="ico">🔍</div><div class="lbl">INVESTIGATE</div><div class="dsc">Surveys, user testing, interviews, observations — understanding constraints and user needs (CRD-2.F)</div></div>'+
+'<div class="ci"><div class="ico">📐</div><div class="lbl">DESIGN</div><div class="dsc">Brainstorming, storyboarding, organizing into modules. Specification defines requirements (CRD-2.F)</div></div>'+
+'<div class="ci"><div class="ico">📝</div><div class="lbl">DOCUMENT</div><div class="dsc">Comments explain code to humans; do not affect execution. Document throughout development (CRD-2.G)</div></div>'+
+'<div class="ci"><div class="ico">🐛</div><div class="lbl">DEBUG</div><div class="dsc">Logic errors: wrong behavior. Syntax errors: broken rules. Runtime errors: crash during execution. Overflow: number out of range (CRD-2.I)</div></div>'+
+'</div>'+
+'<div class="hl am">⚡ <strong>Testing (CRD-2.J):</strong> Test cases should cover expected inputs AND edge cases at or just beyond the extremes. Program requirements define what counts as correct output. Always acknowledge code from other sources in documentation (CRD-2.H).</div>',
+quiz:{q:'A programmer makes a change that causes the program to crash during execution. Which type of error is this? (CRD-2.I)',
+opts:['Logic error — the program produces wrong output','Syntax error — the rules of the language were not followed','Run-time error — an error that occurs during program execution','Overflow error — a number exceeded the defined range'],
+ans:2,fb:'A run-time error occurs during the execution of a program (CRD-2.I.3). Logic errors cause wrong behavior without crashing. Syntax errors prevent the program from running at all. Overflow errors are a specific type caused by numbers exceeding defined ranges.'}},
+
+// ── BIG IDEA 2 ──────────────────────────────────────────────────────────────
+{id:'bi2',icon:'📊',
+label:'BIG IDEA 2 — DATA (DAT)',
+weight:'17–22% of AP Exam',
+objs:['DAT-1.A','DAT-1.B','DAT-1.C','DAT-1.D','DAT-2.A','DAT-2.B','DAT-2.C','DAT-2.D','DAT-2.E'],
+title:'Data: Binary, Compression, and Extracting Knowledge',
+body:'<p>All data in a computer is represented as <strong>binary</strong> — sequences of bits (0 or 1). A <strong>byte</strong> is 8 bits. The same sequence of bits can represent different types of data depending on context — a number, a character, a color (DAT-1.A). Bits are grouped into abstractions: numbers use binary place values, text uses encoding like ASCII/Unicode, colors use RGB values.</p>'+
+'<div class="vbox"><div class="vtit">BINARY & LIMITS — DAT-1.A / DAT-1.B / DAT-1.C</div>'+
+'<div class="vi"><span>DAT-1.B:</span> Fixed bits for integers limits the range. Integers outside this range cause overflow errors. Real numbers have rounding errors (roundoff).</div>'+
+'<div class="vi"><span>DAT-1.C:</span> Binary (base 2) uses only 0 and 1. Each position is a power of 2. To convert: 1011 = 1×8 + 0×4 + 1×2 + 1×1 = 11 in decimal.</div>'+
+'<div class="vi"><span>Analog vs Digital:</span> Analog data changes smoothly (sound, temperature). Digital approximates analog by sampling at regular intervals.</div></div>'+
+'<div class="hl">📡 <strong>Data Compression (DAT-1.D):</strong> <strong>Lossless</strong> compression (ZIP, PNG) guarantees perfect reconstruction — every bit preserved. <strong>Lossy</strong> compression (JPEG, MP3) discards some data for much smaller files — only an approximation is reconstructed. Fewer bits does not necessarily mean less information.</div>'+
+'<p>Data provides opportunities to find trends, make connections, and address problems. <strong>Correlation</strong> in data does NOT mean causation — a relationship between variables does not prove one causes the other (DAT-2.A). <strong>Metadata</strong> is data about data — a photo\'s timestamp, GPS location, camera settings. Changes to metadata do not change the primary data (DAT-2.B).</p>'+
+'<div class="hl am">⚡ <strong>Data Challenges (DAT-2.C):</strong> Data sets have challenges regardless of size: incomplete data, invalid data, need to clean and combine sources. Bias is often introduced by the type or source of data — collecting more data does not eliminate bias. Large data sets may need parallel systems to process efficiently (DAT-2.C.7).</div>'+
+'<div class="hl gr">🔬 <strong>Using Data (DAT-2.D/E):</strong> Programs filter, clean, cluster, classify, and transform data to extract insight. Visualizations (tables, charts, diagrams) communicate knowledge gained from data. Patterns can emerge when data is transformed using programs.</div>',
+quiz:{q:'A data scientist finds that cities with more ice cream sales also have more drowning deaths. She concludes that ice cream causes drowning. What is wrong with this conclusion? (DAT-2.A)',
+opts:['The data set is too small to be meaningful','Correlation found in data does not necessarily indicate a causal relationship','She should use lossy compression before analyzing the data','Metadata must be removed before drawing conclusions'],
+ans:1,fb:'DAT-2.A.3 states that a correlation found in data does not necessarily indicate a causal relationship. Both ice cream sales and drowning likely increase in hot weather — a third variable (temperature) explains both. Correlation ≠ causation is one of the most tested concepts in Big Idea 2.'}},
+
+// ── BIG IDEA 3 ──────────────────────────────────────────────────────────────
+{id:'bi3',icon:'⚙️',
+label:'BIG IDEA 3 — ALGORITHMS AND PROGRAMMING (AAP)',
+weight:'30–35% of AP Exam — HIGHEST WEIGHT',
+objs:['AAP-1.A','AAP-1.B','AAP-1.C','AAP-1.D','AAP-2.A','AAP-2.B','AAP-2.C','AAP-2.E','AAP-2.F','AAP-2.G','AAP-2.H','AAP-2.I','AAP-2.J','AAP-2.K','AAP-2.L','AAP-2.M','AAP-2.N','AAP-2.O','AAP-2.P','AAP-3.A','AAP-3.B','AAP-3.C','AAP-3.D','AAP-3.E','AAP-3.F','AAP-4.A','AAP-4.B'],
+title:'Algorithms & Programming: The Core of AP CSP',
+body:'<p>Big Idea 3 is the heaviest-tested area at 30–35% of your exam. It covers how programs are built from variables, lists, conditionals, loops, and procedures — plus algorithms, efficiency, and what computers cannot solve.</p>'+
+'<div class="vbox"><div class="vtit">VARIABLES & DATA — AAP-1</div>'+
+'<div class="vi"><span>AAP-1.A:</span> A variable is an abstraction that holds a value. Meaningful names improve readability.</div>'+
+'<div class="vi"><span>AAP-1.B:</span> Assignment stores a new value in a variable — the stored value is always the most recent assignment.</div>'+
+'<div class="vi"><span>AAP-1.C/D:</span> A list is an ordered sequence of elements, each with an index. Lists allow multiple related items to be treated as one value — this is data abstraction.</div></div>'+
+'<p>Every algorithm is built from three building blocks: <strong>sequencing</strong> (steps in order), <strong>selection</strong> (decisions with IF/ELSE), and <strong>iteration</strong> (repetition with loops). All three together can express any algorithm (AAP-2.A). Boolean expressions use relational operators (=, ≠, >, <) and logical operators (AND, OR, NOT) to produce true/false values (AAP-2.E/F).</p>'+
+'<div class="hl">🔬 <strong>Iteration (AAP-2.K):</strong> REPEAT n TIMES runs a block n times. REPEAT UNTIL(condition) runs until the condition is true — if the condition is true initially, the body never runs. An infinite loop occurs when the condition never becomes true.</div>'+
+'<div class="cgrid">'+
+'<div class="ci"><div class="ico">🔍</div><div class="lbl">LINEAR SEARCH</div><div class="dsc">Check each element in order until found or end of list. Works on any list. O(n) time. (AAP-2.O)</div></div>'+
+'<div class="ci"><div class="ico">⚡</div><div class="lbl">BINARY SEARCH</div><div class="dsc">Start at middle, eliminate half each time. Requires SORTED data. More efficient than linear. (AAP-2.P)</div></div>'+
+'<div class="ci"><div class="ico">📦</div><div class="lbl">PROCEDURES</div><div class="dsc">Named group of instructions with parameters. Procedural abstraction reduces complexity and enables reuse. (AAP-3.A/B)</div></div>'+
+'<div class="ci"><div class="ico">📚</div><div class="lbl">LIBRARIES/APIs</div><div class="dsc">Pre-built procedures. API docs explain behavior and usage. Simplify complex programs. (AAP-3.D)</div></div>'+
+'</div>'+
+'<div class="hl am">⚡ <strong>Simulations (AAP-3.F):</strong> Simulations are abstractions of real-world phenomena used when real experiments are impractical (too big, small, fast, slow, or expensive). They can contain bias from which real-world elements were included or excluded. Random number generators simulate real-world variability.</div>'+
+'<div class="hl pu">🚀 <strong>Efficiency & Undecidable Problems (AAP-4):</strong> Algorithms with polynomial efficiency (constant, linear, square) run in reasonable time. Exponential algorithms do not scale. Some problems cannot be solved in reasonable time — use approximations or heuristics. An <strong>undecidable problem</strong> is one where no algorithm can always provide a correct yes/no answer for every instance (AAP-4.B).</div>',
+quiz:{q:'A program searches a sorted list of 1,000 names for "Smith." Which algorithm is MORE efficient for this task, and why? (AAP-2.P)',
+opts:['Linear search — it works on any list regardless of order','Binary search — it eliminates half the remaining data each step, requiring far fewer comparisons on sorted data','Linear search — it always finds the answer in the first half of the list','Binary search — it works on unsorted data and is always faster'],
+ans:1,fb:'Binary search (AAP-2.P.1) starts at the middle of a sorted list and eliminates half the remaining data each step — this is far more efficient than checking every element. The key requirement is that data MUST be sorted (AAP-2.P.2). On 1,000 items, binary search takes at most ~10 steps; linear search could take up to 1,000.'}},
+
+// ── BIG IDEA 4 ──────────────────────────────────────────────────────────────
+{id:'bi4',icon:'🌐',
+label:'BIG IDEA 4 — COMPUTER SYSTEMS AND NETWORKS (CSN)',
+weight:'11–15% of AP Exam',
+objs:['CSN-1.A','CSN-1.B','CSN-1.C','CSN-1.D','CSN-1.E','CSN-2.A','CSN-2.B'],
+title:'Computer Systems & Networks: Internet, Fault Tolerance, Parallel Computing',
+body:'<p>The Internet is a network of interconnected networks using open, nonproprietary protocols. A <strong>protocol</strong> is an agreed-upon set of rules for system behavior. The Internet was designed to be <strong>scalable</strong> — its open protocols allow anyone to connect additional devices. Routing is <strong>dynamic</strong> — paths are not specified in advance (CSN-1.B).</p>'+
+'<div class="vbox"><div class="vtit">PACKETS & PROTOCOLS — CSN-1.C / CSN-1.D</div>'+
+'<div class="vi"><span>CSN-1.C:</span> Data is broken into packets containing data + metadata for routing and reassembly. Packets may arrive in order, out of order, or not at all.</div>'+
+'<div class="vi"><span>IP:</span> Addressing and routing. <span>TCP:</span> Reliable ordered delivery. <span>UDP:</span> Fast, no guarantee. <span>HTTP:</span> The Web protocol.</div>'+
+'<div class="vi"><span>CSN-1.D:</span> The Internet is the infrastructure. The World Wide Web is a system of linked pages that USES the Internet. They are not the same thing.</div></div>'+
+'<div class="hl">🔄 <strong>Fault Tolerance (CSN-1.E):</strong> The Internet is fault-tolerant through <strong>redundancy</strong> — multiple paths between devices. If a connection fails, data reroutes. A system with only one path between two devices is NOT fault-tolerant. More redundant paths = more reliable and more scalable.</div>'+
+'<div class="hl am">⚡ <strong>Parallel vs Distributed Computing (CSN-2.A/B):</strong><br>• Sequential time = sum of ALL steps<br>• Parallel time = sequential required steps + LONGEST parallel task<br>• Adding more processors cannot eliminate sequential bottlenecks (CSN-2.B.5)<br>• Distributed computing solves problems too large for one computer</div>'+
+'<div class="hl gr">📊 <strong>Example Calculation:</strong> Step A must run first (5 sec). Steps B/C/D can run in parallel (3/7/4 sec). Step E must run last (2 sec).<br>Sequential: 5+3+7+4+2 = <strong>21 sec</strong> | Parallel: 5 + max(3,7,4) + 2 = 5+7+2 = <strong>14 sec</strong></div>',
+quiz:{q:'A network diagram shows Device A connected only to Device B, which connects to Device C and D. If Device B fails, what is TRUE? (CSN-1.E)',
+opts:['The network reroutes data around B automatically','Devices C and D can still reach A through an alternate path','Device A cannot reach C or D — the network is not fault-tolerant at this point','Redundancy ensures no data is lost when B fails'],
+ans:2,fb:'Since A only connects through B, and B has failed, there is no alternate path for A to reach C or D. This is a vulnerability (CSN-1.E). The network is NOT fault-tolerant here because there is no redundant path. Fault tolerance requires multiple independent paths between devices (CSN-1.E.3).'}},
+
+// ── BIG IDEA 5 ──────────────────────────────────────────────────────────────
+{id:'bi5',icon:'🌍',
+label:'BIG IDEA 5 — IMPACT OF COMPUTING (IOC)',
+weight:'10–13% of AP Exam',
+objs:['IOC-1.A','IOC-1.B','IOC-1.C','IOC-1.D','IOC-1.E','IOC-1.F','IOC-2.A','IOC-2.B','IOC-2.C'],
+title:'Impact of Computing: Society, Privacy & Security',
+body:'<p>Computing innovations have both beneficial and harmful effects — often simultaneously. The same effect can be viewed differently by different people (IOC-1.A). Not every effect is anticipated in advance (IOC-1.A.3). Responsible programmers consider unintended uses of their innovations (IOC-1.B.3).</p>'+
+'<div class="vbox"><div class="vtit">KEY SOCIETAL CONCEPTS — IOC-1</div>'+
+'<div class="vi"><span>Digital Divide (IOC-1.C):</span> Unequal access to computing and Internet based on socioeconomic, geographic, or demographic factors. Raises issues of equity, access, and influence globally and locally.</div>'+
+'<div class="vi"><span>Bias in Computing (IOC-1.D):</span> Bias can be embedded at all levels of software development. Programmers should actively work to reduce algorithmic bias.</div>'+
+'<div class="vi"><span>Crowdsourcing (IOC-1.E):</span> Obtaining input from many people via the Internet. Citizen science uses distributed individuals to conduct research. Human capabilities are enhanced by collaboration via computing.</div>'+
+'<div class="vi"><span>Legal/Ethical (IOC-1.F):</span> Intellectual property, plagiarism, copyright, Creative Commons, open source. Using computing to harm individuals raises legal and ethical concerns.</div></div>'+
+'<div class="hl">🔒 <strong>Privacy (IOC-2.A):</strong> PII (Personally Identifiable Information) can be used for identity theft, stalking, or other crimes. Search engines record searches; websites record visits; devices track location. Combining disparate data sources (geolocation, cookies, browsing history) can reveal more about a person than any single source alone. Once online, data is difficult to delete.</div>'+
+'<div class="hl am">⚡ <strong>Security (IOC-2.B/C):</strong> Strong passwords are easy for users to remember but hard to guess. <strong>Multifactor authentication</strong> requires two or more verification steps. <strong>Encryption</strong> encodes data to prevent unauthorized access; <strong>decryption</strong> reverses it. Certificate authorities validate encryption keys. <strong>Malware</strong> includes viruses (self-copying programs), ransomware, and spyware. <strong>Keylogging</strong> records keystrokes to steal passwords. Rogue access points give unauthorized access to networks.</div>'+
+'<div class="hl gr">✅ You have completed all five Big Ideas of AP CSP. Time for the final challenge — 20 questions across everything you just learned!</div>',
+quiz:{q:'A company combines users\' location data, purchase history, and browsing cookies to build detailed profiles without users\' knowledge. Which IOC concept does this BEST illustrate? (IOC-2.A)',
+opts:['Crowdsourcing — collecting data from many people to improve services','Aggregation of disparate personal data can reveal more than any single source and raises serious privacy concerns','The digital divide — unequal access to technology affects privacy differently','Bias in computing — algorithms that profile users are inherently biased'],
+ans:1,fb:'IOC-2.A.7 states that disparate personal data such as geolocation, cookies, and browsing history can be aggregated to create knowledge about an individual — revealing far more than any single source alone. This is a core privacy concern on the AP exam. The scenario describes data aggregation, not crowdsourcing, the digital divide, or algorithmic bias.'}}
+];
+
+// ── GAME QUESTIONS (20, weighted by exam %) ────────────────────────────────
+// BI1: 3q, BI2: 4q, BI3: 7q, BI4: 3q, BI5: 3q
+var gameQs=[
+// BIG IDEA 1 (3)
+{q:'Which development process requires refinement based on feedback throughout the entire process? (CRD-2.E)',opts:['Sequential development','Iterative development','Incremental development','Parallel development'],ans:1,cat:'BI1 CRD',obj:'CRD-2.E'},
+{q:'A programmer writes code that produces the wrong output but does not crash. What type of error is this? (CRD-2.I)',opts:['Syntax error','Run-time error','Logic error','Overflow error'],ans:2,cat:'BI1 CRD',obj:'CRD-2.I'},
+{q:'Why should test cases include values at the extremes of the input range? (CRD-2.J)',opts:['To make the program run faster','To check correctness at boundary conditions where errors are most likely','To satisfy documentation requirements','To reduce the number of variables needed'],ans:1,cat:'BI1 CRD',obj:'CRD-2.J'},
+// BIG IDEA 2 (4)
+{q:'A byte consists of how many bits? (DAT-1.A)',opts:['2','4','8','16'],ans:2,cat:'BI2 DAT',obj:'DAT-1.A'},
+{q:'Which compression format should be used when it is critical that the original file can be perfectly reconstructed? (DAT-1.D)',opts:['JPEG — small file size','MP3 — high quality audio','PNG — lossless compression preserves every bit','AVI — video container format'],ans:2,cat:'BI2 DAT',obj:'DAT-1.D'},
+{q:'What is metadata? (DAT-2.B)',opts:['Compressed data that saves storage space','Data about data — such as a file\'s creation date, size, and location','Data that has been encrypted for security','The primary content of a file or document'],ans:1,cat:'BI2 DAT',obj:'DAT-2.B'},
+{q:'A researcher notices that ice cream sales and sunburn rates both rise in summer. What conclusion is VALID? (DAT-2.A)',opts:['Ice cream causes sunburn','Sunburn causes ice cream consumption','The two variables are correlated but this does not prove one causes the other','The data is too small to draw any conclusion'],ans:2,cat:'BI2 DAT',obj:'DAT-2.A'},
+// BIG IDEA 3 (7)
+{q:'What is data abstraction? (AAP-1.D)',opts:['Converting data from binary to decimal','Giving a collection of data a name without referencing specific details of its representation','Compressing data to reduce storage needs','Sorting data before searching'],ans:1,cat:'BI3 AAP',obj:'AAP-1.D'},
+{q:'In REPEAT UNTIL(condition), what happens if the condition is TRUE when the loop starts? (AAP-2.K)',opts:['The loop runs once then stops','The loop body is never executed','An infinite loop occurs','The condition is re-evaluated before the first iteration'],ans:1,cat:'BI3 AAP',obj:'AAP-2.K'},
+{q:'Which of the following is a requirement for using binary search? (AAP-2.P)',opts:['The list must contain only numbers','The list must be stored in a variable','The data must be in sorted order','The list must have fewer than 1000 elements'],ans:2,cat:'BI3 AAP',obj:'AAP-2.P'},
+{q:'What is procedural abstraction? (AAP-3.B)',opts:['Removing all comments from code','Allowing a complex solution to be built from smaller subprograms, hiding internal details','Converting pseudocode to a programming language','Using a library to compress data'],ans:1,cat:'BI3 AAP',obj:'AAP-3.B'},
+{q:'A simulation contains bias because certain real-world factors were excluded when building it. What does this illustrate? (AAP-3.F)',opts:['Simulations are always more accurate than real experiments','Simulations can contain bias derived from the choices of what was included or excluded','Bias in simulations only occurs when random numbers are used','Simulations require complete real-world data to be valid'],ans:1,cat:'BI3 AAP',obj:'AAP-3.F'},
+{q:'An algorithm solves a problem but takes exponential time as input size grows. What is true? (AAP-4.A)',opts:['It will always be faster than a polynomial algorithm','It is not considered to run in a reasonable amount of time for large inputs','Exponential algorithms are the most efficient possible','It can be improved by adding more processors'],ans:1,cat:'BI3 AAP',obj:'AAP-4.A'},
+{q:'An undecidable problem is one where: (AAP-4.B)',opts:['The problem is too complex for current computers but will be solved in future','No algorithm can be constructed that is always capable of providing a correct yes-or-no answer','The answer takes exponential time to compute','The problem requires distributed computing to solve'],ans:1,cat:'BI3 AAP',obj:'AAP-4.B'},
+// BIG IDEA 4 (3)
+{q:'Packets may arrive at their destination out of order. What happens next? (CSN-1.C)',opts:['The Internet discards them and requests retransmission','They are reassembled in correct order at the destination using metadata','The router automatically reorders before delivery','The sender detects the problem and resends in order'],ans:1,cat:'BI4 CSN',obj:'CSN-1.C'},
+{q:'A parallel solution has required sequential steps of 3+2=5 sec, and three parallel tasks of 4, 9, and 6 seconds. What is the total parallel time? (CSN-2.A)',opts:['24 seconds','14 seconds','11 seconds','9 seconds'],ans:1,cat:'BI4 CSN',obj:'CSN-2.A'},
+{q:'Why does adding more processors not always speed up a parallel solution? (CSN-2.B)',opts:['Processors interfere with each other when there are too many','The efficiency is limited by the sequential portion that cannot be parallelized','More processors increase network bandwidth requirements','Distributed systems have a fixed maximum speed'],ans:1,cat:'BI4 CSN',obj:'CSN-2.B'},
+// BIG IDEA 5 (3)
+{q:'Multifactor authentication improves security because: (IOC-2.B)',opts:['It makes passwords longer and harder to guess','It requires two or more verification steps so a stolen password alone is not enough to gain access','It encrypts all network traffic automatically','It blocks all foreign IP addresses from accessing the account'],ans:1,cat:'BI5 IOC',obj:'IOC-2.B'},
+{q:'The digital divide refers to: (IOC-1.C)',opts:['The gap between programmers and non-programmers in the workplace','Differing access to computing and the Internet based on socioeconomic, geographic, or demographic characteristics','The difference in speed between wired and wireless Internet connections','Unequal distribution of computing knowledge in schools'],ans:1,cat:'BI5 IOC',obj:'IOC-1.C'},
+{q:'PII collected from multiple sources — browsing history, location data, purchase records — is combined to build a user profile. Which concept does this illustrate? (IOC-2.A)',opts:['Crowdsourcing — distributed data collection','Data aggregation — combining disparate sources can reveal more than any single source','The digital divide — only some users have their data collected','Bias in computing — profiling algorithms are inherently unfair'],ans:1,cat:'BI5 IOC',obj:'IOC-2.A'}
+];
+
+var state={lessonIdx:0,gIdx:0,gScore:0,gStreak:0,gLives:3,gMissed:[],gTimerInterval:null,gTimeLeft:15};
+var shuffledGame=[];
+
+function setScreen(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('screen-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function startModule(){setScreen('lessons');renderLesson(0);}
+function restartAll(){setScreen('splash');}
+
+function renderLesson(idx){
+  state.lessonIdx=idx;
+  var L=lessons[idx];
+  document.getElementById('progress').style.width=(Math.round(((idx+.2)/lessons.length)*85)+5)+'%';
+  document.getElementById('nav-step').textContent='Big Idea '+(idx+1)+' of '+lessons.length;
+  var objs=L.objs.map(function(o){return '<span class="otag">'+o+'</span>';}).join('');
+  var isLast=(idx===lessons.length-1);
+  var letters=['A','B','C','D'];
+  var opts=L.quiz.opts.map(function(o,i){
+    return '<button class="qopt" id="qopt-'+idx+'-'+i+'" onclick="answerQuiz('+idx+','+i+')">'+letters[i]+'. '+o+'</button>';
+  }).join('');
+  document.getElementById('lesson-content').innerHTML=
+    '<div class="lcard">'+
+      '<span class="sico">'+L.icon+'</span>'+
+      '<div class="slbl">'+L.label+'</div>'+
+      '<span class="wi">'+L.weight+'</span>'+
+      '<div style="margin-top:6px">'+objs+'</div>'+
+      '<h2 class="ltit">'+L.title+'</h2>'+
+      '<div class="lbody">'+L.body+'</div>'+
+    '</div>'+
+    '<div class="sdiv"><span>KNOWLEDGE CHECK</span></div>'+
+    '<div class="qcard">'+
+      '<div class="qlbl">MISSION CHECK — FIND THE CORRECT ANSWER TO PROCEED</div>'+
+      '<div class="qq">'+L.quiz.q+'</div>'+
+      '<div class="qopts">'+opts+'</div>'+
+      '<p class="qhint">Wrong answers turn red — keep trying until you find the correct one.</p>'+
+      '<div class="qfb" id="quiz-fb-'+idx+'"></div>'+
+      '<div id="quiz-next-'+idx+'" style="display:none">'+
+        '<button class="nbtn" onclick="'+(isLast?'launchGame()':'renderLesson('+(idx+1)+')')+'">'+
+        (isLast?'LAUNCH FINAL CHALLENGE ›':'NEXT BIG IDEA ›')+'</button>'+
+      '</div>'+
+    '</div>';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function answerQuiz(li,chosen){
+  var quiz=lessons[li].quiz;
+  var btn=document.getElementById('qopt-'+li+'-'+chosen);
+  if(!btn||btn.disabled) return;
+  if(chosen===quiz.ans){
+    for(var i=0;i<quiz.opts.length;i++){
+      var b=document.getElementById('qopt-'+li+'-'+i);
+      if(!b) continue;
+      b.disabled=true;
+      if(i===quiz.ans) b.classList.add('correct');
+    }
+    var fb=document.getElementById('quiz-fb-'+li);
+    fb.className='qfb show correct';
+    fb.textContent='✅ '+quiz.fb;
+    document.getElementById('quiz-next-'+li).style.display='block';
+    fb.scrollIntoView({behavior:'smooth',block:'nearest'});
+  } else {
+    btn.classList.add('wrong');
+    btn.disabled=true;
+  }
+}
+
+function shuffle(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+  return a;
+}
+
+function launchGame(){
+  clearInterval(state.gTimerInterval);
+  state={lessonIdx:state.lessonIdx,gIdx:0,gScore:0,gStreak:0,gLives:3,gMissed:[],gTimerInterval:null,gTimeLeft:15};
+  shuffledGame=shuffle(gameQs);
+  setScreen('game');
+  renderLives();
+  renderGameQ();
+}
+
+function renderLives(){
+  var d=document.getElementById('lives-display');d.innerHTML='';
+  for(var i=0;i<3;i++){
+    var s=document.createElement('span');
+    s.className='life'+(i>=state.gLives?' lost':'');
+    s.textContent='🚀';
+    d.appendChild(s);
+  }
+}
+
+function renderGameQ(){
+  clearInterval(state.gTimerInterval);
+  if(state.gIdx>=shuffledGame.length||state.gLives<=0){endGame();return;}
+  state.gTimeLeft=15;
+  updateTimerDisplay();
+  var tf=document.getElementById('timer-fill');
+  tf.style.width='100%';tf.style.background='#10b981';
+  state.gTimerInterval=setInterval(function(){
+    state.gTimeLeft--;
+    updateTimerDisplay();
+    var pct=(state.gTimeLeft/15)*100;
+    var tf2=document.getElementById('timer-fill');
+    tf2.style.width=pct+'%';
+    if(state.gTimeLeft<=5) tf2.style.background='#ef4444';
+    else if(state.gTimeLeft<=8) tf2.style.background='#f59e0b';
+    if(state.gTimeLeft<=0){clearInterval(state.gTimerInterval);timeOut();}
+  },1000);
+  var gq=shuffledGame[state.gIdx];
+  var idx=shuffle([0,1,2,3]);
+  var cp=idx.indexOf(gq.ans);
+  var oh=idx.map(function(oi,np){
+    return '<button class="gopt" id="gopt-'+np+'" onclick="gameAnswer('+np+','+cp+','+state.gIdx+')">'+gq.opts[oi]+'</button>';
+  }).join('');
+  document.getElementById('game-content').innerHTML=
+    '<div class="gqcard" id="gqcard">'+
+      '<div class="gqn">Q '+(state.gIdx+1)+'/'+shuffledGame.length+' — <span style="color:#f59e0b">'+gq.cat+'</span> <span style="color:#c4b5fd">'+gq.obj+'</span></div>'+
+      '<div class="gqt">'+gq.q+'</div>'+
+      '<div class="gopts">'+oh+'</div>'+
+    '</div>';
+  document.getElementById('g-score').textContent=state.gScore;
+  document.getElementById('g-streak').textContent=state.gStreak;
+  updateCombo();
+}
+
+function updateTimerDisplay(){
+  var t=document.getElementById('g-timer');
+  t.textContent=state.gTimeLeft;
+  t.className='sv tv '+(state.gTimeLeft>8?'ok':'wn');
+}
+function updateCombo(){
+  var p=Math.min((state.gStreak/5)*100,100);
+  document.getElementById('combo-fill').style.width=p+'%';
+  document.getElementById('combo-label').textContent=state.gStreak>=5?'🔥 MAX COMBO!':state.gStreak>=3?'⚡ '+state.gStreak+'x Streak!':'';
+}
+
+function gameAnswer(cp2,corr,qi){
+  clearInterval(state.gTimerInterval);
+  var isR=(cp2===corr);
+  document.querySelectorAll('.gopt').forEach(function(o,i){
+    o.disabled=true;
+    if(i===corr) o.classList.add('correct');
+    else if(i===cp2&&!isR) o.classList.add('wrong');
+  });
+  if(isR){
+    var pts=100+Math.max(0,state.gTimeLeft-5)*10+(state.gStreak>=4?20:state.gStreak>=2?10:0);
+    state.gScore+=pts;state.gStreak++;
+    var pop=document.createElement('div');pop.className='xpp';pop.textContent='+'+pts+' XP';
+    var card=document.getElementById('gqcard');if(card)card.appendChild(pop);
+    setTimeout(function(){if(pop.parentNode)pop.remove();},900);
+  } else {
+    state.gStreak=0;state.gLives--;
+    renderLives();
+    var gq=shuffledGame[qi];
+    state.gMissed.push({q:gq.q,obj:gq.obj,correct:gq.opts[gq.ans],wrong:'(incorrect)'});
+  }
+  document.getElementById('g-score').textContent=state.gScore;
+  document.getElementById('g-streak').textContent=state.gStreak;
+  updateCombo();
+  if(state.gLives<=0){setTimeout(endGame,1400);return;}
+  setTimeout(function(){state.gIdx++;renderGameQ();},isR?900:1400);
+}
+
+function timeOut(){
+  var gq=shuffledGame[state.gIdx];
+  state.gLives--;state.gStreak=0;
+  state.gMissed.push({q:gq.q,obj:gq.obj,correct:gq.opts[gq.ans],wrong:'(time ran out)'});
+  renderLives();
+  document.querySelectorAll('.gopt').forEach(function(o){o.disabled=true;});
+  updateCombo();
+  if(state.gLives<=0){setTimeout(endGame,1400);return;}
+  setTimeout(function(){state.gIdx++;renderGameQ();},1400);
+}
+
+function endGame(){
+  clearInterval(state.gTimerInterval);
+  setScreen('result');
+  var total=shuffledGame.length;
+  var wrong=state.gMissed.length;
+  var correct=state.gIdx-wrong;
+  var pct=Math.round((correct/total)*100);
+  var grade,emoji,msg;
+  if(pct>=90){grade='S';emoji='🌟';msg='Outstanding! You have mastered all five Big Ideas. You are ready for the AP CSP exam.';}
+  else if(pct>=80){grade='A';emoji='🚀';msg='Excellent work! Strong grasp across all Big Ideas. Review the learning objectives you missed and you will be fully exam-ready.';}
+  else if(pct>=65){grade='B';emoji='🛰️';msg='Good flight! You understand most of the content. Pay extra attention to Big Idea 3 — it is worth 30–35% of the exam.';}
+  else if(pct>=50){grade='C';emoji='🌙';msg='You are in orbit. Go back through the Big Ideas where you missed questions and focus on the learning objectives listed.';}
+  else{grade='D';emoji='☄️';msg='Do not give up! Review all five lessons and try again. Focus on Big Ideas 2 and 3 — they cover over half the exam.';}
+  var mh=state.gMissed.length?
+    '<div class="mrev"><div class="mrtit">STUDY THESE LEARNING OBJECTIVES</div>'+
+    state.gMissed.map(function(m){
+      return '<div class="mri"><div class="mrobj">'+m.obj+'</div><div class="mrq">'+m.q+'</div><div class="mrw">'+m.wrong+'</div><div class="mra">✅ '+m.correct+'</div></div>';
+    }).join('')+'</div>':
+    '<p style="color:#10b981;font-family:Orbitron,sans-serif;font-size:13px;margin-top:14px;font-weight:700">🌟 PERFECT SESSION!</p>';
+  document.getElementById('result-content').innerHTML=
+    '<div class="rkt">'+emoji+'</div>'+
+    '<div class="badge">MISSION COMPLETE — ALL 5 BIG IDEAS</div>'+
+    '<div class="rgrade g'+grade+'">'+grade+'</div>'+
+    '<div class="rscore">'+state.gScore.toLocaleString()+' XP &middot; '+correct+'/'+total+' Correct</div>'+
+    '<p class="rmsg">'+msg+'</p>'+
+    '<div class="rbtns">'+
+      '<button class="bpri" onclick="launchGame()">🔁 RETRY</button>'+
+      '<button class="bsec" onclick="renderLesson(0);setScreen(\'lessons\')">📖 REVIEW</button>'+
+      '<button class="bsec" onclick="restartAll()">🏠 START OVER</button>'+
+    '</div>'+mh;
+}
+</script>
+</body>
+</html>
