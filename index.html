@@ -382,12 +382,17 @@
         document.getElementById('appsSection').style.display = 'block';
       }
     })();
+    function sha256(str) {
+      return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str))
+        .then(buf => Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join(''));
+    }
     function showPwInput() {
       document.getElementById('pwPrompt').style.display = 'block';
       document.getElementById('pwField').focus();
     }
-    function unlockApps() {
-      if (document.getElementById('pwField').value === 'elm0ye110w') {
+    async function unlockApps() {
+      const hash = await sha256(document.getElementById('pwField').value);
+      if (hash === '72292850ba7f7dd15cd4361e7796e7e9de57ec5e64e964ce95671953585a7721') {
         sessionStorage.setItem('sc_auth', '1');
         document.getElementById('lockGate').style.display = 'none';
         document.getElementById('appsSection').style.display = 'block';
