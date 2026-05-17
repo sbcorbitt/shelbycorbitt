@@ -50,8 +50,7 @@
     }
     .header { text-align: center; margin-bottom: 2.25rem; }
     .avatar { width: 76px; height: 76px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem; display: block; }
-    .name { font-family: 'Lora', serif; font-size: 28px; font-weight: 500; color: var(--text-dark); letter-spacing: -0.01em; margin-bottom: 0.25rem; }
-    .tagline { font-size: 13px; font-weight: 400; color: var(--soft-terra); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.25rem; }
+    .name { font-family: 'Lora', serif; font-size: 28px; font-weight: 500; color: var(--text-dark); letter-spacing: -0.01em; margin-bottom: 1.25rem; }
     .bio { font-family: 'Lora', serif; font-size: 15px; font-style: italic; color: var(--text-mid); line-height: 1.8; max-width: 380px; margin: 0 auto; }
     .divider { display: flex; align-items: center; gap: 12px; margin: 2rem 0; }
     .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
@@ -76,7 +75,7 @@
     .link-sub { font-size: 12px; color: var(--text-light); }
     .link-arrow { font-size: 16px; color: var(--text-light); transition: transform 0.18s ease; }
     .link-card:hover .link-arrow { transform: translateX(3px); }
-    .currently-title { font-size: 11px; font-weight: 500; color: var(--soft-terra); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1rem; text-align: center; }
+    .section-title { font-size: 11px; font-weight: 500; color: var(--soft-terra); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 1rem; text-align: center; }
     .currently-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .currently-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
     .currently-icon { width: 22px; height: 22px; margin-bottom: 10px; color: var(--soft-terra); }
@@ -86,35 +85,19 @@
     .thinking-item { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; }
     .thinking-heading { font-family: 'Lora', serif; font-size: 14px; font-weight: 500; color: var(--text-dark); margin-bottom: 5px; }
     .thinking-body { font-size: 13px; color: var(--text-mid); line-height: 1.7; }
-    .toggle-btn {
-      width: 100%; display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 18px; background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 14px; font-family: 'DM Sans', sans-serif; font-size: 14px;
-      font-weight: 500; color: var(--text-dark); cursor: pointer;
-      transition: background 0.15s, border-color 0.15s; text-align: left;
+    .footer {
+      text-align: center;
+      margin-top: 2.5rem;
+      font-size: 12px;
+      color: var(--text-light);
+      letter-spacing: 0.04em;
     }
-    .toggle-btn:hover { background: var(--cream); border-color: #D9C9B8; }
-    .toggle-chevron { font-size: 12px; color: var(--text-light); transition: transform 0.2s ease; flex-shrink: 0; }
-    .toggle-chevron.open { transform: rotate(180deg); }
-    .collapsible { overflow: hidden; max-height: 0; transition: max-height 0.35s ease; }
-    .collapsible.open { max-height: 2000px; }
-    .collapsible-inner { display: flex; flex-direction: column; gap: 10px; padding-top: 10px; }
-    .nasa-group { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-    .nasa-toggle {
-      width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 16px;
-      background: rgba(10,14,26,0.04); border: none; font-family: 'DM Sans', sans-serif;
-      font-size: 13px; font-weight: 500; color: var(--text-mid); cursor: pointer;
-      text-align: left; transition: background 0.15s;
+    .footer a {
+      color: var(--text-light);
+      text-decoration: none;
+      transition: color 0.15s;
     }
-    .nasa-toggle:hover { background: rgba(10,14,26,0.08); }
-    .nasa-chevron { margin-left: auto; font-size: 11px; color: var(--text-light); transition: transform 0.2s ease; flex-shrink: 0; }
-    .nasa-chevron.open { transform: rotate(180deg); }
-    .nasa-inner { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; }
-    .nasa-inner.open { max-height: 1000px; }
-    .nasa-links { display: flex; flex-direction: column; gap: 0; }
-    .nasa-links .link-card { border-radius: 0; border: none; border-top: 1px solid var(--border); }
-    .nasa-links .link-card:hover { box-shadow: none; transform: none; background: var(--cream); }
-    .footer { text-align: center; margin-top: 2.5rem; font-size: 12px; color: var(--text-light); letter-spacing: 0.04em; }
+    .footer a:hover { color: var(--soft-terra); }
   </style>
 </head>
 <body>
@@ -123,7 +106,6 @@
     <div class="header">
       <img class="avatar" src="photo.jpg" alt="Shelby Corbitt" />
       <h1 class="name">Shelby Corbitt</h1>
-      <p class="tagline">AI Solutions Engineer · Washington, DC</p>
       <p class="bio">The best part of working in AI isn't the technology — it's watching someone realize they can do something they couldn't do before. That's what I do: help teams actually use these tools, not just talk about them.<br><br>Outside of that: yoga, books, DC in any season.</p>
     </div>
 
@@ -133,30 +115,8 @@
       <div class="divider-dot"></div>
     </div>
 
-    <div class="links">
-      <a class="link-card" href="https://www.linkedin.com/in/shelbycorbitt" target="_blank" rel="noopener">
-        <div class="link-icon icon-li">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="4" fill="#0A66C2"/>
-            <path d="M7 10h2v7H7v-7zm1-3a1.1 1.1 0 110 2.2A1.1 1.1 0 018 7zm4 3h1.9v1s.7-1.1 2.3-1.1c1.8 0 2.8 1.2 2.8 3.3V17h-2v-3.5c0-1-.4-1.6-1.3-1.6-1.1 0-1.7.8-1.7 1.8V17H12v-7z" fill="white"/>
-          </svg>
-        </div>
-        <div class="link-text">
-          <div class="link-label">LinkedIn</div>
-          <div class="link-sub">Connect with me professionally</div>
-        </div>
-        <span class="link-arrow">→</span>
-      </a>
-    </div>
-
-    <div class="divider">
-      <div class="divider-dot"></div>
-      <div class="divider-dot"></div>
-      <div class="divider-dot"></div>
-    </div>
-
     <div class="currently">
-      <p class="currently-title">Currently into</p>
+      <p class="section-title">Currently into</p>
       <div class="currently-grid">
 
         <div class="currently-item">
@@ -207,7 +167,7 @@
       <div class="divider-dot"></div>
     </div>
 
-    <p class="currently-title">How I think</p>
+    <p class="section-title">How I think</p>
     <div class="thinking">
 
       <div class="thinking-item">
@@ -233,157 +193,118 @@
       <div class="divider-dot"></div>
     </div>
 
-    <button class="toggle-btn" onclick="toggleFun(this)" aria-expanded="false">
-      <span>Just for fun</span>
-      <span class="toggle-chevron">▼</span>
-    </button>
-
-    <div class="collapsible" id="funSection">
-      <div class="collapsible-inner">
-
-        <div class="nasa-group">
-          <button class="nasa-toggle" onclick="toggleGroup(this,'nasaSection')" aria-expanded="false">
-            <span>NASA API fun</span>
-            <span class="nasa-chevron">▼</span>
-          </button>
-          <div class="nasa-inner" id="nasaSection">
-            <div class="nasa-links">
-              <a class="link-card" href="artemis.html">
-                <div class="link-icon" style="background:#0A0E1A;">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2L8 8H4l3 3-1 4 4-2 4 2-1-4 3-3h-4z"/>
-                    <circle cx="12" cy="12" r="1" fill="rgba(255,255,255,0.8)"/>
-                  </svg>
-                </div>
-                <div class="link-text">
-                  <div class="link-label">Artemis II Live</div>
-                  <div class="link-sub">Four humans flying around the Moon right now</div>
-                </div>
-                <span class="link-arrow">→</span>
-              </a>
-              <a class="link-card" href="banana-asteroid.html">
-                <div class="link-icon icon-banana">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 7c0 0 1-3 8-3s10 5 10 10c0 3-2 5-5 5" stroke-linecap="round"/>
-                    <path d="M4 7c0 5 2 10 8 10 2 0 4-1 5-3" stroke-linecap="round"/>
-                  </svg>
-                </div>
-                <div class="link-text">
-                  <div class="link-label">Banana Asteroid</div>
-                  <div class="link-sub">Today's near-Earth objects, in bananas</div>
-                </div>
-                <span class="link-arrow">→</span>
-              </a>
-              <a class="link-card" href="solar.html">
-                <div class="link-icon" style="background:#2A1400;">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F5C842" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"/>
-                    <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-                  </svg>
-                </div>
-                <div class="link-text">
-                  <div class="link-label">Solar Flare Watch</div>
-                  <div class="link-sub">How mad is the sun today</div>
-                </div>
-                <span class="link-arrow">→</span>
-              </a>
-            </div>
-          </div>
+    <p class="section-title">NASA API fun</p>
+    <div class="links">
+      <a class="link-card" href="artemis.html">
+        <div class="link-icon" style="background:#0A0E1A;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L8 8H4l3 3-1 4 4-2 4 2-1-4 3-3h-4z"/>
+            <circle cx="12" cy="12" r="1" fill="rgba(255,255,255,0.8)"/>
+          </svg>
         </div>
-
-        <div class="nasa-group">
-          <button class="nasa-toggle" onclick="toggleGroup(this,'sillySection')" aria-expanded="false">
-            <span>Silly pages</span>
-            <span class="nasa-chevron">▼</span>
-          </button>
-          <div class="nasa-inner" id="sillySection">
-            <div class="nasa-links">
-              <a class="link-card" href="travel.html">
-                <div class="link-icon icon-travel">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/>
-                    <circle cx="12" cy="8" r="2"/>
-                  </svg>
-                </div>
-                <div class="link-text">
-                  <div class="link-label">Travel</div>
-                  <div class="link-sub">Places I've been</div>
-                </div>
-                <span class="link-arrow">→</span>
-              </a>
-              <a class="link-card" href="prompt-lab.html">
-                <div class="link-icon icon-prompt">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 20h9"/>
-                    <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
-                  </svg>
-                </div>
-                <div class="link-text">
-                  <div class="link-label">Prompt Writing 101</div>
-                  <div class="link-sub">AI agent prompt comparison</div>
-                </div>
-                <span class="link-arrow">→</span>
-              </a>
-              <a class="link-card" href="ai-or-human.html">
-                <div class="link-icon icon-game">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#993C1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M9 9h.01M15 9h.01"/>
-                    <path d="M8 13s1.5 2 4 2 4-2 4-2"/>
-                  </svg>
-                </div>
-                <div class="link-text">
-                  <div class="link-label">AI or Human?</div>
-                  <div class="link-sub">Can you spot the difference?</div>
-                </div>
-                <span class="link-arrow">→</span>
-              </a>
-              <a class="link-card" href="robot.html">
-                <div class="link-icon icon-robot">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="7" y="8" width="10" height="8" rx="2"/>
-                    <path d="M9 11h.01M15 11h.01"/>
-                    <path d="M10 15h4"/>
-                    <path d="M12 8V5"/>
-                    <circle cx="12" cy="4" r="1"/>
-                    <path d="M7 10H5M19 10h-2"/>
-                    <path d="M9 16v2M15 16v2"/>
-                  </svg>
-                </div>
-                <div class="link-text">
-                  <div class="link-label">Robot Builder</div>
-                  <div class="link-sub">Build your own robot!</div>
-                </div>
-                <span class="link-arrow">→</span>
-              </a>
-            </div>
-          </div>
+        <div class="link-text">
+          <div class="link-label">Artemis II Live</div>
+          <div class="link-sub">Four humans flying around the Moon right now</div>
         </div>
-
-      </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="banana-asteroid.html">
+        <div class="link-icon icon-banana">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 7c0 0 1-3 8-3s10 5 10 10c0 3-2 5-5 5" stroke-linecap="round"/>
+            <path d="M4 7c0 5 2 10 8 10 2 0 4-1 5-3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-label">Banana Asteroid</div>
+          <div class="link-sub">Today's near-Earth objects, in bananas</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="solar.html">
+        <div class="link-icon" style="background:#2A1400;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F5C842" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-label">Solar Flare Watch</div>
+          <div class="link-sub">How mad is the sun today</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
     </div>
 
-    <p class="footer">© 2026 Shelby Corbitt</p>
+    <div class="divider">
+      <div class="divider-dot"></div>
+      <div class="divider-dot"></div>
+      <div class="divider-dot"></div>
+    </div>
+
+    <p class="section-title">Silly pages</p>
+    <div class="links">
+      <a class="link-card" href="travel.html">
+        <div class="link-icon icon-travel">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/>
+            <circle cx="12" cy="8" r="2"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-label">Travel</div>
+          <div class="link-sub">Places I've been</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="prompt-lab.html">
+        <div class="link-icon icon-prompt">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"/>
+            <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-label">Prompt Writing 101</div>
+          <div class="link-sub">AI agent prompt comparison</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="ai-or-human.html">
+        <div class="link-icon icon-game">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#993C1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9 9h.01M15 9h.01"/>
+            <path d="M8 13s1.5 2 4 2 4-2 4-2"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-label">AI or Human?</div>
+          <div class="link-sub">Can you spot the difference?</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-card" href="robot.html">
+        <div class="link-icon icon-robot">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="7" y="8" width="10" height="8" rx="2"/>
+            <path d="M9 11h.01M15 11h.01"/>
+            <path d="M10 15h4"/>
+            <path d="M12 8V5"/>
+            <circle cx="12" cy="4" r="1"/>
+            <path d="M7 10H5M19 10h-2"/>
+            <path d="M9 16v2M15 16v2"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-label">Robot Builder</div>
+          <div class="link-sub">Build your own robot!</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+
+    <p class="footer">© 2026 Shelby Corbitt · <a href="https://www.linkedin.com/in/shelbycorbitt" target="_blank" rel="noopener">LinkedIn</a></p>
   </div>
-
-<script>
-  function toggleFun(btn) {
-    const section = document.getElementById('funSection');
-    const chevron = btn.querySelector('.toggle-chevron');
-    const isOpen = section.classList.contains('open');
-    section.classList.toggle('open', !isOpen);
-    chevron.classList.toggle('open', !isOpen);
-    btn.setAttribute('aria-expanded', !isOpen);
-  }
-
-  function toggleGroup(btn, id) {
-    const section = document.getElementById(id);
-    const chevron = btn.querySelector('.nasa-chevron');
-    const isOpen = section.classList.contains('open');
-    section.classList.toggle('open', !isOpen);
-    chevron.classList.toggle('open', !isOpen);
-    btn.setAttribute('aria-expanded', !isOpen);
-  }
-</script>
 </body>
 </html>
