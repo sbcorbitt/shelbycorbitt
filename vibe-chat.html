@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Vibe Chat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FAF7F2;
+      --soft-terra: #C4845A;
+      --text-dark: #2E2018;
+      --text-mid: #7A6555;
+      --text-light: #A8957F;
+      --card-bg: #FFFFFF;
+      --border: #EDE5DA;
+      --self-bg: #F5E6DC;
+      --self-border: #E8C9B0;
+    }
+    body {
+      background: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+    .bg-texture {
+      position: fixed; inset: 0;
+      background-image:
+        radial-gradient(ellipse at 15% 20%, rgba(196,132,90,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 80%, rgba(138,158,140,0.1) 0%, transparent 50%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── Screens ── */
+    .screen { display: none; }
+    .screen.active { display: block; }
+    .page-screen.active { display: block; }
+    .chat-screen.active { display: flex; }
+
+    /* ── Page screens (home, setup, waiting) ── */
+    .page-screen {
+      position: relative; z-index: 1;
+      padding: 2rem 1.25rem 4rem;
+    }
+    .page-content { max-width: 480px; margin: 0 auto; }
+
+    /* ── Typography ── */
+    .page-title {
+      font-family: 'Lora', serif; font-size: 26px; font-weight: 500;
+      color: var(--text-dark); margin-bottom: 0.4rem;
+    }
+    .page-sub { font-size: 14px; color: var(--text-mid); line-height: 1.6; margin-bottom: 2rem; }
+
+    /* ── Back link ── */
+    .back-link, .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--text-light); text-decoration: none;
+      background: none; border: none; padding: 0; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; margin-bottom: 1.75rem;
+      transition: color 0.15s;
+    }
+    .back-link:hover, .back-btn:hover { color: var(--soft-terra); }
+
+    /* ── Forms ── */
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label {
+      display: block; font-size: 11px; font-weight: 500;
+      color: var(--soft-terra); letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+    input[type="text"], textarea {
+      width: 100%; font-family: 'DM Sans', sans-serif; font-size: 14px;
+      color: var(--text-dark); background: white; border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 14px; outline: none;
+      transition: border-color 0.15s;
+    }
+    input[type="text"]:focus, textarea:focus { border-color: var(--soft-terra); }
+    textarea { resize: none; }
+    .form-hint { font-size: 11px; color: var(--text-light); margin-top: 5px; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      width: 100%; padding: 14px; background: var(--soft-terra); color: white;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+      border: none; border-radius: 10px; cursor: pointer; transition: background 0.15s;
+    }
+    .btn-primary:hover { background: #A8693E; }
+    .btn-primary:disabled { background: #D9C9B8; cursor: not-allowed; }
+    .btn-secondary {
+      width: 100%; padding: 13px; background: white; color: var(--soft-terra);
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+      border: 1.5px solid var(--soft-terra); border-radius: 10px; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-secondary:hover { background: #FDF4EE; }
+
+    /* ── Language toggle ── */
+    .lang-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .lang-btn {
+      padding: 13px 10px; border: 2px solid var(--border); border-radius: 10px;
+      background: white; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 500; color: var(--text-mid);
+      transition: all 0.15s; text-align: center;
+    }
+    .lang-btn.selected { border-color: var(--soft-terra); color: var(--soft-terra); background: #FDF4EE; }
+
+    /* ── Divider ── */
+    .divider-text {
+      text-align: center; font-size: 12px; color: var(--text-light);
+      letter-spacing: 0.1em; margin: 1rem 0; display: flex; align-items: center; gap: 10px;
+    }
+    .divider-text::before, .divider-text::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ── Join row ── */
+    .join-row { display: flex; gap: 8px; }
+    .join-row input { flex: 1; text-transform: uppercase; letter-spacing: 0.2em; font-size: 17px; text-align: center; }
+    .join-row .btn-join {
+      flex-shrink: 0; padding: 12px 20px; background: var(--soft-terra);
+      color: white; font-family: 'DM Sans', sans-serif; font-size: 14px;
+      font-weight: 500; border: none; border-radius: 10px; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .join-row .btn-join:hover { background: #A8693E; }
+
+    /* ── Error ── */
+    .error-msg {
+      font-size: 13px; color: #7A3A1A; background: #FFF8F5;
+      border: 1px solid #F0C4A8; border-radius: 8px;
+      padding: 10px 14px; margin: 0.75rem 0;
+    }
+    .error-msg.hidden { display: none; }
+
+    /* ── Room code display ── */
+    .room-code {
+      font-family: monospace; font-size: 38px; font-weight: 700;
+      letter-spacing: 0.35em; color: var(--soft-terra); text-align: center;
+      background: white; border: 2px solid var(--border);
+      border-radius: 14px; padding: 20px; margin: 1rem 0;
+    }
+
+    /* ── Pulse dot (waiting) ── */
+    .pulse-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--soft-terra); margin: 2rem auto 0;
+      animation: pulse 1.5s ease infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* ── Hero area (home screen) ── */
+    .hero { text-align: center; margin: 1.5rem 0 2.5rem; }
+    .hero-emoji { font-size: 48px; margin-bottom: 1rem; display: block; }
+    .hero-title { font-family: 'Lora', serif; font-size: 28px; font-weight: 500; color: var(--text-dark); margin-bottom: 0.5rem; }
+    .hero-sub { font-size: 14px; color: var(--text-mid); line-height: 1.7; max-width: 340px; margin: 0 auto 2rem; }
+
+    /* ── Chat screen ── */
+    #screen-chat {
+      position: fixed; inset: 0; z-index: 10;
+      flex-direction: column;
+      background: #F0EBE3;
+    }
+
+    .chat-header {
+      flex-shrink: 0; background: white; border-bottom: 1px solid var(--border);
+      padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+      safe-area-inset-top: env(safe-area-inset-top);
+    }
+    .chat-back-btn {
+      background: none; border: none; cursor: pointer; font-size: 20px;
+      color: var(--text-light); padding: 4px 8px 4px 0; line-height: 1;
+      transition: color 0.15s;
+    }
+    .chat-back-btn:hover { color: var(--soft-terra); }
+    .chat-header-info { flex: 1; }
+    .chat-header-title { font-size: 14px; font-weight: 500; color: var(--text-dark); }
+    .chat-header-sub { font-size: 11px; color: var(--text-light); margin-top: 1px; }
+    .chat-lang-badge {
+      font-size: 11px; font-weight: 500; color: var(--soft-terra);
+      background: #FDF4EE; border: 1px solid var(--self-border);
+      border-radius: 20px; padding: 3px 10px; letter-spacing: 0.05em;
+    }
+
+    .chat-messages {
+      flex: 1; overflow-y: auto; padding: 16px 16px 8px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .chat-empty {
+      text-align: center; color: var(--text-light); font-size: 13px;
+      font-style: italic; padding: 2rem 1rem; line-height: 1.7;
+      margin: auto;
+    }
+
+    /* ── Message bubbles ── */
+    .message { max-width: 82%; display: flex; flex-direction: column; gap: 3px; }
+    .message.self { align-self: flex-end; align-items: flex-end; }
+    .message.other { align-self: flex-start; align-items: flex-start; }
+    .message-name { font-size: 11px; color: var(--text-light); padding: 0 4px; }
+    .message-bubble { padding: 10px 14px; border-radius: 16px; }
+    .message.self .message-bubble {
+      background: var(--self-bg); border: 1px solid var(--self-border);
+      border-bottom-right-radius: 4px;
+    }
+    .message.other .message-bubble {
+      background: white; border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
+    }
+    .message-original { font-size: 14px; color: var(--text-dark); line-height: 1.5; }
+    .message-translation {
+      font-size: 12px; font-style: italic; color: var(--text-mid);
+      margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(0,0,0,0.07);
+      line-height: 1.5;
+    }
+    .message-translation::before { content: '→ '; color: var(--soft-terra); font-style: normal; font-weight: 500; }
+    .message-translation.translating { color: var(--text-light); }
+    .message-translation.translating::before { content: ''; }
+
+    /* ── Chat input area ── */
+    .chat-input-area {
+      flex-shrink: 0; background: white; border-top: 1px solid var(--border);
+      padding: 10px 12px; display: flex; gap: 8px; align-items: flex-end;
+      padding-bottom: max(10px, env(safe-area-inset-bottom));
+    }
+    .chat-input {
+      flex: 1; min-height: 42px; max-height: 120px;
+      overflow-y: auto; border-radius: 12px; font-size: 14px;
+      padding: 10px 14px; border: 1px solid var(--border);
+      background: var(--cream); color: var(--text-dark);
+      font-family: 'DM Sans', sans-serif; outline: none;
+      transition: border-color 0.15s; resize: none; line-height: 1.4;
+    }
+    .chat-input:focus { border-color: var(--soft-terra); }
+
+    .icon-btn {
+      width: 42px; height: 42px; border-radius: 12px; border: none;
+      cursor: pointer; font-size: 18px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .mic-btn { background: var(--cream); border: 1px solid var(--border); color: var(--text-mid); }
+    .mic-btn:hover { border-color: var(--soft-terra); color: var(--soft-terra); }
+    .mic-btn.recording { background: #FCEBEB; border-color: #E24B4A; color: #E24B4A; animation: micPulse 0.8s ease infinite; }
+    @keyframes micPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .send-btn { background: var(--soft-terra); color: white; }
+    .send-btn:hover { background: #A8693E; }
+    .send-btn:disabled { background: #D9C9B8; cursor: not-allowed; }
+
+    /* ── Footer ── */
+    .page-footer { text-align: center; font-size: 12px; color: var(--text-light); margin-top: 2.5rem; letter-spacing: 0.04em; }
+  </style>
+</head>
+<body>
+  <div class="bg-texture"></div>
+
+  <!-- ── Home ── -->
+  <div id="screen-home" class="screen page-screen active">
+    <div class="page-content">
+      <a class="back-link" href="index.html">← Back</a>
+      <div class="hero">
+        <span class="hero-emoji">💬</span>
+        <h1 class="hero-title">Vibe Chat</h1>
+        <p class="hero-sub">Chat across languages without losing yourself. The translation keeps your personality.</p>
+      </div>
+
+      <button class="btn-primary" onclick="goToCreate()" style="margin-bottom: 1rem;">Start a new chat →</button>
+
+      <div class="divider-text">or join with a code</div>
+
+      <div class="join-row">
+        <input type="text" id="joinCodeInput" placeholder="ENTER CODE" maxlength="6" />
+        <button class="btn-join" onclick="goToJoin()">Join →</button>
+      </div>
+
+      <div id="homeError" class="error-msg hidden"></div>
+
+      <p class="page-footer">© 2026 Shelby Corbitt · Built with the Claude API</p>
+    </div>
+  </div>
+
+  <!-- ── Setup ── -->
+  <div id="screen-setup" class="screen page-screen">
+    <div class="page-content">
+      <button class="back-btn" onclick="showScreen('home')">← Back</button>
+      <h1 class="page-title">Quick setup</h1>
+      <p class="page-sub" id="setupSubtitle">30 seconds and you're in.</p>
+
+      <div class="form-group">
+        <label class="form-label">Your name</label>
+        <input type="text" id="setupName" placeholder="How should your friend see you?" maxlength="30" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">You speak</label>
+        <div class="lang-toggle">
+          <button class="lang-btn selected" id="langEn" onclick="selectLang('en')">🇺🇸 English</button>
+          <button class="lang-btn" id="langEs" onclick="selectLang('es')">🇪🇸 Español</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Your texting style <span style="color:var(--text-light);font-weight:400;">(optional)</span></label>
+        <textarea id="setupVibe" rows="3" placeholder="e.g. casual, lowercase, sarcastic, lots of 'lol'..."></textarea>
+        <div class="form-hint">Helps Claude keep your personality in the translation.</div>
+      </div>
+
+      <div id="setupError" class="error-msg hidden"></div>
+      <button class="btn-primary" id="setupBtn" onclick="handleSetup()">Let's go →</button>
+    </div>
+  </div>
+
+  <!-- ── Waiting ── -->
+  <div id="screen-waiting" class="screen page-screen">
+    <div class="page-content" style="text-align:center;">
+      <button class="back-btn" onclick="goHome()">← Back</button>
+      <h1 class="page-title">Waiting for your friend...</h1>
+      <p class="page-sub">Share this code with them.</p>
+
+      <div class="room-code" id="displayCode">——</div>
+
+      <button class="btn-secondary" onclick="copyCode()" id="copyBtn" style="margin-bottom:1.5rem;">Copy code</button>
+
+      <p style="font-size:13px;color:var(--text-light);line-height:1.8;">
+        They go to <strong style="color:var(--text-mid);">shelbycorbitt.com/vibe-chat.html</strong><br>
+        and enter this code to join.
+      </p>
+
+      <div class="pulse-dot"></div>
+    </div>
+  </div>
+
+  <!-- ── Chat ── -->
+  <div id="screen-chat" class="screen chat-screen">
+    <div class="chat-header">
+      <button class="chat-back-btn" onclick="goHome()">←</button>
+      <div class="chat-header-info">
+        <div class="chat-header-title" id="chatTitle">Chat</div>
+        <div class="chat-header-sub" id="chatSubtitle">English ↔ Español</div>
+      </div>
+      <div class="chat-lang-badge">EN ↔ ES</div>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-empty" id="chatEmpty">Say something — your friend is here 👋</div>
+    </div>
+
+    <div class="chat-input-area">
+      <button class="icon-btn mic-btn" id="micBtn" onclick="toggleVoice()" title="Voice input">🎤</button>
+      <textarea class="chat-input" id="chatInput" placeholder="Type a message..." rows="1"
+        onkeydown="handleInputKeydown(event)" oninput="autoResize(this)"></textarea>
+      <button class="icon-btn send-btn" id="sendBtn" onclick="handleSend()">→</button>
+    </div>
+  </div>
+
+  <script>
+    const state = {
+      screen: 'home',
+      mode: null,
+      joinCode: null,
+      code: null,
+      userId: null,
+      myName: null,
+      myLanguage: 'en',
+      messages: [],
+      lastTimestamp: 0,
+      pollTimer: null,
+      waitTimer: null,
+      users: {}
+    };
+
+    // ── Screen management ──
+
+    function showScreen(name) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(`screen-${name}`).classList.add('active');
+      state.screen = name;
+      if (name !== 'chat' && name !== 'waiting') stopPolling();
+    }
+
+    function goToCreate() {
+      state.mode = 'create';
+      state.joinCode = null;
+      document.getElementById('setupSubtitle').textContent = '30 seconds and you\'re in.';
+      showScreen('setup');
+    }
+
+    function goToJoin() {
+      const code = document.getElementById('joinCodeInput').value.trim().toUpperCase();
+      if (code.length < 4) { showError('homeError', 'Enter the 6-character code from your friend.'); return; }
+      hideError('homeError');
+      state.mode = 'join';
+      state.joinCode = code;
+      document.getElementById('setupSubtitle').textContent = `Joining room ${code}.`;
+      showScreen('setup');
+    }
+
+    function goHome() {
+      stopPolling();
+      stopVoice();
+      state.code = null;
+      state.userId = null;
+      state.messages = [];
+      state.lastTimestamp = 0;
+      state.users = {};
+      document.getElementById('joinCodeInput').value = '';
+      showScreen('home');
+    }
+
+    // ── Language selection ──
+
+    function selectLang(lang) {
+      state.myLanguage = lang;
+      document.getElementById('langEn').classList.toggle('selected', lang === 'en');
+      document.getElementById('langEs').classList.toggle('selected', lang === 'es');
+    }
+
+    // ── Setup & join ──
+
+    async function handleSetup() {
+      const name = document.getElementById('setupName').value.trim();
+      const vibe = document.getElementById('setupVibe').value.trim();
+      if (!name) { showError('setupError', 'What should your friend call you?'); return; }
+
+      hideError('setupError');
+      state.myName = name;
+
+      const btn = document.getElementById('setupBtn');
+      btn.disabled = true;
+      btn.textContent = 'Setting up...';
+
+      try {
+        if (state.mode === 'create') {
+          const data = await api({ action: 'create', name, language: state.myLanguage, vibe });
+          if (data.error) throw new Error(data.error);
+          state.code = data.code;
+          state.userId = data.userId;
+          document.getElementById('displayCode').textContent = data.code;
+          showScreen('waiting');
+          startWaitingPoll();
+        } else {
+          const data = await api({ action: 'join', code: state.joinCode, name, language: state.myLanguage, vibe });
+          if (data.error) throw new Error(data.error);
+          state.code = state.joinCode;
+          state.userId = data.userId;
+          initChat(data.room);
+          showScreen('chat');
+          startPolling();
+        }
+      } catch (err) {
+        showError('setupError', err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Let\'s go →';
+      }
+    }
+
+    // ── Chat init ──
+
+    function initChat(room) {
+      state.users = room.users;
+      state.messages = room.messages || [];
+
+      const partner = Object.entries(room.users).find(([id]) => id !== state.userId);
+      const partnerName = partner ? partner[1].name : 'Friend';
+      document.getElementById('chatTitle').textContent = `You & ${partnerName}`;
+      document.getElementById('chatSubtitle').textContent =
+        state.myLanguage === 'en' ? 'English ↔ Español' : 'Español ↔ English';
+
+      if (state.messages.length > 0) {
+        state.lastTimestamp = state.messages[state.messages.length - 1].timestamp;
+      }
+      renderMessages();
+      scrollToBottom();
+    }
+
+    // ── Polling ──
+
+    function startWaitingPoll() {
+      state.waitTimer = setInterval(async () => {
+        try {
+          const data = await api({ action: 'poll', code: state.code, since: 0 });
+          if (data.error) return;
+          if (data.userCount >= 2) {
+            clearInterval(state.waitTimer);
+            state.waitTimer = null;
+            initChat({ users: data.users, messages: data.messages });
+            showScreen('chat');
+            startPolling();
+          }
+        } catch(e) {}
+      }, 2000);
+    }
+
+    function startPolling() {
+      state.pollTimer = setInterval(async () => {
+        try {
+          const data = await api({ action: 'poll', code: state.code, since: state.lastTimestamp });
+          if (data.error) return;
+          if (data.messages.length > 0) {
+            const atBottom = isAtBottom();
+            data.messages.forEach(msg => {
+              if (!state.messages.find(m => m.id === msg.id)) {
+                state.messages.push(msg);
+              }
+            });
+            state.lastTimestamp = data.messages[data.messages.length - 1].timestamp;
+            renderMessages();
+            if (atBottom) scrollToBottom();
+          }
+        } catch(e) {}
+      }, 2500);
+    }
+
+    function stopPolling() {
+      if (state.pollTimer) { clearInterval(state.pollTimer); state.pollTimer = null; }
+      if (state.waitTimer) { clearInterval(state.waitTimer); state.waitTimer = null; }
+    }
+
+    // ── Send message ──
+
+    async function handleSend() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const btn = document.getElementById('sendBtn');
+      btn.disabled = true;
+      input.value = '';
+      autoResize(input);
+
+      const tempId = 'temp-' + Date.now();
+      state.messages.push({
+        id: tempId, senderId: state.userId, senderName: state.myName,
+        originalText: text, translatedText: null, timestamp: Date.now()
+      });
+      renderMessages();
+      scrollToBottom();
+
+      try {
+        const data = await api({ action: 'send', code: state.code, userId: state.userId, text });
+        if (data.error) throw new Error(data.error);
+        const idx = state.messages.findIndex(m => m.id === tempId);
+        if (idx !== -1) {
+          state.messages[idx] = data.message;
+          state.lastTimestamp = data.message.timestamp;
+        }
+        renderMessages();
+      } catch (err) {
+        state.messages = state.messages.filter(m => m.id !== tempId);
+        renderMessages();
+        input.value = text;
+        autoResize(input);
+        alert(err.message);
+      } finally {
+        btn.disabled = false;
+        input.focus();
+      }
+    }
+
+    // ── Render messages ──
+
+    function renderMessages() {
+      const container = document.getElementById('chatMessages');
+      if (state.messages.length === 0) {
+        container.innerHTML = '<div class="chat-empty">Say something — your friend is here 👋</div>';
+        return;
+      }
+      container.innerHTML = state.messages.map(msg => {
+        const isSelf = msg.senderId === state.userId;
+        const translating = msg.translatedText === null;
+        return `<div class="message ${isSelf ? 'self' : 'other'}">
+          <div class="message-name">${isSelf ? 'You' : esc(msg.senderName)}</div>
+          <div class="message-bubble">
+            <div class="message-original">${esc(msg.originalText)}</div>
+            <div class="message-translation${translating ? ' translating' : ''}">
+              ${translating ? 'translating...' : esc(msg.translatedText)}
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // ── Voice input ──
+
+    let recognition = null;
+    let isRecording = false;
+
+    function toggleVoice() {
+      if (!('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
+        alert('Voice input isn\'t supported in this browser. Try Chrome on mobile.');
+        return;
+      }
+      if (isRecording) { stopVoice(); return; }
+      startVoice();
+    }
+
+    function startVoice() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SR();
+      recognition.lang = state.myLanguage === 'en' ? 'en-US' : 'es-ES';
+      recognition.continuous = false;
+      recognition.interimResults = true;
+
+      recognition.onresult = (e) => {
+        const transcript = Array.from(e.results).map(r => r[0].transcript).join('');
+        document.getElementById('chatInput').value = transcript;
+        autoResize(document.getElementById('chatInput'));
+      };
+
+      recognition.onend = () => {
+        isRecording = false;
+        document.getElementById('micBtn').classList.remove('recording');
+      };
+
+      recognition.onerror = (e) => {
+        isRecording = false;
+        document.getElementById('micBtn').classList.remove('recording');
+        if (e.error !== 'aborted') alert(`Mic error: ${e.error}`);
+      };
+
+      recognition.start();
+      isRecording = true;
+      document.getElementById('micBtn').classList.add('recording');
+    }
+
+    function stopVoice() {
+      if (recognition) { recognition.stop(); recognition = null; }
+      isRecording = false;
+      document.getElementById('micBtn').classList.remove('recording');
+    }
+
+    // ── Utilities ──
+
+    function handleInputKeydown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
+    }
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+    }
+
+    function isAtBottom() {
+      const el = document.getElementById('chatMessages');
+      return el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+    }
+
+    function scrollToBottom() {
+      const el = document.getElementById('chatMessages');
+      el.scrollTop = el.scrollHeight;
+    }
+
+    function copyCode() {
+      navigator.clipboard.writeText(state.code).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy code', 2000);
+      });
+    }
+
+    async function api(body) {
+      const res = await fetch('/api/vibe-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      return res.json();
+    }
+
+    function showError(id, msg) {
+      const el = document.getElementById(id);
+      el.textContent = msg; el.classList.remove('hidden');
+    }
+
+    function hideError(id) { document.getElementById(id).classList.add('hidden'); }
+
+    function esc(str) {
+      if (!str) return '';
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+                .replace(/"/g,'&quot;').replace(/\n/g,'<br>');
+    }
+  </script>
+</body>
+</html>
