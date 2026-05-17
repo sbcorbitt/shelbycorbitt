@@ -3,8 +3,10 @@ export default async function handler(req, res) {
 
   const origin = req.headers.origin || '';
   const referer = req.headers.referer || '';
-  const allowed = ['shelbycorbitt.com', 'www.shelbycorbitt.com', 'localhost'];
-  const isAllowed = allowed.some(d => origin.includes(d) || referer.includes(d));
+  const ALLOWED = new Set(['https://shelbycorbitt.com', 'https://www.shelbycorbitt.com']);
+  const isAllowed = ALLOWED.has(origin) || ALLOWED.has(origin.includes('localhost') ? origin : '') ||
+    origin.includes('localhost') || referer.includes('localhost') ||
+    (() => { try { return ALLOWED.has(new URL(referer).origin); } catch { return false; } })();
   if (!isAllowed) return res.status(403).json({ error: 'Forbidden' });
 
   try {
@@ -75,6 +77,7 @@ Return only the 2-sentence summary, nothing else.`
 
     res.status(200).json({ level, label: levelLabels[level], description: levelDescs[level], summary, flareCount, cmeCount, peakClass, date: today });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Something went wrong.' });
   }
 }
