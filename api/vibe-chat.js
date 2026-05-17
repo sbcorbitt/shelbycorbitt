@@ -8,8 +8,10 @@ export default async function handler(req, res) {
     return res.status(403).json({ error: 'Forbidden' });
   }
 
-  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
-    return res.status(500).json({ error: 'Database not configured. Set up Vercel KV in your dashboard.' });
+  const KV_URL = process.env.vibecheck_KV_REST_API_URL;
+  const KV_TOKEN = process.env.vibecheck_KV_REST_API_TOKEN;
+  if (!KV_URL || !KV_TOKEN) {
+    return res.status(500).json({ error: 'Database not configured.' });
   }
 
   const { action } = req.body || {};
@@ -26,14 +28,14 @@ export default async function handler(req, res) {
         users: { [userId]: { name, language, vibe: vibe || '' } },
         messages: []
       };
-      await kvSet(`room:${code}`, room);
+      await kvSet(`room:${code}`, room, KV_URL, KV_TOKEN);
       return res.json({ ok: true, code, userId });
     }
 
     if (action === 'join') {
       const { code, name, language, vibe } = req.body;
       const roomKey = code.toUpperCase();
-      const room = await kvGet(`room:${roomKey}`);
+      const room = await kvGet(`room:${roomKey}`, KV_URL, KV_TOKEN);
       if (!room) return res.status(404).json({ error: 'Room not found. Double-check the code.' });
       if (Object.keys(room.users).length >= 2) return res.status(400).json({ error: 'This room already has two people.' });
       const other = Object.values(room.users)[0];
@@ -43,14 +45,14 @@ export default async function handler(req, res) {
       }
       const userId = generateId();
       room.users[userId] = { name, language, vibe: vibe || '' };
-      await kvSet(`room:${roomKey}`, room);
+      await kvSet(`room:${roomKey}`, room, KV_URL, KV_TOKEN);
       return res.json({ ok: true, userId, room });
     }
 
     if (action === 'send') {
       const { code, userId, text } = req.body;
       if (!text?.trim()) return res.status(400).json({ error: 'Empty message' });
-      const room = await kvGet(`room:${code}`);
+      const room = await kvGet(`room:${code}`, KV_URL, KV_TOKEN);
       if (!room) return res.status(404).json({ error: 'Room expired or not found.' });
       const sender = room.users[userId];
       if (!sender) return res.status(403).json({ error: 'You are not in this room.' });
@@ -84,13 +86,13 @@ export default async function handler(req, res) {
 
       room.messages.push(message);
       if (room.messages.length > 60) room.messages = room.messages.slice(-60);
-      await kvSet(`room:${code}`, room);
+      await kvSet(`room:${code}`, room, KV_URL, KV_TOKEN);
       return res.json({ ok: true, message });
     }
 
     if (action === 'poll') {
       const { code, since } = req.body;
-      const room = await kvGet(`room:${code}`);
+      const room = await kvGet(`room:${code}`, KV_URL, KV_TOKEN);
       if (!room) return res.status(404).json({ error: 'Room not found.' });
       const newMessages = room.messages.filter(m => m.timestamp > (since || 0));
       return res.json({ ok: true, messages: newMessages, users: room.users, userCount: Object.keys(room.users).length });
@@ -145,22 +147,19 @@ Reply with ONLY the translated message. Nothing else.`
   return data.content?.[0]?.text?.trim() || text;
 }
 
-async function kvGet(key) {
-  const res = await fetch(`${process.env.KV_REST_API_URL}/get/${encodeURIComponent(key)}`, {
-    headers: { Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}` }
+async function kvGet(key, url, token) {
+  const res = await fetch(`${url}/get/${encodeURIComponent(key)}`, {
+    headers: { Authorization: `Bearer ${token}` }
   });
   const json = await res.json();
   if (!json.result) return null;
   try { return JSON.parse(json.result); } catch { return null; }
 }
 
-async function kvSet(key, value) {
-  await fetch(process.env.KV_REST_API_URL, {
+async function kvSet(key, value, url, token) {
+  await fetch(url, {
     method: 'POST',
-    headers: {
-      Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}`,
-      'Content-Type': 'application/json'
-    },
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify(['SET', key, JSON.stringify(value), 'EX', 604800])
   });
 }
